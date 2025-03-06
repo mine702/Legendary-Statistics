@@ -1,0 +1,430 @@
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url(assets/fonts/NotoSansKR-Regular.woff2) format('woff2'),
+  url(assets/fonts/NotoSansKR-Regular.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url(assets/fonts/NotoSansKR-Medium.woff2) format('woff2'),
+  url(assets/fonts/NotoSansKR-Medium.woff) format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --icon-filter: invert(0);
+  --intense-color-dark-2: #357a38;
+  --intense-color-dark-1: #3e8e41;
+  --intense-color: #8bc76d;
+  --intense-color-bright: #afe097;
+  --intense-color-light-3: #d9f9d9;
+  --intense-color-light-2: #edfaed;
+  --intense-color-light-1: #f7fcf4;
+  --intense-color-filter: invert(79%) sepia(13%) saturate(1287%) hue-rotate(56deg) brightness(90%) contrast(89%);
+  --red-color-filter: invert(18%) sepia(98%) saturate(7473%) hue-rotate(-3deg) brightness(104%) contrast(112%);
+
+  --font-color: black;
+  --font-color-invert: white;
+  --font-color-semi-light: #333;
+  --font-color-light: #666;
+
+  --seperate-line-color: #dfdfdf;
+
+  --top-bar-color: #ffffff;
+  --hover-color: #f5f5f5;
+  --table-border-color: #f5f5f5;
+  --card-border-color: #e9e9e9;
+  --card-border-shadow: 0 2px 5px rgba(194, 194, 194, 0.09);
+  --popup-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+  --fill-color-4: #f0f0f0;
+  --fill-color-3: #f9f9f9;
+  --fill-color-2: #fdfdfd;
+  --fill-color-1: #ffffff;
+
+  --background-color: #fdfdfd;
+  --top-bar-shadow: #c9c9c9 0 1px 5px;
+  --hard-border: 3px solid #fafafa;
+  --calendar-today-color: #ffffcf;
+
+  --blue: #0e6ce8;
+  --red: #e85353;
+}
+
+[theme="dark"] {
+  --icon-filter: invert(1);
+  --intense-color-dark-2: #357a38;
+  --intense-color-dark-1: #3e8e41;
+  --intense-color: #8bc76d;
+  --intense-color-bright: #afe097;
+  --intense-color-light-3: #6e7a6e;
+  --intense-color-light-2: #363f36;
+  --intense-color-light-1: #444d49;
+  --intense-color-filter: invert(79%) sepia(13%) saturate(1287%) hue-rotate(56deg) brightness(90%) contrast(89%);
+  --red-color-filter: invert(11%) sepia(86%) saturate(5500%) hue-rotate(-5deg) brightness(85%) contrast(105%);
+
+  --font-color: white;
+  --font-color-invert: black;
+  --font-color-semi-light: #ccc;
+  --font-color-light: #999;
+
+  --seperate-line-color: #333;
+
+  --top-bar-color: #222427;
+  --hover-color: #434346;
+  --table-border-color: #333;
+  --card-border-color: #484848;
+  --card-border-shadow: 0 2px 5px rgba(194, 194, 194, 0.09);
+  --popup-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+
+  --fill-color-4: #50555d;
+  --fill-color-3: #3b3e43;
+  --fill-color-2: #313338;
+  --fill-color-1: #373b40;
+
+  --background-color: #313338;
+  --top-bar-shadow: #414141 0 1px 5px;
+  --hard-border: 3px solid #3f3f3f;
+  --calendar-today-color: #4a4a40;
+
+  --blue: #0e6ce8;
+}
+
+html, body, input, button, pre, select, textarea {
+  font: 14px "Noto Sans KR", sans-serif;
+  color: var(--font-color);
+}
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+//자주 사용되는 단일속성들
+.full-width {
+  width: 100%;
+}
+
+.mt {
+  margin-top: 15px;
+}
+
+.mb {
+  margin-bottom: 15px;
+}
+
+.mr {
+  margin-right: 5px;
+}
+
+.ml {
+  margin-left: 5px;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.flex {
+  display: flex
+}
+
+.invert {
+  filter: invert(1);
+}
+
+.icon-size-small {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-size-tiny {
+  width: 15px;
+  height: 15px;
+}
+
+.horizontal-line {
+  border-bottom: 1px solid #e4e4e4;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+
+.position-center {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+}
+
+//공용 속성
+div.input-description {
+  font-size: 14px;
+  color: var(--font-color-light);
+  margin-top: 5px;
+  margin-bottom: 2px;
+  text-align: left;
+
+  &.inline {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+div.header-description {
+  font-size: 16px;
+  color: var(--font-color-light);
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+div.input-error {
+  font-size: 12px;
+  color: #e85353;
+  margin-bottom: 2px;
+  text-align: left;
+}
+
+div.groupbox {
+  border: 1px solid var(--card-border-color);
+  background-color: var(--fill-color-1);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+
+//태그 속성
+//태그 기본 속성은 custom 클래스를 가지지 않은 컴포넌트에만 적용됩니다.
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  accent-color: var(--intense-color);
+
+  &:checked {
+    border-color: var(--intense-color);
+    background-color: var(--intense-color);
+  }
+}
+
+input:not(.custom), select:not(.custom), textarea:not(.custom) {
+  border: 1px solid var(--card-border-color);
+  background: var(--fill-color-1);
+  border-radius: 3px;
+  padding: 5px 4px;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 14px;
+
+  &.pad {
+    padding: 10px 7px;
+  }
+
+  transition: 0.5s border;
+
+  &:focus {
+    outline: none;
+    border: 1px solid var(--intense-color-bright);
+  }
+
+  &.error {
+    border: 1px solid #e85353;
+  }
+
+  &.no-border {
+    border: none;
+    padding: 2px 1px;
+  }
+
+  &.gray {
+    border: none;
+    background-color: #f9f9f9;
+  }
+}
+
+button:not(.custom) {
+  border: transparent;
+  padding: 5px 10px;
+  background-color: var(--intense-color);
+  color: white;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 200ms all;
+
+  &:disabled {
+    background-color: #f0f0f0 !important;
+    color: #c9c9c9;
+    cursor: not-allowed;
+  }
+
+  &.outline {
+    background-color: transparent;
+    border: 1px solid var(--intense-color);
+
+    &:hover {
+      background-color: #ededed;
+    }
+  }
+
+  &.small {
+    padding: 3px 5px;
+    font-size: 13px;
+  }
+
+  &:hover {
+    background-color: var(--intense-color-bright);
+  }
+
+  &.blue {
+    background-color: #6699d9;
+
+    &:hover {
+      background-color: #76a4df;
+    }
+  }
+
+  &.red {
+    background-color: #e68a8a;
+
+    &:hover {
+      background-color: #f49d9d;
+    }
+  }
+
+  &.yellow {
+    background-color: #fee502;
+    color: black;
+
+    &:hover {
+      background-color: #fdd835;
+    }
+  }
+
+  &.white {
+    background-color: var(--fill-color-4);
+    color: var(--font-color);
+
+    &:hover {
+      background-color: var(--hover-color);
+    }
+  }
+
+  &.linked-left {
+    border-radius: 3px 0 0 3px;
+    border-right: 0;
+  }
+
+  &.linked-middle {
+    border-radius: 0;
+  }
+
+  &.linked-right {
+    border-left: 0;
+    border-radius: 0 3px 3px 0;
+  }
+}
+
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid var(--table-border-color);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+
+  thead {
+    background-color: var(--intense-color);
+    color: var(--font-color-invert);
+  }
+
+  th, td {
+    border: 1px solid var(--table-border-color);
+    padding: 5px;
+    text-align: center;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  tr {
+    transition: 0.2s all;
+    cursor: pointer;
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--fill-color-3);
+  }
+
+  tbody {
+    tr:hover {
+      background-color: var(--fill-color-2);
+    }
+  }
+}
+
+//웹킷 스크롤바 커스터마이징, 크롬/safari에서만 적용됩니다.
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track:vertical {
+  border-left: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--fill-color-4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  border-left: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--intense-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+  border-left: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--intense-color-bright);
+}
+
+::-webkit-scrollbar-track:horizontal {
+  border-top: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--fill-color-4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  border-top: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--intense-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  border-top: 2px solid transparent;
+  box-shadow: inset 0 0 0 10px var(--intense-color-bright);
+}

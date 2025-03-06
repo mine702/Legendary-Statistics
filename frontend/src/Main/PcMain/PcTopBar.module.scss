@@ -1,0 +1,51 @@
+.root {
+  width: 100%;
+  background-color: var(--top-bar-color);
+  height: 45px;
+  box-shadow: var(--top-bar-shadow);
+  display: flex;
+  align-items: center;
+  align-content: center;
+  z-index: 3;
+
+  .title-btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: filter 0.2s ease-out, font-size 0.2s ease-out;
+
+    .logo {
+      width: 100px;
+    }
+
+    &:hover {
+      filter: brightness(1.5);
+    }
+  }
+
+
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: var(--intense-color);
+    font-size: 12px;
+    margin-right: 5px;
+
+    &:hover {
+      filter: brightness(1.5);
+      font-size: 200px;
+    }
+
+    &.selected {
+      filter: brightness(1.5);
+    }
+  }
+
+  .icon {
+    width: 18px;
+    margin-right: 2px;
+    filter: var(--intense-color-filter);
+  }
+}
