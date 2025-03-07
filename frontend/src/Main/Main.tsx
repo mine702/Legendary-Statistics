@@ -1,29 +1,29 @@
 import style from "./Main.module.scss"
-import {Route, Routes, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
-import {MobileMain} from "./MobileMain/MobileMain.tsx";
-import {PcMain} from "./PcMain/PcMain.tsx";
+import {TopBar} from "./TopBar.tsx";
+import {NavBar} from "./NavBar.tsx";
+import {Route, Routes} from "react-router-dom";
+import {Home} from "./home/Home.tsx";
+import {Redirect} from "../component/Redirect.tsx";
+import {Simulator} from "./simulator/Simulator.tsx";
+import {Stats} from "./stats/Stats.tsx";
+import {List} from "./list/List.tsx";
+import {Ranking} from "./ranking/Ranking.tsx";
+import {Community} from "./community/Community.tsx";
 
 export const Main = () => {
   return (
-    <div className={`${style.root}`}>
+    <div className={style.root}>
+      <TopBar/>
+      <NavBar/>
       <Routes>
-        <Route path="m/*" element={<MobileMain/>}/>
-        <Route path="p/*" element={<PcMain/>}/>
-        <Route path="*" element={<RedirectToCorrectPage/>}/>
+        <Route path="home/*" element={<Home/>}/>
+        <Route path="simulator/*" element={<Simulator/>}/>
+        <Route path="list/*" element={<List/>}/>
+        <Route path="ranking/*" element={<Ranking/>}/>
+        <Route path="stats/*" element={<Stats/>}/>
+        <Route path="community/*" element={<Community/>}/>
+        <Route path="*" element={<Redirect path="home"/>}/>
       </Routes>
     </div>
   )
-}
-
-//어떤 페이지로든 이동할 수 없음이 판정된 경우, 로그인 상태에 따라 적절한 페이지로 리다이렉트합니다.
-const RedirectToCorrectPage = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate("p")
-    // navigate(getAgentTypeByWidth() === "mobile" ? "m" : "p");
-  }, []);
-
-  return <></>
 }

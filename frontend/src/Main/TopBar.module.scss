@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    margin: 0 20px;
     position: relative;
     transition: filter 0.2s ease-out, font-size 0.2s ease-out;
 
@@ -22,30 +23,5 @@
     &:hover {
       filter: brightness(1.5);
     }
-  }
-
-
-  .menu-btn {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    color: var(--intense-color);
-    font-size: 12px;
-    margin-right: 5px;
-
-    &:hover {
-      filter: brightness(1.5);
-      font-size: 200px;
-    }
-
-    &.selected {
-      filter: brightness(1.5);
-    }
-  }
-
-  .icon {
-    width: 18px;
-    margin-right: 2px;
-    filter: var(--intense-color-filter);
   }
 }

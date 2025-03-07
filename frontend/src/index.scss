@@ -16,14 +16,9 @@
 
 :root {
   --icon-filter: invert(0);
-  --intense-color-dark-2: #357a38;
-  --intense-color-dark-1: #3e8e41;
-  --intense-color: #8bc76d;
-  --intense-color-bright: #afe097;
-  --intense-color-light-3: #d9f9d9;
-  --intense-color-light-2: #edfaed;
-  --intense-color-light-1: #f7fcf4;
-  --intense-color-filter: invert(79%) sepia(13%) saturate(1287%) hue-rotate(56deg) brightness(90%) contrast(89%);
+  --intense-color: #f7fcf4;
+  --intense-color-2: #f0f0f0;
+  --intense-color-filter: invert(50%) sepia(100%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(10%);
   --red-color-filter: invert(18%) sepia(98%) saturate(7473%) hue-rotate(-3deg) brightness(104%) contrast(112%);
 
   --font-color: black;
@@ -34,6 +29,7 @@
   --seperate-line-color: #dfdfdf;
 
   --top-bar-color: #ffffff;
+  --nav-bar-color: #a29bfe;
   --hover-color: #f5f5f5;
   --table-border-color: #f5f5f5;
   --card-border-color: #e9e9e9;
@@ -46,24 +42,15 @@
   --fill-color-1: #ffffff;
 
   --background-color: #fdfdfd;
+  --background-color-2: #f0f0f0;
   --top-bar-shadow: #c9c9c9 0 1px 5px;
-  --hard-border: 3px solid #fafafa;
-  --calendar-today-color: #ffffcf;
-
-  --blue: #0e6ce8;
-  --red: #e85353;
 }
 
 [theme="dark"] {
   --icon-filter: invert(1);
-  --intense-color-dark-2: #357a38;
-  --intense-color-dark-1: #3e8e41;
-  --intense-color: #8bc76d;
-  --intense-color-bright: #afe097;
-  --intense-color-light-3: #6e7a6e;
-  --intense-color-light-2: #363f36;
-  --intense-color-light-1: #444d49;
-  --intense-color-filter: invert(79%) sepia(13%) saturate(1287%) hue-rotate(56deg) brightness(90%) contrast(89%);
+  --intense-color: #444d49;
+  --intense-color-2: #2f2f2f;
+  --intense-color-filter: invert(80%) sepia(10%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
   --red-color-filter: invert(11%) sepia(86%) saturate(5500%) hue-rotate(-5deg) brightness(85%) contrast(105%);
 
   --font-color: white;
@@ -74,6 +61,8 @@
   --seperate-line-color: #333;
 
   --top-bar-color: #222427;
+  --nav-bar-color: #1abc9c;
+
   --hover-color: #434346;
   --table-border-color: #333;
   --card-border-color: #484848;
@@ -86,11 +75,9 @@
   --fill-color-1: #373b40;
 
   --background-color: #313338;
-  --top-bar-shadow: #414141 0 1px 5px;
-  --hard-border: 3px solid #3f3f3f;
-  --calendar-today-color: #4a4a40;
+  --background-color-2: #2b2d31;
 
-  --blue: #0e6ce8;
+  --top-bar-shadow: #414141 0 1px 5px;
 }
 
 html, body, input, button, pre, select, textarea {
@@ -386,45 +373,4 @@ button:not(.custom) {
       background-color: var(--fill-color-2);
     }
   }
-}
-
-//웹킷 스크롤바 커스터마이징, 크롬/safari에서만 적용됩니다.
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track:vertical {
-  border-left: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--fill-color-4);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-  border-left: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--intense-color);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:vertical:hover {
-  border-left: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--intense-color-bright);
-}
-
-::-webkit-scrollbar-track:horizontal {
-  border-top: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--fill-color-4);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:horizontal {
-  border-top: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--intense-color);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:horizontal:hover {
-  border-top: 2px solid transparent;
-  box-shadow: inset 0 0 0 10px var(--intense-color-bright);
 }

@@ -1,0 +1,31 @@
+.root {
+  width: 100%;
+  background-color: var(--nav-bar-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  .menu-btn {
+    background-color: transparent;
+    color: #f8f8f8;
+    border: none;
+    margin: 0 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, transform 0.2s;
+    border-radius: 0;
+
+    &:hover {
+      color: white;
+      transform: scale(1.05);
+    }
+
+    &.active {
+      border-bottom: 2px solid white;
+    }
+  }
+}
+
+

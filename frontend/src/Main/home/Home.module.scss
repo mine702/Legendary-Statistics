@@ -1,0 +1,93 @@
+.root {
+  width: 100%;
+  background-color: var(--background-color, #f5f5f5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+
+  .mainImg {
+    width: 350px;
+    animation: fadeIn 0.5s ease-in-out;
+    margin: -30px 0;
+  }
+
+  .searchContainer {
+    display: flex;
+    align-items: center;
+    margin: -30px 0 30px 0;
+
+    .searchBar {
+      width: 350px;
+      max-width: 500px;
+      padding: 10px;
+      border: 2px solid var(--intense-color-2, #2f2f2f);
+      border-radius: 5px 0 0 5px; /* 🔥 좌측 둥근 모서리 */
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: border-color 0.3s ease-in-out;
+
+      &:focus {
+        outline: none;
+        border-color: #5c88f7;
+      }
+    }
+
+    .searchButton {
+      padding: 10px 20px;
+      background-color: #5c88f7;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 0 5px 5px 0; /* 🔥 우측 둥근 모서리 */
+      transition: background-color 0.3s ease-in-out;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        background-color: #4a75d1;
+      }
+    }
+  }
+
+  .sectionOne,
+  .sectionTwo,
+  .sectionThree {
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: var(--background-color-2);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .sectionThree {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .innerDiv {
+    flex-grow: 1;
+    background-color: var(--background-color);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+
