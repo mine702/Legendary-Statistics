@@ -1,4 +1,4 @@
-package com.legendary_statistics.backend.service;
+package com.legendary_statistics.backend.service.Legend;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

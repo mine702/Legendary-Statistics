@@ -16,11 +16,16 @@ public class KindEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "file_id")
+    private FileEntity file;
+
     @Column(name = "name", nullable = false)
     private String name;
 
     @Builder
-    public KindEntity(String name) {
+    public KindEntity(FileEntity file, String name) {
+        this.file = file;
         this.name = name;
     }
 }

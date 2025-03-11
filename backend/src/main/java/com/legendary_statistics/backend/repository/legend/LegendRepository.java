@@ -1,4 +1,4 @@
-package com.legendary_statistics.backend.repository;
+package com.legendary_statistics.backend.repository.legend;
 
 import com.legendary_statistics.backend.entity.LegendEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
