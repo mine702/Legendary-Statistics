@@ -13,6 +13,8 @@ spring:
     properties.hibernate:
       format_sql: true
       lazy_load_no_trans: true
+    open-in-view: false
+
   servlet.multipart:
     max-file-size: 10240MB
     max-request-size: 10240MB

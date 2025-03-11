@@ -1,0 +1,19 @@
+server.port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://ls-6d2b0de20bc9315c507d92b99816fbe7bf5a10a4.cn0u4kyccurj.ap-northeast-2.rds.amazonaws.com:3306/tft_meta?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: dbmasteruser
+    password: 633ehddbs
+  jpa.show-sql: true
+  thymeleaf.cache: false
+  devtools:
+    livereload.enabled: true
+    restart.enabled: true
+
+legendary_statistics:
+  file-upload-path: C:/upload
+
+logging.level:
+  com.legendary_statistics.backend.: debug
+
