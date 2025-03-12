@@ -1,10 +1,10 @@
 .root {
   flex: 1;
-  height: 0;
+  height: 100vh; /* 🟢 페이지 전체를 사용하도록 변경 */
   display: flex;
-  align-items: center;
   flex-direction: column;
-  overflow: auto;
+  align-items: center;
+  overflow-y: auto; /* 🟢 페이지 전체에 스크롤 적용 */
 
   .loading {
     font-size: 20px;
@@ -13,89 +13,84 @@
 
   .container {
     width: 60%;
-    height: auto;
     padding: 40px;
     gap: 10px;
     display: flex;
     flex-direction: column;
+  }
 
-    .header-wrapper {
-      height: 100px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      overflow: visible;
-      display: flex;
+  .header-wrapper {
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: visible;
+    display: flex;
+  }
+
+  .search-bar {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      background: #2b2d31;
+      color: white;
     }
+  }
 
-    .search-bar {
-      width: 30%;
+  .list-container {
+    gap: 10px;
+    height: 25vh;
+    padding: 20px;
+    display: grid;
+    border-radius: 5px;
+    overflow-y: auto;
+    background-color: var(--background-color-2);
+    border: 2px solid var(--intense-color-2, #2f2f2f);
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+
+    .card {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      margin: 10px;
+      justify-content: center;
+      max-height: 100px;
+      border-radius: 10px;
+      background: var(--background-color);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease-in-out;
 
-      input {
+      .image {
         width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        background: #2b2d31;
-        color: white;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .name {
+        padding: 5px 0;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
       }
     }
+  }
 
-    .list-container {
-      gap: 10px;
-      height: 300px;
-      padding: 20px;
-      display: grid;
-      overflow-y: auto;
-      border-radius: 5px;
-      background-color: var(--background-color-2);
-      border: 2px solid var(--intense-color-2, #2f2f2f);
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-
-      .card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        max-height: 100px;
-        border-radius: 10px;
-        background: var(--background-color);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s ease-in-out;
-
-        .image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .name {
-          padding: 10px;
-          font-size: 12px;
-          font-weight: bold;
-          text-align: center;
-        }
-
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.05);
-        }
-      }
-    }
-
-    .legend-container {
-      gap: 10px;
-      height: 300px;
-      padding: 20px;
-      display: grid;
-      overflow-y: auto;
-      border-radius: 5px;
-      background-color: var(--background-color-2);
-      border: 2px solid var(--intense-color-2, #2f2f2f);
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+  .legend-container {
+    gap: 10px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    overflow: visible;
   }
 }

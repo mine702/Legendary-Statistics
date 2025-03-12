@@ -30,14 +30,17 @@ public class LegendEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "star", nullable = false)
+    private Integer star;
+
     @Column(name = "limited", nullable = false)
-    private boolean limited;
+    private Boolean limited;
 
     @Column(name = "animation", nullable = false)
-    private boolean animation;
+    private Boolean animation;
 
     @Builder
-    public LegendEntity(KindEntity kindEntity, FileEntity fileEntity, RateEntity rateEntity, String name, boolean limited, boolean animation) {
+    public LegendEntity(KindEntity kindEntity, FileEntity fileEntity, RateEntity rateEntity, String name, Boolean limited, Boolean animation) {
         this.kindEntity = kindEntity;
         this.fileEntity = fileEntity;
         this.rateEntity = rateEntity;

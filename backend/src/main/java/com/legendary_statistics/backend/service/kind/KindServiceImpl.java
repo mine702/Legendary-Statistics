@@ -22,8 +22,8 @@ public class KindServiceImpl implements KindService {
         return kindRepository.findAll().stream().map(
                 kindEntity -> GetKindListRes.builder()
                         .id(kindEntity.getId())
-                        .actualFileName(Optional.ofNullable(kindEntity.getFile()).map(FileEntity::getActualFileName).orElse("파일 없음"))
-                        .path(Optional.ofNullable(kindEntity.getFile()).map(FileEntity::getPath).orElse("경로 없음"))
+                        .actualFileName(Optional.ofNullable(kindEntity.getFileEntity()).map(FileEntity::getActualFileName).orElse("파일 없음"))
+                        .path(Optional.ofNullable(kindEntity.getFileEntity()).map(FileEntity::getPath).orElse("경로 없음"))
                         .name(kindEntity.getName())
                         .isDeleted(kindEntity.getDeleted())
                         .build()

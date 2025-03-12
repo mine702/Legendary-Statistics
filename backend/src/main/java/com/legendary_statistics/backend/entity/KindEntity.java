@@ -18,14 +18,14 @@ public class KindEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "file_id")
-    private FileEntity file;
+    private FileEntity fileEntity;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Builder
-    public KindEntity(FileEntity file, String name) {
-        this.file = file;
+    public KindEntity(FileEntity fileEntity, String name) {
+        this.fileEntity = fileEntity;
         this.name = name;
     }
 }

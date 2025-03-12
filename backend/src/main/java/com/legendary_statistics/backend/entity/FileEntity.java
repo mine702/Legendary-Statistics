@@ -22,10 +22,10 @@ public class FileEntity extends BaseEntity {
     private String path;
 
     @Column(name = "size", nullable = false)
-    private int size;
+    private Integer size;
 
     @Builder
-    public FileEntity(String actualFileName, String path, int size) {
+    public FileEntity(String actualFileName, String path, Integer size) {
         this.actualFileName = actualFileName;
         this.path = path;
         this.size = size;

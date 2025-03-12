@@ -12,5 +12,5 @@ public class GetKindListRes {
     private String actualFileName;
     private String path;
     private String name;
-    private boolean isDeleted;
+    private Boolean isDeleted;
 }

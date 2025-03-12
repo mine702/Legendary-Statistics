@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/kind")
 @RequiredArgsConstructor
 public class KindController {
-    private final KindService kindService;
+    
     private final ApiResponse response;
+
+    private final KindService kindService;
 
     @GetMapping("/list")
     public ResponseEntity<?> getKindList() {

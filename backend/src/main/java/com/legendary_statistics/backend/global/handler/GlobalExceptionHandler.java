@@ -1,5 +1,6 @@
 package com.legendary_statistics.backend.global.handler;
 
+import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Exception = {}", e.getMessage());
         e.printStackTrace();
         return response.error(ErrorCode.GLOBAL_UNEXPECTED_ERROR);
+    }
+
+    @ExceptionHandler(KindNotFoundException.class)
+    protected ResponseEntity<?> handle(KindNotFoundException e) {
+        log.error("KindNotFoundException = {}", e.getMessage());
+        return response.error(e.getErrorCode());
     }
 }

@@ -1,5 +1,6 @@
-package com.legendary_statistics.backend.common;
+package com.legendary_statistics.backend.config;
 
+import com.legendary_statistics.backend.global.LoggingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

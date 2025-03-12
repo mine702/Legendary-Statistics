@@ -1,4 +1,4 @@
-package com.legendary_statistics.backend.common;
+package com.legendary_statistics.backend.global;
 
 import com.legendary_statistics.backend.util.UserIPGetter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class LoggingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("["+ UserIPGetter.get(request) +"] request : ("+request.getMethod()+") "+request.getRequestURI());
+        log.info("[" + UserIPGetter.get(request) + "] request : (" + request.getMethod() + ") " + request.getRequestURI());
         return true;
     }
 }
