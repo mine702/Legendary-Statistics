@@ -4,6 +4,8 @@ import style from "./List.module.scss";
 import image from "../../assets/img/강도깨비.png";
 import {LegendCard} from "../../component/legend/LegendCard.tsx";
 
+import listLogo from "../../assets/img/list_logo.png";
+
 export const List = () => {
   const {data: list, isLoading} = useSWRGetKindList();
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +27,9 @@ export const List = () => {
       ) : (
         <div className={style.container}>
           {/* 헤더 이미지 */}
-          <div className={style.headerWrapper}>광고</div>
+          <div className={style.headerWrapper}>
+            <img src={listLogo} alt="로고"/>
+          </div>
 
           {/* 검색창 */}
           <div className={style.searchBar}>
@@ -46,6 +50,8 @@ export const List = () => {
               </div>
             ))}
           </div>
+
+          633@ehddbs
 
           {/* 🟢 LegendCard 적용된 부분 */}
           <div className={style.legendContainer}>
