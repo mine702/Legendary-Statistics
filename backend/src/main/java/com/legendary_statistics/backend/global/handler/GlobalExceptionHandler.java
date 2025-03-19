@@ -2,6 +2,7 @@ package com.legendary_statistics.backend.global.handler;
 
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
+import com.legendary_statistics.backend.global.exception.probabilityGroup.ProbabilityGroupNotFoundException;
 import com.legendary_statistics.backend.global.exception.treasure.TreasureNotFoundException;
 import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
@@ -49,6 +50,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(LegendNotFoundException.class)
     protected ResponseEntity<?> handle(LegendNotFoundException e) {
         log.error("LegendNotFoundException = {}", e.getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /**
+     * 확률 그룹을 찾지 못하였을때 뜨는 예외
+     */
+    @ExceptionHandler(ProbabilityGroupNotFoundException.class)
+    protected ResponseEntity<?> handle(ProbabilityGroupNotFoundException e) {
+        log.error("ProbabilityGroupNotFoundException = {}", e.getMessage());
         return response.error(e.getErrorCode());
     }
 }

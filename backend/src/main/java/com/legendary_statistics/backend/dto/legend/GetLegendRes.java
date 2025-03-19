@@ -15,5 +15,5 @@ public class GetLegendRes {
     private String path;
     private Integer star;
     private LocalDateTime createdAt;
-    private Boolean deleted;
+    private Boolean isDeleted;
 }

@@ -19,6 +19,10 @@ public class ProbabilityEntity {
     private TreasureEntity treasureEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "probability_group_id")
+    private ProbabilityGroupEntity probabilityGroupEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "legend_id")
     private LegendEntity legendEntity;
 
@@ -29,8 +33,10 @@ public class ProbabilityEntity {
     private Double probability;
 
     @Builder
-    public ProbabilityEntity(TreasureEntity treasureEntity, LegendEntity legendEntity, String name, Double probability) {
+
+    public ProbabilityEntity(TreasureEntity treasureEntity, ProbabilityGroupEntity probabilityGroupEntity, LegendEntity legendEntity, String name, Double probability) {
         this.treasureEntity = treasureEntity;
+        this.probabilityGroupEntity = probabilityGroupEntity;
         this.legendEntity = legendEntity;
         this.name = name;
         this.probability = probability;

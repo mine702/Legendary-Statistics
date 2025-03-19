@@ -1,27 +1,26 @@
 .card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  background-color: #2c2f33;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
+  background-color: var(--background-color-2);
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
 
   .image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
+    width: 100%;
     object-fit: cover;
-    margin-right: 15px;
+  }
+
+  .name {
+    margin-top: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
   }
 }
-
-
-

@@ -4,6 +4,7 @@ import useSWR from "swr";
 import {GetKindListRes} from "./dto/kind.ts";
 import {ApiResponse} from "./dto/format.ts";
 import {GetLegendListRes} from "./dto/legend.ts";
+import {GetTreasureListRes} from "./dto/treasure.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -23,5 +24,5 @@ export const useSWRGetLegendListByKind = (id: number) => {
 
 // 보물왕국 리스트 불러오기
 export const useSWRGetTreasureList = () => {
-  return useSWR<GetKindListRes[]>(`/treasure/list`, defaultFetchAxios);
+  return useSWR<GetTreasureListRes[]>(`/treasure/list`, defaultFetchAxios);
 }

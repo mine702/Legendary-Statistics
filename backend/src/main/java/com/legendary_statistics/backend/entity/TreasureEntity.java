@@ -20,7 +20,7 @@ public class TreasureEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "file_id")
-    private FileEntity file;
+    private FileEntity fileEntity;
 
     @Column(name = "name", nullable = false)
     private String name;

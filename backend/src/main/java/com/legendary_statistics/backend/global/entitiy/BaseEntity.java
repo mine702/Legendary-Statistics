@@ -23,5 +23,4 @@ public abstract class BaseEntity {
     public void softDelete() {
         this.deleted = true;
     }
-
 }
