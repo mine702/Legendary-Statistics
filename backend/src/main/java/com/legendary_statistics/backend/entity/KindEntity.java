@@ -10,10 +10,9 @@ import lombok.*;
 @Table(name = "kind")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class KindEntity extends BaseEntity {
-
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

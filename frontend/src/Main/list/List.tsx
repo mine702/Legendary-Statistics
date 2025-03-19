@@ -1,5 +1,5 @@
 import {useSWRGetKindList, useSWRGetLegendListByKind} from "../../server/server.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import style from "./List.module.scss";
 import image from "../../assets/img/강도깨비.png";
 import {LegendCard} from "../../component/legend/LegendCard.tsx";
@@ -11,14 +11,6 @@ export const List = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedId, setSelectedId] = useState<number>(1);
   const {data: legendList} = useSWRGetLegendListByKind(selectedId);
-
-  useEffect(() => {
-    console.log(legendList);
-  }, [legendList]);
-
-  useEffect(() => {
-    console.log(selectedId);
-  }, [selectedId]);
 
   return (
     <div className={style.root}>
@@ -50,8 +42,6 @@ export const List = () => {
               </div>
             ))}
           </div>
-
-          633@ehddbs
 
           {/* 🟢 LegendCard 적용된 부분 */}
           <div className={style.legendContainer}>
