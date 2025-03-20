@@ -4,8 +4,6 @@ import {useEffect} from "react";
 import {SimulatorLegendCard} from "./SimulatorLegendCard.tsx";
 import img from "../../assets/img/강도깨비.png";
 import simulatorLogo from "../../assets/img/simulator_logo.png";
-import simulatorText1 from "../../assets/img/simulator_text_1.png";
-import simulatorText2 from "../../assets/img/simulator_text_2.png";
 
 export const Simulator = () => {
   const {data: list, isLoading} = useSWRGetTreasureList();
@@ -25,9 +23,17 @@ export const Simulator = () => {
             <img src={simulatorLogo} alt="로고"/>
           </div>
           <div className={style.headerText}>
-            <img src={simulatorText1} alt="텍스트1" className={style.textImage}/>
-            <img src={simulatorText2} alt="텍스트2" className={style.textImage}/>
+            <div className={style.descriptionBox}>
+              <p className={style.mainText}>
+                이 시뮬레이터는 실제 게임과 동일한 확률로 작동하는<span className={style.gachaText}> 뽑기 시뮬레이터</span>입니다!
+              </p>
+              <p className={style.subText}>
+                원하는 <span className={style.legendText}>꼬마 전설이</span>를 뽑을 확률을 직접 확인하고<span className={style.luckyText}> 당신의 운을 확인해 보세요!</span>
+              </p>
+            </div>
           </div>
+
+
           <div className={style.listContainer}>
             {
               list?.map((item) => (
