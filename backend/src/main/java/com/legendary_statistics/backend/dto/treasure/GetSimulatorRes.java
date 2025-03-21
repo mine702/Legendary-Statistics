@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetSimulatorListRes {
+public class GetSimulatorRes {
     private Long id;
     private String actualFileName;
     private String path;
@@ -20,8 +20,8 @@ public class GetSimulatorListRes {
     private Integer star;  // 화폐 개념에서는 사용 안 함
 
     // 🔹 [유닛(LegendEntity) 변환]
-    public static GetSimulatorListRes of(LegendEntity entity) {
-        return GetSimulatorListRes.builder()
+    public static GetSimulatorRes of(LegendEntity entity) {
+        return GetSimulatorRes.builder()
                 .id(entity.getId())
                 .actualFileName(entity.getFileEntity() != null ? entity.getFileEntity().getActualFileName() : null)
                 .path(entity.getFileEntity() != null ? entity.getFileEntity().getPath() : null)
@@ -31,24 +31,24 @@ public class GetSimulatorListRes {
     }
 
     // 🔹 [화폐 개념(ProbabilityEntity) 변환]
-    public static GetSimulatorListRes of(ProbabilityEntity entity) {
-        return GetSimulatorListRes.builder()
+    public static GetSimulatorRes of(ProbabilityEntity entity) {
+        return GetSimulatorRes.builder()
                 .id(entity.getId())  // ProbabilityEntity의 ID 사용
                 .name(entity.getName())  // 화폐 이름
                 .build();
     }
 
     // 🔹 [유닛(LegendEntity) 리스트 변환]
-    public static List<GetSimulatorListRes> ofLegends(List<LegendEntity> legendEntities) {
+    public static List<GetSimulatorRes> ofLegends(List<LegendEntity> legendEntities) {
         return legendEntities.stream()
-                .map(GetSimulatorListRes::of)
+                .map(GetSimulatorRes::of)
                 .collect(Collectors.toList());
     }
 
     // 🔹 [화폐 개념(ProbabilityEntity) 리스트 변환]
-    public static List<GetSimulatorListRes> ofCurrencies(List<ProbabilityEntity> currencyEntities) {
+    public static List<GetSimulatorRes> ofCurrencies(List<ProbabilityEntity> currencyEntities) {
         return currencyEntities.stream()
-                .map(GetSimulatorListRes::of)
+                .map(GetSimulatorRes::of)
                 .collect(Collectors.toList());
     }
 }

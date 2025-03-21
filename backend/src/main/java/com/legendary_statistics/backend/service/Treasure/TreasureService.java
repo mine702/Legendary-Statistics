@@ -1,13 +1,18 @@
 package com.legendary_statistics.backend.service.Treasure;
 
-import com.legendary_statistics.backend.dto.treasure.GetSimulatorListRes;
-import com.legendary_statistics.backend.dto.treasure.GetTreasureListRes;
+import com.legendary_statistics.backend.dto.treasure.GetSimulatorRes;
+import com.legendary_statistics.backend.dto.treasure.GetTreasureRes;
+import com.legendary_statistics.backend.dto.treasure.probability.GetProbabilityGroupRes;
 
 import java.util.List;
 
 public interface TreasureService {
 
-    List<GetTreasureListRes> getTreasureList();
+    GetTreasureRes getTreasure(Long id);
 
-    List<GetSimulatorListRes> getSimulatorList(Long id);
+    List<GetTreasureRes> getTreasureList();
+
+    List<GetSimulatorRes> getSimulatorList(Long id);
+
+    List<GetProbabilityGroupRes> getProbabilityByTreasureId(Long id);
 }

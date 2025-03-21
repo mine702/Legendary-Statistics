@@ -5,6 +5,7 @@ import {GetKindListRes} from "./dto/kind.ts";
 import {ApiResponse} from "./dto/format.ts";
 import {GetLegendListRes} from "./dto/legend.ts";
 import {GetTreasureListRes} from "./dto/treasure.ts";
+import {GetProbabilityGroupRes} from "./dto/probability.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -25,4 +26,14 @@ export const useSWRGetLegendListByKind = (id: number) => {
 // 보물왕국 리스트 불러오기
 export const useSWRGetTreasureList = () => {
   return useSWR<GetTreasureListRes[]>(`/treasure/list`, defaultFetchAxios);
+}
+
+// 보물왕국 상세정보 불러오기
+export const useSWRGetTreasureDetail = (id: string | undefined) => {
+  return useSWR<GetTreasureListRes>(`/treasure/detail/${id}`, defaultFetchAxios);
+}
+
+// 보물왕국 id 로 확률 정보 불러오기
+export const useSWRGetProbabilityByTreasureId = (id: string | undefined) => {
+  return useSWR<GetProbabilityGroupRes>(`/treasure/probability/${id}`, defaultFetchAxios);
 }

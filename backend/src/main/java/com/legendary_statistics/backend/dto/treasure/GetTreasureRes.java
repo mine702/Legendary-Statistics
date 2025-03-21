@@ -11,26 +11,28 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetTreasureListRes {
+public class GetTreasureRes {
     private Long id;
     private String actualFileName;
     private String path;
+    private Long legendId;
     private String name;
 
     // 단일 객체 변환
-    public static GetTreasureListRes of(TreasureEntity entity) {
-        return GetTreasureListRes.builder()
+    public static GetTreasureRes of(TreasureEntity entity) {
+        return GetTreasureRes.builder()
                 .id(entity.getId())
                 .actualFileName(entity.getFileEntity() != null ? entity.getFileEntity().getActualFileName() : null)
                 .path(entity.getFileEntity() != null ? entity.getFileEntity().getPath() : null)
+                .legendId(entity.getLegendEntity() != null ? entity.getLegendEntity().getId() : null)
                 .name(entity.getName())
                 .build();
     }
 
     // 리스트 변환
-    public static List<GetTreasureListRes> of(List<TreasureEntity> treasureEntities) {
+    public static List<GetTreasureRes> of(List<TreasureEntity> treasureEntities) {
         return treasureEntities.stream()
-                .map(GetTreasureListRes::of)
+                .map(GetTreasureRes::of)
                 .collect(Collectors.toList());
     }
 }

@@ -17,6 +17,16 @@ public class TreasureController {
     private final ApiResponse response;
     private final TreasureService treasureService;
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> getTreasure(@PathVariable Long id) {
+        return response.success(treasureService.getTreasure(id));
+    }
+
+    @GetMapping("/probability/{id}")
+    public ResponseEntity<?> getProbabilityByTreasureId(@PathVariable Long id) {
+        return response.success(treasureService.getProbabilityByTreasureId(id));
+    }
+
     @GetMapping("/list")
     public ResponseEntity<?> getTreasureList() {
         return response.success(treasureService.getTreasureList());

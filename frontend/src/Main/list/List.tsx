@@ -2,7 +2,7 @@ import {useSWRGetKindList, useSWRGetLegendListByKind} from "../../server/server.
 import {useState} from "react";
 import style from "./List.module.scss";
 import image from "../../assets/img/강도깨비.png";
-import {LegendCard} from "../../component/legend/LegendCard.tsx";
+import {LegendCard} from "./card/LegendCard.tsx";
 
 import listLogo from "../../assets/img/list_logo.png";
 

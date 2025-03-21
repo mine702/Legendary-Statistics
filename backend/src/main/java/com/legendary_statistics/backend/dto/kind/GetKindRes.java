@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetKindListRes {
+public class GetKindRes {
     private Long id;
     private String actualFileName;
     private String path;

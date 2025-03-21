@@ -18,9 +18,21 @@
   border-radius: 10px 10px 0 0;
 }
 
+.rateWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.rateImage {
+  width: 25px; // 크기 조절 가능
+  height: auto;
+}
+
 .info {
   width: 100%;
-  padding: 10px 0;
+  padding: 5px 0;
   display: flex;
   flex-direction: column;
   align-items: center;

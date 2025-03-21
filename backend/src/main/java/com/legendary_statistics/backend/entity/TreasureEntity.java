@@ -22,6 +22,10 @@ public class TreasureEntity extends BaseEntity {
     @JoinColumn(name = "file_id")
     private FileEntity fileEntity;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "legend_id")
+    private LegendEntity legendEntity;
+
     @Column(name = "name", nullable = false)
     private String name;
 }

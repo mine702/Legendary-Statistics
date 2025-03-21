@@ -1,6 +1,6 @@
 package com.legendary_statistics.backend.service.kind;
 
-import com.legendary_statistics.backend.dto.kind.GetKindListRes;
+import com.legendary_statistics.backend.dto.kind.GetKindRes;
 import com.legendary_statistics.backend.entity.FileEntity;
 import com.legendary_statistics.backend.repository.kind.KindRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,9 @@ public class KindServiceImpl implements KindService {
     private final KindRepository kindRepository;
 
     @Override
-    public List<GetKindListRes> getKindList() {
+    public List<GetKindRes> getKindList() {
         return kindRepository.findAll().stream().map(
-                kindEntity -> GetKindListRes.builder()
+                kindEntity -> GetKindRes.builder()
                         .id(kindEntity.getId())
                         .actualFileName(Optional.ofNullable(kindEntity.getFileEntity()).map(FileEntity::getActualFileName).orElse("파일 없음"))
                         .path(Optional.ofNullable(kindEntity.getFileEntity()).map(FileEntity::getPath).orElse("경로 없음"))

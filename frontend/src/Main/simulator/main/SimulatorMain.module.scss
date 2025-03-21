@@ -40,16 +40,25 @@
       align-items: center;
       width: 100%;
       max-width: 100%;
+      margin-top: 10px;
 
       .descriptionBox {
+        display: flex;
+        justify-content: center;
         width: 100%;
-        background: linear-gradient(135deg, #1e1e2f, #252540);
+        background: rgba(0, 0, 0, 0.5);
         color: #fff;
-        padding: 20px 30px;
+        padding: 20px;
         border-radius: 12px;
         text-align: center;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-        animation: fadeIn 1s ease-in-out;
+      }
+
+      .textBox {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 700px;
 
         .mainText {
           font-size: 22px;
@@ -65,37 +74,8 @@
           margin-top: 10px;
           color: #EEEEEE;
         }
-
-        .gachaText {
-          color: #4CAF50;
-          font-weight: bold;
-        }
-
-        .legendText {
-          color: #FFA500;
-          font-weight: bold;
-        }
-
-        .luckyText {
-          color: #1E90FF;
-          font-weight: bold;
-          text-shadow: 0px 0px 8px rgba(30, 144, 255, 0.8);
-        }
       }
     }
-
-    /* 페이드 인 효과 추가 */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
 
     .list-container {
       gap: 20px;

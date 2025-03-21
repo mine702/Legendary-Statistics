@@ -1,7 +1,8 @@
 package com.legendary_statistics.backend.service.Treasure;
 
-import com.legendary_statistics.backend.dto.treasure.GetSimulatorListRes;
-import com.legendary_statistics.backend.dto.treasure.GetTreasureListRes;
+import com.legendary_statistics.backend.dto.treasure.GetSimulatorRes;
+import com.legendary_statistics.backend.dto.treasure.GetTreasureRes;
+import com.legendary_statistics.backend.dto.treasure.probability.GetProbabilityGroupRes;
 import com.legendary_statistics.backend.entity.LegendEntity;
 import com.legendary_statistics.backend.entity.ProbabilityEntity;
 import com.legendary_statistics.backend.entity.ProbabilityGroupEntity;
@@ -30,13 +31,19 @@ public class TreasureServiceImpl implements TreasureService {
     private final LegendRepository legendRepository;
 
     @Override
-    public List<GetTreasureListRes> getTreasureList() {
-        List<TreasureEntity> treasureList = treasureRepository.findByDeleted(false);
-        return GetTreasureListRes.of(treasureList);
+    public GetTreasureRes getTreasure(Long id) {
+        TreasureEntity treasureEntity = treasureRepository.findById(id).orElseThrow(TreasureNotFoundException::new);
+        return GetTreasureRes.of(treasureEntity);
     }
 
     @Override
-    public List<GetSimulatorListRes> getSimulatorList(Long id) {
+    public List<GetTreasureRes> getTreasureList() {
+        List<TreasureEntity> treasureList = treasureRepository.findByDeleted(false);
+        return GetTreasureRes.of(treasureList);
+    }
+
+    @Override
+    public List<GetSimulatorRes> getSimulatorList(Long id) {
         TreasureEntity treasureEntity = treasureRepository.findById(id)
                 .orElseThrow(TreasureNotFoundException::new);
 
@@ -58,11 +65,15 @@ public class TreasureServiceImpl implements TreasureService {
             }
         }
 
-        List<GetSimulatorListRes> result = new ArrayList<>();
-        result.addAll(GetSimulatorListRes.ofLegends(selectedLegends));
-        result.addAll(GetSimulatorListRes.ofCurrencies(selectedCurrencies));
+        List<GetSimulatorRes> result = new ArrayList<>();
+        result.addAll(GetSimulatorRes.ofLegends(selectedLegends));
+        result.addAll(GetSimulatorRes.ofCurrencies(selectedCurrencies));
 
         return result;
     }
 
+    @Override
+    public List<GetProbabilityGroupRes> getProbabilityByTreasureId(Long id) {
+        return probabilityGroupRepository.getProbabilityGroupAndProbabilityByTreasureId(id);
+    }
 }
