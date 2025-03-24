@@ -1,0 +1,111 @@
+.resultWrapper {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--background-color);
+  border: 1px solid var(--card-border-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: var(--font-color-light);
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .buttonGroup {
+      display: flex;
+      gap: 8px;
+
+      button {
+        padding: 6px 12px;
+        background-color: #444;
+        color: white;
+        border: 1px solid #666;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #666;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .resultBox {
+    gap: 10px;
+    height: 25vh;
+    padding: 20px;
+    display: grid;
+    border-radius: 5px;
+    overflow-y: auto;
+    background-color: var(--background-color-2);
+    border: 2px solid var(--intense-color-2, #2f2f2f);
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-height: 110px;
+      border-radius: 0 0 10px 10px;
+      background: var(--background-color);
+      transition: transform 0.2s ease-in-out;
+      animation: appear 0.3s ease;
+
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .name {
+        padding: 5px 0;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
+    .rate1 {
+      box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
+    }
+
+    .rate2 {
+      box-shadow: 0 0 6px rgba(66, 165, 245, 0.6);
+    }
+
+    .rate3 {
+      box-shadow: 0 0 6px rgba(239, 83, 80, 0.6);
+    }
+
+    .rate4 {
+      box-shadow: 0 0 6px rgba(171, 71, 188, 0.6);
+    }
+
+    .rate5 {
+      box-shadow: 0 0 8px rgba(253, 216, 53, 0.6);
+    }
+
+    .rate6 {
+      box-shadow: 0 0 4px rgba(158, 158, 158, 0.4);
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}

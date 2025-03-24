@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface ProbabilityGroupRepository extends JpaRepository<ProbabilityGroupEntity, Long>, ProbabilityGroupRepositoryCustom {
     List<ProbabilityGroupEntity> findByTreasureEntity(TreasureEntity treasureEntity);
 
-    Optional<ProbabilityGroupEntity> findByRateEntity(RateEntity rateEntity);
+    Optional<ProbabilityGroupEntity> findByTreasureEntityAndRateEntity(TreasureEntity treasureEntity, RateEntity rateEntity);
 }

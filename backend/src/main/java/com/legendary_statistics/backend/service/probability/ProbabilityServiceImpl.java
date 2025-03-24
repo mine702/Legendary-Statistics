@@ -42,13 +42,14 @@ public class ProbabilityServiceImpl implements ProbabilityService {
             LegendEntity legendEntity = legendRepository.findIdByNameAndStar(legend.getName(), legend.getStar())
                     .orElseThrow(LegendNotFoundException::new);
 
-            ProbabilityGroupEntity probabilityGroupEntity = probabilityGroupRepository.findByRateEntity(legendEntity.getRateEntity())
+            ProbabilityGroupEntity probabilityGroupEntity = probabilityGroupRepository.findByTreasureEntityAndRateEntity(treasureEntity, legendEntity.getRateEntity())
                     .orElseThrow(ProbabilityGroupNotFoundException::new);
 
             ProbabilityEntity probabilityEntity = ProbabilityEntity.builder()
                     .treasureEntity(treasureEntity)
                     .probabilityGroupEntity(probabilityGroupEntity)
                     .legendEntity(legendEntity)
+                    .currencyEntity(null)
                     .name(legend.getName())
                     .probability(legend.getProbability())
                     .build();

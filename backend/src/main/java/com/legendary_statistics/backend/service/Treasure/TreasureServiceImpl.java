@@ -14,12 +14,14 @@ import com.legendary_statistics.backend.repository.probabilityGroup.ProbabilityG
 import com.legendary_statistics.backend.repository.treasure.TreasureRepository;
 import com.legendary_statistics.backend.util.ProbabilityPicker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -64,11 +66,9 @@ public class TreasureServiceImpl implements TreasureService {
                 }
             }
         }
-
         List<GetSimulatorRes> result = new ArrayList<>();
         result.addAll(GetSimulatorRes.ofLegends(selectedLegends));
         result.addAll(GetSimulatorRes.ofCurrencies(selectedCurrencies));
-
         return result;
     }
 
