@@ -19,8 +19,8 @@ public class CurrencyEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "file_id")
-    private FileEntity fileEntity;
+    @JoinColumn(name = "file_currency_id")
+    private FileCurrencyEntity fileCurrencyEntity;
 
     @Column(name = "name", nullable = false)
     private String name;

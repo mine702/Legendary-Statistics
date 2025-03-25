@@ -16,15 +16,15 @@ public class KindEntity extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "file_id")
-    private FileEntity fileEntity;
+    @JoinColumn(name = "file_legend_id")
+    private FileLegendEntity fileLegendEntity;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Builder
-    public KindEntity(FileEntity fileEntity, String name) {
-        this.fileEntity = fileEntity;
+    public KindEntity(FileLegendEntity fileLegendEntity, String name) {
+        this.fileLegendEntity = fileLegendEntity;
         this.name = name;
     }
 }

@@ -1,0 +1,33 @@
+# 시스템 & IDE
+.idea
+.vscode
+*.iml
+
+# Git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+
+# 문서 & 설정 파일
+*.md
+*.sh
+*.yml
+*.env
+
+# 로그 & 기타
+*.log
+npm-debug.log
+yarn-error.log
+logs
+
+# 빌드 아웃풋
+node_modules
+dist
+build
+coverage
+
+# 기타 스크립트
+scripts

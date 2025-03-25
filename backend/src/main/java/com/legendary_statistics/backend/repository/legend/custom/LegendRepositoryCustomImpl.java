@@ -22,7 +22,7 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
     QLegendEntity legendEntity = QLegendEntity.legendEntity;
     QKindEntity kindEntity = QKindEntity.kindEntity;
     QRateEntity rateEntity = QRateEntity.rateEntity;
-    QFileEntity fileEntity = QFileEntity.fileEntity;
+    QFileLegendEntity fileLegendEntity = QFileLegendEntity.fileLegendEntity;
 
     @Override
     public List<GetLegendListRes> findLegendListByKind(KindEntity kind) {
@@ -33,7 +33,7 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                 .where(builder)
                 .leftJoin(legendEntity.rateEntity, rateEntity)
                 .leftJoin(legendEntity.kindEntity, kindEntity)
-                .leftJoin(legendEntity.fileEntity, fileEntity)
+                .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
                 .select(
                         kindEntity.id,
                         kindEntity.name,
@@ -42,8 +42,8 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                         legendEntity.limited,
                         legendEntity.animation,
                         legendEntity.id,
-                        fileEntity.actualFileName,
-                        fileEntity.path,
+                        fileLegendEntity.actualFileName,
+                        fileLegendEntity.path,
                         legendEntity.star,
                         legendEntity.createdAt,
                         legendEntity.deleted
@@ -71,8 +71,8 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
 
             GetLegendRes legendRes = new GetLegendRes(
                     tuple.get(legendEntity.id),
-                    tuple.get(fileEntity.actualFileName),
-                    tuple.get(fileEntity.path),
+                    tuple.get(fileLegendEntity.actualFileName),
+                    tuple.get(fileLegendEntity.path),
                     tuple.get(legendEntity.star),
                     tuple.get(legendEntity.createdAt),
                     tuple.get(legendEntity.deleted)

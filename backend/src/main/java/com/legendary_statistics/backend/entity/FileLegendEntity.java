@@ -7,9 +7,9 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "file")
+@Table(name = "file_legend")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FileEntity extends BaseEntity {
+public class FileLegendEntity extends BaseEntity {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +21,10 @@ public class FileEntity extends BaseEntity {
     @Column(name = "path", nullable = false)
     private String path;
 
-    @Column(name = "size", nullable = false)
-    private Integer size;
-
     @Builder
-    public FileEntity(String actualFileName, String path, Integer size) {
+    public FileLegendEntity(Long id, String actualFileName, String path) {
+        this.id = id;
         this.actualFileName = actualFileName;
         this.path = path;
-        this.size = size;
     }
 }

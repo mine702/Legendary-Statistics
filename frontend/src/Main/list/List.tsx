@@ -1,7 +1,7 @@
 import {useSWRGetKindList, useSWRGetLegendListByKind} from "../../server/server.ts";
 import {useState} from "react";
 import style from "./List.module.scss";
-import image from "../../assets/img/강도깨비.png";
+import defaultImage from "../../assets/img/강도깨비.png";
 import {LegendCard} from "./card/LegendCard.tsx";
 
 import listLogo from "../../assets/img/list_logo.png";
@@ -37,7 +37,7 @@ export const List = () => {
           <div className={style.listContainer}>
             {list?.filter((item) => item.name.includes(searchTerm)).map((item) => (
               <div key={item.id} className={style.card} onClick={() => setSelectedId(item.id)}>
-                <img src={image} alt={item.name} className={style.image}/>
+                <img src={item?.path || defaultImage} alt={item.name} className={style.image}/>
                 <div className={style.name}>{item.name}</div>
               </div>
             ))}

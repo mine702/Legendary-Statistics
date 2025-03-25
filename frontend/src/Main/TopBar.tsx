@@ -4,7 +4,6 @@ import {IconButton} from "../component/simple/IconButton.tsx";
 
 import {Location, useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
-import {ToolTip} from "../component/tooltip/ToolTip.tsx";
 import {useLocalStorage} from "usehooks-ts";
 import React from "react";
 
@@ -36,22 +35,16 @@ export const TopBar = () => {
       </div>
       <div style={{marginLeft: "30px"}}/>
       <Space/>
-      <ToolTip tooltipContent="다크모드">
-        <IconButton onClick={onClickDarkMode} active={isDarkMode}>
-          <img src={isDarkMode ? darkModeActiveIcon as string : darkModeIcon as string} alt='darkMode'/>
-        </IconButton>
-      </ToolTip>
-      <ToolTip tooltipContent="설정">
-        <IconButton onClick={() => {
-        }} style={{marginLeft: 5, marginRight: 5}}>
-          <img src={settingsIcon as string} alt='settings'/>
-        </IconButton>
-      </ToolTip>
-      <ToolTip tooltipContent="로그아웃">
-        <IconButton onClick={onClickLogout}>
-          <img src={logoutIcon as string} alt='logout'/>
-        </IconButton>
-      </ToolTip>
+      <IconButton onClick={onClickDarkMode} active={isDarkMode}>
+        <img src={isDarkMode ? darkModeActiveIcon as string : darkModeIcon as string} alt='darkMode'/>
+      </IconButton>
+      <IconButton onClick={() => {
+      }} style={{marginLeft: 5, marginRight: 5}}>
+        <img src={settingsIcon as string} alt='settings'/>
+      </IconButton>
+      <IconButton onClick={onClickLogout}>
+        <img src={logoutIcon as string} alt='logout'/>
+      </IconButton>
       <div style={{marginRight: '30px'}}/>
     </div>
   )

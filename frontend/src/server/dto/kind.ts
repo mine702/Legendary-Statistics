@@ -1,4 +1,4 @@
-export interface GetKindListRes {
+export interface GetKindRes {
   id: number;
   actualFileName: string;
   path: string;

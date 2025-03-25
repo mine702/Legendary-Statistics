@@ -98,7 +98,7 @@ export const SimulatorResult = (props: Props) => {
             key={`${item.id}-${index}`}
             className={`${style.card} ${style['rate' + (item.rate ?? 0)]}`}
           >
-            <img src={image} alt={item.name ?? "이름 없음"} className={style.image}/>
+            <img src={item.path || image} alt={item.name ?? "이름 없음"} className={style.image}/>
             <div className={style.name}>{item.name ?? "이름 없음"}</div>
           </div>
 

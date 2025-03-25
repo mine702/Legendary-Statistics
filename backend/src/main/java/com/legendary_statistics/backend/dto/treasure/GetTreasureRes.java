@@ -22,8 +22,8 @@ public class GetTreasureRes {
     public static GetTreasureRes of(TreasureEntity entity) {
         return GetTreasureRes.builder()
                 .id(entity.getId())
-                .actualFileName(entity.getFileEntity() != null ? entity.getFileEntity().getActualFileName() : null)
-                .path(entity.getFileEntity() != null ? entity.getFileEntity().getPath() : null)
+                .actualFileName(entity.getLegendEntity().getFileLegendEntity() != null ? entity.getLegendEntity().getFileLegendEntity().getActualFileName() : null)
+                .path(entity.getLegendEntity().getFileLegendEntity() != null ? entity.getLegendEntity().getFileLegendEntity().getPath() : null)
                 .legendId(entity.getLegendEntity() != null ? entity.getLegendEntity().getId() : null)
                 .name(entity.getName())
                 .build();

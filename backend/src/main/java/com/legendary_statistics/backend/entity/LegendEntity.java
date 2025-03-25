@@ -20,8 +20,8 @@ public class LegendEntity extends BaseEntity {
     private KindEntity kindEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "file_id")
-    private FileEntity fileEntity;
+    @JoinColumn(name = "file_legend_id")
+    private FileLegendEntity fileLegendEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "rate_id")
@@ -40,9 +40,9 @@ public class LegendEntity extends BaseEntity {
     private Boolean animation;
 
     @Builder
-    public LegendEntity(KindEntity kindEntity, FileEntity fileEntity, RateEntity rateEntity, String name, Boolean limited, Boolean animation) {
+    public LegendEntity(KindEntity kindEntity, FileLegendEntity fileLegendEntity, RateEntity rateEntity, String name, Boolean limited, Boolean animation) {
         this.kindEntity = kindEntity;
-        this.fileEntity = fileEntity;
+        this.fileLegendEntity = fileLegendEntity;
         this.rateEntity = rateEntity;
         this.name = name;
         this.limited = limited;

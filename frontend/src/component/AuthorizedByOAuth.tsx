@@ -1,14 +1,12 @@
-import style from "./AuthorizedByOAuth.module.scss"
 import {useNavigate, useParams} from "react-router-dom";
-import {Provider, useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {showToastOnError} from "../util/errorParser.ts";
-import axios from "axios";
 
 interface Props {
-  onSuccess:(provider:string, code:string)=>void;
+  onSuccess: (provider: string, code: string) => void;
 }
 
-export const AuthorizedByOAuth = (props:Props) => {
+export const AuthorizedByOAuth = (props: Props) => {
   const navigate = useNavigate();
   const params = useParams();
   const url = new URL(window.location.href); // 브라우저 URL 사용

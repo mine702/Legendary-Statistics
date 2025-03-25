@@ -1,4 +1,4 @@
-export interface GetTreasureListRes {
+export interface GetTreasureRes {
   id: number;
   actualFileName: string;
   path: string;

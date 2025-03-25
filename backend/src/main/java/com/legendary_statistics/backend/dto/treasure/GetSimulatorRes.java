@@ -24,8 +24,8 @@ public class GetSimulatorRes {
     public static GetSimulatorRes of(LegendEntity entity) {
         return GetSimulatorRes.builder()
                 .id(entity.getId())
-                .actualFileName(entity.getFileEntity() != null ? entity.getFileEntity().getActualFileName() : null)
-                .path(entity.getFileEntity() != null ? entity.getFileEntity().getPath() : null)
+                .actualFileName(entity.getFileLegendEntity() != null ? entity.getFileLegendEntity().getActualFileName() : null)
+                .path(entity.getFileLegendEntity() != null ? entity.getFileLegendEntity().getPath() : null)
                 .name(entity.getName())
                 .rate(entity.getRateEntity().getId())
                 .star(entity.getStar())
@@ -43,8 +43,8 @@ public class GetSimulatorRes {
     public static GetSimulatorRes of(ProbabilityEntity entity) {
         return GetSimulatorRes.builder()
                 .id(entity.getId())
-                .actualFileName(entity.getCurrencyEntity().getFileEntity() != null ? entity.getCurrencyEntity().getFileEntity().getActualFileName() : null)
-                .path(entity.getCurrencyEntity().getFileEntity() != null ? entity.getCurrencyEntity().getFileEntity().getPath() : null)
+                .actualFileName(entity.getCurrencyEntity().getFileCurrencyEntity() != null ? entity.getCurrencyEntity().getFileCurrencyEntity().getActualFileName() : null)
+                .path(entity.getCurrencyEntity().getFileCurrencyEntity() != null ? entity.getCurrencyEntity().getFileCurrencyEntity().getPath() : null)
                 .name(entity.getName())
                 .rate(6L)
                 .build();
