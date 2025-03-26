@@ -48,6 +48,7 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                         legendEntity.createdAt,
                         legendEntity.deleted
                 )
+                .orderBy(legendEntity.rateEntity.id.asc(), legendEntity.id.asc())
                 .fetch();
 
         Map<String, GetLegendListRes> groupedMap = new LinkedHashMap<>();
