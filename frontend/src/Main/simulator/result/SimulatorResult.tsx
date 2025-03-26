@@ -3,8 +3,8 @@ import axios from "axios";
 import {showToastOnError} from "../../../util/errorParser.ts";
 import {useEffect, useRef, useState} from "react";
 import {GetSimulatorRes} from "../../../server/dto/treasure.ts";
-import image from "../../../assets/img/강도깨비.png";
 import {useSWRGetRateList} from "../../../server/server.ts";
+import defaultImage from "../../../assets/img/신화 메달.png";
 
 interface Props {
   id?: string;
@@ -98,10 +98,11 @@ export const SimulatorResult = (props: Props) => {
             key={`${item.id}-${index}`}
             className={`${style.card} ${style['rate' + (item.rate ?? 0)]}`}
           >
-            <img src={item.path || image} alt={item.name ?? "이름 없음"} className={style.image}/>
+            <div className={style.imageWrapper}>
+              <img src={item.path || defaultImage} alt={item.name ?? "이름 없음"} className={style.image}/>
+            </div>
             <div className={style.name}>{item.name ?? "이름 없음"}</div>
           </div>
-
         ))}
         <div ref={scrollAnchorRef}></div>
       </div>

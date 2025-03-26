@@ -58,12 +58,23 @@
       background: var(--background-color);
       transition: transform 0.2s ease-in-out;
       animation: appear 0.3s ease;
+      overflow: visible;
 
-      .image {
-        height: 100%;
+      .imageWrapper {
         width: 100%;
-        object-fit: cover;
+        height: 90px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .image {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+        }
       }
+
 
       .name {
         padding: 5px 0;
