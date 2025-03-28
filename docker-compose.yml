@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  app:
+    image: "jc21/nginx-proxy-manager:latest"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "60081:81"
+      - "443:443"
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+
+  db:
+    image: "jc21/mariadb-aria:latest"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "npm"
+      MYSQL_DATABASE: "npm"
+      MYSQL_USER: "npm"
+      MYSQL_PASSWORD: "npm"
+      MARIADB_AUTO_UPGRADE: "1"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  frontend:
+    image: mine0702/legendary-frontend
+    restart: unless-stopped
+    container_name: frontend
+    expose:
+      - "3000"
+    stdin_open: true
+    volumes:
+      - /home/ubuntu/service/image:/uploads
+  
+  backend:
+    image: mine0702/legendary-backend
+    restart: unless-stopped
+    container_name: backend
+    stdin_open: true
+    expose:
+      - "8080"
+
