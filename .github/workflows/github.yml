@@ -27,10 +27,11 @@ jobs:
 
             echo "✅ 백엔드 빌드 시작"
             cd backend
+            chmod +x gradlew
             ./gradlew build -x test -Pspring.profiles.active=prod
 
             echo "✅ 백엔드 Docker 이미지 빌드"
-            docker build -t my-backend-image .
+            docker build -t mine0702/legendary-backend .
 
             echo "✅ 프론트엔드 Docker 이미지 빌드"
             cd ../frontend
