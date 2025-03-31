@@ -1,0 +1,42 @@
+name: CI/CD Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }} # ex: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            echo "✅ 프로젝트 디렉토리 이동"
+            cd /home/ubuntu/service/Legendary-Statistics
+
+            echo "✅ Git 최신 코드 pull"
+            git reset --hard HEAD
+            git pull origin main
+
+            echo "✅ 백엔드 빌드 시작"
+            cd backend
+            ./gradlew build -x test -Pspring.profiles.active=prod
+
+            echo "✅ 백엔드 Docker 이미지 빌드"
+            docker build -t my-backend-image .
+
+            echo "✅ 프론트엔드 Docker 이미지 빌드"
+            cd ../frontend
+            docker build -t mine0702/legendary-frontend .
+
+            echo "✅ docker-compose 재시작"
+            cd ..
+            docker-compose down
+            docker-compose up -d
