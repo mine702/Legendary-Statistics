@@ -39,5 +39,7 @@ jobs:
 
             echo "✅ docker-compose 재시작"
             cd ..
-            docker-compose down
+            echo "✅ docker-compose 종료 및 정리"
+            docker-compose down --remove-orphans
+
             docker-compose up -d
