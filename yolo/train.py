@@ -1,13 +1,13 @@
 from ultralytics import YOLO
 
-model = YOLO("yolov8s.pt")  # ✅ YOLOv8 Large 모델 로드 (중간 크기보다 성능 높음)
+model = YOLO("yolov8m.pt")  # ✅ YOLOv8 Large 모델 로드 (중간 크기보다 성능 높음)
 
 model.train(
     data="data.yaml",  # ✅ 학습용 데이터셋 경로 지정 (클래스, 경로 정의된 YAML 파일)
 
-    epochs=150,  # ✅ 최대 학습 에폭 수 (충분히 돌려야 성능 수렴함)
+    epochs=300,  # ✅ 최대 학습 에폭 수 (충분히 돌려야 성능 수렴함)
     imgsz=640,  # ✅ 입력 이미지 크기 (640보다 크면 정확도↑, 메모리 사용↑)
-    batch=12,  # ✅ 배치 사이즈 (GPU VRAM 맞춰 설정, 3060은 보통 8~16 가능)
+    batch='auto',  # ✅ 배치 사이즈 (GPU VRAM 맞춰 설정, 3060은 보통 8~16 가능)
 
     lr0=0.001,  # ✅ 초기 학습률 (기본은 0.01인데, l 모델은 낮게 잡는 게 안정적)
     lrf=0.01,  # ✅ 최종 학습률 비율 (마지막에 lr0 * lrf 로 학습 마무리)

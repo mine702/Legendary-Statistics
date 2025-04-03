@@ -4,7 +4,7 @@ from ultralytics import YOLO
 model = YOLO("best.pt")
 
 # 이미지 예측
-results = model("test.jpg", conf=0.0001, save=True)
+results = model("test.jpg", conf=0.001, save=True)
 res = results[0]  # 첫 번째 결과 가져오기
 
 # 객체 출력
