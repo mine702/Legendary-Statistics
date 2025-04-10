@@ -102,7 +102,6 @@ train:
   - images/train_aug_speckle_noise_medium
   - images/train_aug_uniform_noise
   - images/train_aug_vignetting
-  - images/val
 val: images/train
 nc: 1806
 names:

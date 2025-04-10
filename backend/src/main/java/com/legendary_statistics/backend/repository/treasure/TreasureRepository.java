@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TreasureRepository extends JpaRepository<TreasureEntity, Long> {
-    List<TreasureEntity> findByDeleted(boolean isDeleted);
+    List<TreasureEntity> findByDeletedOrderByCreatedAtDesc(boolean isDeleted);
 }

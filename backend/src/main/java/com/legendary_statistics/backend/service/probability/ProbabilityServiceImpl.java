@@ -39,6 +39,7 @@ public class ProbabilityServiceImpl implements ProbabilityService {
         List<ProbabilityEntity> probabilityEntities = new ArrayList<>();
 
         for (GetExcelLegendReq legend : getExcelLegendReqs) {
+            log.info("legend = {}", legend);
             LegendEntity legendEntity = legendRepository.findIdByNameAndStar(legend.getName(), legend.getStar())
                     .orElseThrow(LegendNotFoundException::new);
 

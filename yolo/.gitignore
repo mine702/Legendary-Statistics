@@ -46,3 +46,5 @@ images/*
 
 # labels 폴더와 그 안의 모든 파일 무시
 labels/*
+
+test/*

@@ -21,7 +21,7 @@ image_list = sorted(
 )
 
 for image_file in image_list:
-    class_id = extract_number(image_file)  # 이미지 이름 1721이면 클래스는 1720
+    class_id = extract_number(image_file)
     base_name = os.path.splitext(image_file)[0]
     label_path = os.path.join(label_dir, base_name + ".txt")
     with open(label_path, 'w') as f:

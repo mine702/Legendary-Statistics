@@ -1,0 +1,10 @@
+images/
+labels/
+test/
+train_aug/
+*.pt
+*.jpg
+*.png
+main.py
+make_data_yaml.py
+train_aug.py

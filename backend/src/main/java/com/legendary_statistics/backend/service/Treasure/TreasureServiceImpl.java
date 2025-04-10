@@ -40,7 +40,7 @@ public class TreasureServiceImpl implements TreasureService {
 
     @Override
     public List<GetTreasureRes> getTreasureList() {
-        List<TreasureEntity> treasureList = treasureRepository.findByDeleted(false);
+        List<TreasureEntity> treasureList = treasureRepository.findByDeletedOrderByCreatedAtDesc(false);
         return GetTreasureRes.of(treasureList);
     }
 
