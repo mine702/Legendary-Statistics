@@ -1,5 +1,6 @@
 package com.legendary_statistics.backend.global.handler;
 
+import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.probabilityGroup.ProbabilityGroupNotFoundException;
@@ -61,4 +62,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("ProbabilityGroupNotFoundException = {}", e.getMessage());
         return response.error(e.getErrorCode());
     }
+
+    /**
+     * JSON 파일 처리 중 발생하는 예외
+     */
+    @ExceptionHandler(JsonFileRuntimeException.class)
+    protected ResponseEntity<?> handle(JsonFileRuntimeException e) {
+        log.error("JsonFileRuntimeException = {}", e.getMessage());
+        return response.error(e.getErrorCode());
+    }
+
 }

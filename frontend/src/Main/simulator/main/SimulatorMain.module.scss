@@ -48,7 +48,7 @@
         width: 100%;
         background: rgba(0, 0, 0, 0.5);
         color: #fff;
-        padding: 20px;
+        padding: 20px 15px;
         border-radius: 12px;
         text-align: center;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
@@ -57,11 +57,10 @@
       .textBox {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        width: 700px;
+        width: 100%;
 
         .mainText {
-          font-size: 22px;
+          font-size: clamp(10px, 1.7vw, 20px); // 최소 16px, 최대 22px
           font-weight: bold;
           line-height: 1.8;
           color: white;
@@ -69,7 +68,7 @@
         }
 
         .subText {
-          font-size: 18px;
+          font-size: clamp(10px, 1.5vw, 18px); // 최소 14px, 최대 18px
           font-weight: normal;
           margin-top: 10px;
           color: #EEEEEE;

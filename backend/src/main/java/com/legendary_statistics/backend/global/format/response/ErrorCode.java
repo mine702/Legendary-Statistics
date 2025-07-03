@@ -12,6 +12,7 @@ public enum ErrorCode {
     KIND_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 종류를 찾을 수 없습니다."),
     TREASURE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 보물을 찾을 수 없습니다."),
     LEGEND_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 전설이를 찾을 수 없습니다."),
+    JSON_PARSE_ERROR(HttpStatus.BAD_REQUEST, "JSON 파싱 중 오류가 발생했습니다."),
     ;
 
     private final HttpStatus status;
