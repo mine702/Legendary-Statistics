@@ -1,0 +1,57 @@
+.card {
+  display: flex;
+  margin-bottom: 10px;
+  border: 1px solid var(--card-border-color);
+  background-color: var(--fill-color-1);
+  border-radius: 5px;
+  padding: 5px 10px;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.1s background-color;
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+
+  .title-area {
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+
+      .new-badge {
+        color: var(--red);
+        font-size: 10px;
+        font-weight: bold;
+        margin-left: 6px;
+      }
+    }
+
+    .date {
+      font-size: 0.8rem;
+      color: var(--font-color-light);
+    }
+  }
+
+  .tag {
+    width: 55px;
+    margin-left: auto;
+    border-radius: 10px;
+    padding: 5px 10px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fill-color-4);
+    color: var(--font-color-light);
+
+    &.answered {
+      background-color: var(--intense-color);
+      color: white;
+    }
+
+    &.wait {
+      background-color: var(--fill-color-4);
+      color: var(--font-color-light);
+    }
+  }
+}

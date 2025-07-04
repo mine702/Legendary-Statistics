@@ -1,0 +1,39 @@
+.root {
+}
+
+.fade-appear{
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+.fade-appear-active{
+  opacity: 1;
+  transition: 0.2s opacity;
+}
+.fade-appear-done{
+  opacity: 1;
+  transition: 0.2s opacity;
+}
+.fade-enter{
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+.fade-enter-active{
+  opacity: 1;
+  transition: 0.2s opacity;
+}
+.fade-enter-done{
+  opacity: 1;
+  transition: 0.2s opacity;
+}
+.fade-exit{
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+.fade-exit-active{
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+.fade-exit-done{
+  opacity: 0;
+  transition: 0.2s opacity;
+}

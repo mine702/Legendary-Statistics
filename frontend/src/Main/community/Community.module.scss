@@ -1,3 +1,74 @@
-root {
+.root {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  padding: 50px 0;
 
+  .reactive-container {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    .container-inbox {
+      max-width: 1200px;
+      width: 100%;
+      margin-left: 10px;
+      margin-right: 10px;
+      box-sizing: border-box;
+      display: flex;
+
+      .left-navigator {
+        border: 1px solid var(--card-border-color);
+        width: 140px;
+        background-color: var(--fill-color-1);
+        border-radius: 10px;
+        margin-right: 10px;
+        height: fit-content;
+        padding: 20px;
+
+        .menu-item {
+          padding: 10px;
+          cursor: pointer;
+          border-radius: 5px;
+          margin-bottom: 5px;
+          transition: 0.3s all;
+          border: none;
+          background: var(--fill-color-1);
+          width: 100%;
+          align-items: start;
+          text-align: left;
+
+          &:hover {
+            background-color: var(--hover-color);
+          }
+
+          &.selected {
+            background-color: var(--fill-color-4);
+          }
+
+          // PcInquiryPage.module.scss
+
+          .new-badge {
+            color: var(--red);
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 6px;
+          }
+        }
+      }
+
+      .content-area {
+        border: 1px solid var(--card-border-color);
+        flex: 1;
+        background-color: var(--fill-color-1);
+        border-radius: 10px;
+        padding: 20px;
+        min-height: 600px;
+      }
+    }
+  }
 }

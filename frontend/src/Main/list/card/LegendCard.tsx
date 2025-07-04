@@ -7,7 +7,6 @@ import rate1 from "../../../assets/img/rate/1.png";
 import rate2 from "../../../assets/img/rate/2.png";
 import rate3 from "../../../assets/img/rate/3.png";
 import rate4 from "../../../assets/img/rate/4.png";
-import rate5 from "../../../assets/img/rate/5.png";
 
 interface Props {
   legend: GetLegendListRes
@@ -30,8 +29,6 @@ export const LegendCard = (props: Props) => {
         return rate3;
       case 4:
         return rate4;
-      case 5:
-        return rate5;
       default:
         return null;
     }

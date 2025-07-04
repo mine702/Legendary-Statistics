@@ -1,0 +1,153 @@
+.root {
+  .title-area {
+    align-items: center;
+    margin-bottom: 5px;
+    background-color: var(--fill-color-3);
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid var(--card-border-color);
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #a0a0a0;
+      margin-bottom: 5px;
+    }
+
+    .subdata-header {
+      display: inline-block;
+      width: 100px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+
+  .content {
+    border-radius: 5px;
+    background-color: var(--fill-color-1);
+    min-height: 300px;
+
+    font-size: 14px;
+    color: var(--font-color-semi-light);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    white-space: pre-wrap;
+  }
+
+  .image {
+    max-width: 100%;
+    border: 1px solid #dddddd;
+    margin: 5px 0;
+  }
+
+  .answer {
+    font-size: 14px;
+    color: var(--font-color-light);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    white-space: pre-wrap;
+  }
+
+  .tag {
+    border-radius: 3px;
+    padding: 2px 7px;
+    height: fit-content;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fill-color-4);
+    color: var(--font-color-light);
+
+    &.answered {
+      background-color: var(--intense-color);
+      color: white;
+    }
+
+    &.wait {
+      background-color: var(--fill-color-4);
+      color: var(--font-color-light);
+    }
+  }
+
+  .comment {
+    margin-top: 20px;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .comment-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .comment-input {
+      flex: 1;
+      height: 45px;
+      padding: 10px;
+      border: 1px solid var(--card-border-color);
+      border-radius: 5px;
+      resize: none;
+    }
+
+    .comment-button {
+      background-color: var(--intense-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .comment-list {
+      margin-top: 20px;
+
+      .comment-item {
+        padding: 10px;
+        border-bottom: 1px solid var(--card-border-color);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .comment-header {
+          display: flex;
+          justify-content: space-between; /* 사용자 이름과 작성 시간을 양쪽 끝에 배치 */
+          align-items: center;
+          margin-bottom: 5px; /* 사용자와 내용 간 여백 */
+        }
+
+        .comment-user {
+          font-weight: bold;
+          font-size: 14px;
+          color: var(--font-color-dark);
+        }
+
+        .created-at {
+          font-size: 12px;
+          color: var(--font-color-light);
+        }
+
+        .comment-content {
+          font-size: 14px;
+          color: var(--font-color-semi-light);
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+  .button-area {
+    margin-top: 10px;
+    text-align: right;
+  }
+}

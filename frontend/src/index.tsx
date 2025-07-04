@@ -2,7 +2,7 @@ import {StrictMode, useEffect} from 'react'
 import {createRoot} from 'react-dom/client'
 import './index.scss'
 import ScrollToTop from "./util/ScrollToTop.ts";
-import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useNavigate} from "react-router";
 import {requestURL} from "./config.ts";
 import Cookies from "universal-cookie";
 import axios from "axios";
@@ -15,6 +15,7 @@ import {showToastOnErrorP2} from "./util/errorParser.ts";
 import {AuthorizedByOAuth} from "./component/AuthorizedByOAuth.tsx";
 import {EditorProvider} from "react-simple-wysiwyg";
 import {Main} from "./Main/Main.tsx";
+import {checkIsAuthenticated} from "./util/loginManager.ts";
 
 //axios 설정
 axios.defaults.withCredentials = true;
@@ -49,6 +50,15 @@ function App() {
     await axios.post(`/auth/${provider}`, {code: code});
     navigate("/main");
   });
+
+  useEffect(() => {
+    //로그인페이지로 이동하려고 시도할 때, 로그인이 되어있으면 메인페이지로 리다이렉트
+    let isAuthenticated = checkIsAuthenticated();
+    const isFindPasswordPage = location.pathname.startsWith("/login/find-password");
+    if (location.pathname.startsWith("/login") && isAuthenticated && !isFindPasswordPage) {
+      navigate("/home");
+    }
+  }, [location.pathname])
 
   return (
     <Routes>

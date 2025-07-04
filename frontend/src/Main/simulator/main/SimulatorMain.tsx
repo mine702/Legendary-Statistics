@@ -3,7 +3,7 @@ import {useSWRGetTreasureList} from "../../../server/server.ts";
 import {SimulatorLegendCard} from "../card/SimulatorLegendCard.tsx";
 
 import simulatorLogo from "../../../assets/img/simulator_logo.png";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 export const SimulatorMain = () => {
   const {data: list, isLoading} = useSWRGetTreasureList();

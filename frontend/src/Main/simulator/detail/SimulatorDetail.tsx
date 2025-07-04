@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router";
 import style from "./SimulatorDetail.module.scss";
 import {useSWRGetProbabilityByTreasureId, useSWRGetTreasureDetail} from "../../../server/server.ts";
 import {useEffect, useState} from "react";

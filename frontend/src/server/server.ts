@@ -43,3 +43,13 @@ export const useSWRGetProbabilityByTreasureId = (id: string | undefined) => {
 export const useSWRGetRateList = () => {
   return useSWR<GetRateRes[]>(`/rate/list`, defaultFetchAxios);
 }
+
+// 보드 카테고리 리스트 불러오기
+export const useSWRBoardCategories = () => {
+  return null;
+}
+
+// 내 보드 리스트 불러오기
+export const useSWRMyBoardList = () => {
+  return null;
+}

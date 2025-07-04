@@ -1,5 +1,5 @@
 // Simulator.tsx
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router";
 import {SimulatorDetail} from "./detail/SimulatorDetail";
 import {SimulatorMain} from "./main/SimulatorMain"; // 기존 UI를 분리
 

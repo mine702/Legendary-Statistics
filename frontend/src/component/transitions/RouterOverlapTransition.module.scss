@@ -1,0 +1,87 @@
+.root {
+  position: relative;
+}
+.fade-overlap-appear{
+  opacity: 0;
+  transition: 0.3s opacity;
+}
+.fade-overlap-appear-active{
+  opacity: 1;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-overlap-appear-done{
+  opacity: 1;
+  transition: 0.3s opacity;
+}
+.fade-overlap-enter{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-overlap-enter-active{
+  opacity: 1;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-overlap-enter-done{
+  opacity: 1;
+  transition: 0.3s opacity;
+}
+.fade-overlap-exit{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-overlap-exit-active{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-overlap-exit-done{
+  opacity: 0;
+  transition: 0.3s opacity;
+}
+
+
+.fade-appear{
+  opacity: 0;
+  transition: 0.3s opacity;
+}
+.fade-appear-active{
+  opacity: 1;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-appear-done{
+  opacity: 1;
+  transition: 0.3s opacity;
+}
+.fade-enter{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-enter-active{
+  opacity: 1;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-enter-done{
+  opacity: 1;
+  transition: 0.3s opacity;
+}
+.fade-exit{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-exit-active{
+  opacity: 0;
+  transition: 0.3s opacity;
+  position: absolute;
+}
+.fade-exit-done{
+  opacity: 0;
+  transition: 0.3s opacity;
+}

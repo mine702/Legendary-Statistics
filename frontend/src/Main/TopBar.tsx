@@ -2,17 +2,18 @@ import style from "./TopBar.module.scss"
 
 import {IconButton} from "../component/simple/IconButton.tsx";
 
-import {Location, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import Cookies from "universal-cookie";
 import {useLocalStorage} from "usehooks-ts";
-import React from "react";
 
 import topBarLogo from "../assets/img/top_bar_logo.png";
 import darkModeIcon from "../assets/icons/dark_mode.svg";
 import darkModeActiveIcon from "../assets/icons/dark_mode_active.svg";
 import settingsIcon from "../assets/icons/settings.svg";
 import logoutIcon from "../assets/icons/logout.svg";
+import loginIcon from "../assets/icons/login.svg";
 import {Space} from "../component/simple/Space.tsx";
+import {checkIsAuthenticated} from "../util/loginManager.ts";
 
 export const TopBar = () => {
   const navigate = useNavigate();
@@ -26,7 +27,14 @@ export const TopBar = () => {
     window.location.reload();
   }
 
+  const onClickLogin = () => {
+    //로그인 페이지로 이동
+    navigate('/login');
+  }
+
   const onClickDarkMode = () => setDarkMode(!isDarkMode)
+
+  let isAuthenticated = checkIsAuthenticated();
 
   return (
     <div className={style.root}>
@@ -39,31 +47,20 @@ export const TopBar = () => {
         <img src={isDarkMode ? darkModeActiveIcon as string : darkModeIcon as string} alt='darkMode'/>
       </IconButton>
       <IconButton onClick={() => {
-      }} style={{marginLeft: 5, marginRight: 5}}>
+      }} style={{marginLeft: 5, marginRight: 0}}>
         <img src={settingsIcon as string} alt='settings'/>
       </IconButton>
-      <IconButton onClick={onClickLogout}>
-        <img src={logoutIcon as string} alt='logout'/>
-      </IconButton>
+      {isAuthenticated ? (
+        <IconButton onClick={onClickLogout}>
+          <img src={logoutIcon as string} alt='logout'/>
+        </IconButton>
+      ) : (
+        <IconButton onClick={onClickLogin}>
+          <img src={loginIcon as string} alt='login'/>
+        </IconButton>
+      )}
       <div style={{marginRight: '30px'}}/>
     </div>
-  )
-}
-
-interface LinkButtonProps {
-  to: string,
-  children: React.ReactNode
-  navigate: (to: string) => void
-  location: Location<never>
-}
-
-export const LinkButton = (props: LinkButtonProps) => {
-  const isActive = props.location.pathname.includes(props.to);
-  return (
-    <button className={`${style.menuBtn} ${isActive ? style.selected : ""}`}
-            onClick={() => props.navigate(props.to)}>
-      {props.children}
-    </button>
   )
 }
 
