@@ -1,7 +1,7 @@
 import style from "./EmailLogin.module.scss"
 import {useNavigate} from "react-router";
 import {useImmer} from "use-immer";
-import {AuthReq} from "../../../server/dto/user.ts";
+import {AuthReq} from "../../../server/dto/auth.ts";
 import {ChangeEvent} from "react";
 import axios from "axios";
 import {showToastOnError} from "../../../util/errorParser.ts";
@@ -10,12 +10,12 @@ import {useLocalStorage} from "usehooks-ts";
 export const EmailLogin = () => {
   const navigate = useNavigate()
   const [savedId, setSavedId] = useLocalStorage<string>("savedId", "");
-  const [req, setReq] = useImmer<AuthReq>({account: savedId, password: ""});
+  const [req, setReq] = useImmer<AuthReq>({email: savedId, password: ""});
   const [saveId, setSaveId] = useImmer(savedId !== "");
 
   const onChangeAccount = (e: ChangeEvent<HTMLInputElement>) => {
     setReq(draft => {
-      draft.account = e.target.value
+      draft.email = e.target.value
     })
   }
 
@@ -25,16 +25,16 @@ export const EmailLogin = () => {
     })
   }
 
-  const onClickGoBack = () => navigate(-1)
+  const onClickGoBack = () => navigate("../../home")
 
-  const onClickSignUp = () => navigate("../signup-privacy-notice")
+  const onClickSignUp = () => navigate("../signup-by-email")
 
   const onClickFindPassword = () => navigate("../find-password")
 
   const onClickLogin = showToastOnError(async () => {
     await axios.post("/auth", req)
 
-    if (saveId) setSavedId(req.account);
+    if (saveId) setSavedId(req.email);
     else setSavedId("");
 
     navigate("/main")
@@ -46,13 +46,13 @@ export const EmailLogin = () => {
 
   return (
     <div className={style.root} onKeyDown={onKeyDown}>
-      <div className={style.title}>이메일로 시작</div>
+      <div className={style.title}>이메일 로그인</div>
       <div className="input-description">이메일</div>
-      <input type="email" autoFocus={true} placeholder="이메일" className="full-width"
-             value={req.account} onChange={onChangeAccount}/>
+      <input type="email" autoFocus={true} placeholder="이메일"
+             value={req.email} onChange={onChangeAccount}/>
 
       <div className="input-description">비밀번호</div>
-      <input type="password" placeholder="비밀번호" className="full-width"
+      <input type="password" placeholder="비밀번호"
              value={req.password} onChange={onChangePassword}/>
 
       <div className={style.checkboxContainer}>
@@ -65,15 +65,15 @@ export const EmailLogin = () => {
           아이디 저장
         </label>
       </div>
-      
-      <button className="mt full-width" onClick={onClickLogin}>로그인</button>
+
+      <button className={style.loginButton} onClick={onClickLogin}>로그인</button>
 
       <div className={style.bottomArea}>
         <a className="mr" onClick={onClickSignUp}>회원가입</a>
         <span className="mr"> | </span>
-        <a className="mr" onClick={onClickGoBack}>다른 방법으로 로그인</a>
-        <span className="mr"> | </span>
         <a className="mr" onClick={onClickFindPassword}>비밀번호 찾기</a>
+        <span className="mr"> | </span>
+        <a className="mr" onClick={onClickGoBack}>뒤로가기</a>
       </div>
     </div>
   )

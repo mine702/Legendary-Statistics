@@ -50,6 +50,7 @@
   --top-bar-shadow: #c9c9c9 0 1px 5px;
 
   --font-color-yellow: #ffcc00;
+  --button-color: #6c5ce7;
 }
 
 [theme="dark"] {
@@ -88,6 +89,7 @@
   --top-bar-shadow: #414141 0 1px 5px;
 
   --font-color-yellow: #ffcc00;
+  --button-color: #5c88f7;
 }
 
 html, body, input, button, pre, select, textarea {
@@ -223,3 +225,4 @@ input[type="checkbox"] {
     background-color: var(--intense-color);
   }
 }
+

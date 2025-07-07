@@ -37,7 +37,7 @@ export const FindPassword = () => {
 
   const onClickFindPassword = async () => {
     try {
-      await axios.post("/user/find-password", req).then(res => {
+      await axios.post("/user/find-password", req).then(() => {
         toast.success(`임시 비밀번호가 입력하신 이메일로 전송되었습니다.`);
         navigate(-1)
       })
@@ -53,8 +53,7 @@ export const FindPassword = () => {
             draft[value.field] = value.message
           })
         })
-      } catch (e) {
-        //밸리데이션 에러가 아닌경우 토스트메시지 표시
+      } catch (e: any) {
         toast.error(e?.message);
       }
     }

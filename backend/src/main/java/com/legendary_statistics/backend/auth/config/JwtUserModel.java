@@ -1,4 +1,4 @@
-package com.legendary_statistics.backend.auth;
+package com.legendary_statistics.backend.auth.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

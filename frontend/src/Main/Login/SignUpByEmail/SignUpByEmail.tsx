@@ -44,7 +44,7 @@ export const SignUpByEmail = () => {
 
   const onChangePasswordRepeat = (e: ChangeEvent<HTMLInputElement>) => setPasswordRepeat(e.target.value);
 
-  const onClickGoBack = () => navigate("../login-entry");
+  const onClickGoBack = () => navigate("../login");
 
   const onClickSignUp = async () => {
     if (req.password !== passwordRepeat) {
@@ -69,7 +69,7 @@ export const SignUpByEmail = () => {
             draft[value.field] = value.message;
           });
         });
-      } catch (e) {
+      } catch (e: any) {
         toast.error(e?.message);
       }
     }
@@ -89,7 +89,7 @@ export const SignUpByEmail = () => {
       <div className="input-error">{reqErrors.email}</div>
 
       <div className="input-description">이름</div>
-      <div className={style.littleText}>가입 시에는 신분증에 기재된 이름을 입력해 주세요</div>
+      <div className={style.littleText}>닉네임 혹은 이름을 입력해 주세요</div>
       <input type="text" placeholder="이름" value={req.name} onChange={onChangeName}
              className={`full-width ${reqErrors.name && "error"}`}/>
       <div className="input-error">{reqErrors.name}</div>

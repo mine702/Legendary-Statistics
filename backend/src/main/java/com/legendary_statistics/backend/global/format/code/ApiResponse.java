@@ -295,6 +295,10 @@ public class ApiResponse {
         return get(STATUS_ERROR, errorCode.getMessage(), null, null, null, null, null);
     }
 
+    public <E> ResponseEntity<?> error(ErrorCode errorCode, E errors) {
+        return get(STATUS_ERROR, errorCode.getMessage(), null, errors, null, null, null);
+    }
+
     /**
      * <p>성공 응답 객체의 바디</p>
      */

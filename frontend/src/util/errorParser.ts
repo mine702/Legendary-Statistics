@@ -37,26 +37,38 @@ export type ValidateMessages = {
 
 export const parseValidationMessage = (e: any): ValidateMessages => {
   if (typeof e === "string") throw new Error(e);
-  if (!e.response || !e.response.status) {
-    console.log(e)
+
+  const response = e?.response;
+  const status = response?.status;
+  const data = response?.data;
+
+  if (!status) {
+    console.log(e);
     if (e.message) throw new Error(`식별되지 않은 에러입니다. (${e.message})`);
     else throw new Error("알 수 없는 에러입니다.");
   }
 
-  if (e.response.status === 403) throw new Error("권한이 없습니다.");
-  if (e.response.status === 500) throw new Error("서버 에러입니다. 잠시 후 다시 시도해주세요.");
+  if (status === 403) throw new Error("권한이 없습니다.");
+  if (status === 500) throw new Error("서버 에러입니다. 잠시 후 다시 시도해주세요.");
 
   try {
-    const detail = e.response.data.detail
-    if (!Array.isArray(detail)) return e.response.data.msg;
-    return detail.map((item: any) => {
-      return {field: item.field, message: item.msg}
-    });
+    const errors = data?.errors;
 
-  } catch (e) {
-    throw new Error("알 수 없는 에러입니다.")
+    if (!Array.isArray(errors)) {
+      // fallback: 단일 메시지가 있다면 반환
+      if (typeof data?.msg === "string") throw new Error(data.msg);
+      throw new Error("유효성 검증 형식이 올바르지 않습니다.");
+    }
+
+    return errors.map((item: any) => ({
+      field: item.field,
+      message: item.message
+    }));
+  } catch (err) {
+    throw new Error("알 수 없는 에러입니다.");
   }
-}
+};
+
 
 /** 예외처리를 편하게 할 수 있도록 하는 데코레이터입니다.<br/>
  * 실험적 기능을 사용하지 않으려는 의도와 예외처리를 간편하게 하고자 하는 의도를 모두 충족하도록 합니다.

@@ -9,10 +9,17 @@ import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -70,6 +77,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<?> handle(JsonFileRuntimeException e) {
         log.error("JsonFileRuntimeException = {}", e.getMessage());
         return response.error(e.getErrorCode());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        List<ApiResponse.FieldError> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> new ApiResponse.FieldError(error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+        return (ResponseEntity<Object>) response.error(ErrorCode.VALIDATION_ERROR, errors);
     }
 
 }
