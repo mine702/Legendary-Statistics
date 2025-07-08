@@ -1,7 +1,7 @@
 import {useParams} from "react-router";
 import style from "./SimulatorDetail.module.scss";
 import {useSWRGetProbabilityByTreasureId, useSWRGetTreasureDetail} from "../../../server/server.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import simulatorLogo from "../../../assets/img/simulator_logo.png";
 import defaultImage from "../../../assets/img/강도깨비.png";
 import {SimulatorResult} from "../result/SimulatorResult.tsx";
@@ -12,11 +12,6 @@ export const SimulatorDetail = () => {
   const {data: treasureData, isLoading: treasureIsLoading} = useSWRGetTreasureDetail(id);
   const {data: probabilityData, isLoading: probabilityIsLoading} = useSWRGetProbabilityByTreasureId(id);
   const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
-
-  useEffect(() => {
-    console.log(treasureData);
-    console.log(probabilityData);
-  }, [treasureData]);
 
   const toggleGroup = (id: number) => {
     setOpenGroups((prev) => ({

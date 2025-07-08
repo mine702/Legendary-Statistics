@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 public abstract class CommonBaseEntity {
 
     @CreatedDate
-    private LocalDateTime createdDateTime;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDateTime;
+    private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted")
     private Boolean deleted = false;

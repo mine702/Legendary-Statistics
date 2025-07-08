@@ -17,6 +17,11 @@ export const SimulatorResult = (props: Props) => {
   const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    console.log(rateData)
+    console.log(results)
+  }, [rateData, results]);
+
+  useEffect(() => {
     if (scrollAnchorRef.current) {
       scrollAnchorRef.current.scrollIntoView({behavior: "smooth"});
     }

@@ -1,6 +1,7 @@
 import style from "./BoardListItem.module.scss"
 import {isNew} from "../../util/datetimeDifference.ts";
 import {Space} from "../simple/Space.tsx";
+import {GetBoardListRes} from "../../server/dto/board.ts";
 
 interface Props {
   onClickItem: (id: number) => void;
@@ -10,7 +11,7 @@ interface Props {
 export const BoardListItem = (props: Props) => {
   const hideUsername = props.hideUsername ?? false;
 
-  const renderAnswerStateLabel = (item: GetInquiryListRes) => {
+  const renderAnswerStateLabel = (item: GetBoardListRes) => {
     if (props.inquiryTypeInfo?.hideAnswer) return null;
 
     return item.answerAt != null ?

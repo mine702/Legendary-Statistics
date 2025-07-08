@@ -38,12 +38,9 @@ export type ValidateMessages = {
 export const parseValidationMessage = (e: any): ValidateMessages => {
   if (typeof e === "string") throw new Error(e);
 
-  const response = e?.response;
-  const status = response?.status;
-  const data = response?.data;
-
+  const body = e?.response.data.body;
+  const status = body?.status;
   if (!status) {
-    console.log(e);
     if (e.message) throw new Error(`식별되지 않은 에러입니다. (${e.message})`);
     else throw new Error("알 수 없는 에러입니다.");
   }
@@ -52,11 +49,10 @@ export const parseValidationMessage = (e: any): ValidateMessages => {
   if (status === 500) throw new Error("서버 에러입니다. 잠시 후 다시 시도해주세요.");
 
   try {
-    const errors = data?.errors;
-
+    const errors = body?.errors;
     if (!Array.isArray(errors)) {
       // fallback: 단일 메시지가 있다면 반환
-      if (typeof data?.msg === "string") throw new Error(data.msg);
+      if (typeof errors?.msg === "string") throw new Error(errors.msg);
       throw new Error("유효성 검증 형식이 올바르지 않습니다.");
     }
 

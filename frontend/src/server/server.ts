@@ -7,6 +7,8 @@ import {GetLegendListRes} from "./dto/legend.ts";
 import {GetTreasureRes} from "./dto/treasure.ts";
 import {GetProbabilityGroupRes} from "./dto/probability.ts";
 import {GetRateRes} from "./dto/rate.ts";
+import {GetBoardListRes} from "./dto/board.ts";
+import {PageResponse} from "./pager.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -44,12 +46,15 @@ export const useSWRGetRateList = () => {
   return useSWR<GetRateRes[]>(`/rate/list`, defaultFetchAxios);
 }
 
-// 보드 카테고리 리스트 불러오기
-export const useSWRBoardCategories = () => {
-  return null;
-}
-
 // 내 보드 리스트 불러오기
-export const useSWRMyBoardList = () => {
-  return null;
-}
+export const useSWRMyBoardList = (page: number, category: string, keyword?: string) => {
+  const params = new URLSearchParams();
+  params.set('category', category);
+  params.set('page', String(page));
+  params.set('size', '10');
+
+  if (keyword) params.set('keyword', keyword);
+
+  return useSWR<PageResponse<GetBoardListRes>>(`/board/list?${params.toString()}`, defaultFetchAxios);
+};
+

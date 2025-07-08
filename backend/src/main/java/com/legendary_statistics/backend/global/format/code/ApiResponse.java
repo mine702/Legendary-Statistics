@@ -3,7 +3,8 @@ package com.legendary_statistics.backend.global.format.code;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
 import com.legendary_statistics.backend.global.format.response.ResponseCode;
 import lombok.*;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -28,47 +29,93 @@ public class ApiResponse {
             @Nullable String message,
             @Nullable T data,
             @Nullable E errors,
-            @Nullable Long page,
-            @Nullable Integer size,
-            @Nullable Long total
+            HttpStatus httpStatus
     ) {
-
         if (status.equals(STATUS_SUCCESS)) {
-            if (page != null && size != null && total != null) {
-                return new ResponseEntity<>(PagedBody.builder()
-                        .status(status)
-                        .message(message)
-                        .data(data != null ? data
-                                : Collections.emptyList())
-                        .page(page)
-                        .size(size)
-                        .total(total)
-                        .build(),
-                        HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(SucceededBody.builder()
-                        .status(status)
-                        .message(message)
-                        .data(data)
-                        .build(),
-                        HttpStatus.OK);
-            }
+
+            return new ResponseEntity<>(SucceededBody.builder()
+                    .status(status)
+                    .message(message)
+                    .data(data)
+                    .build(),
+                    httpStatus);
+
         } else if (status.equals(STATUS_FAIL)) {
             return new ResponseEntity<>(FailedBody.builder()
                     .status(status)
                     .message(message)
                     .errors(errors)
                     .build(),
-                    HttpStatus.OK);
+                    httpStatus);
         } else if (status.equals(STATUS_ERROR)) {
             return new ResponseEntity<>(ErroredBody.builder()
                     .status(status)
                     .message(message)
                     .build(),
-                    HttpStatus.OK);
+                    httpStatus);
         } else {
             throw new RuntimeException("Api Response Error");
         }
+    }
+
+    private <T> ResponseEntity<?> get(
+            String status,
+            @Nullable String message,
+            @Nullable List<T> items,
+            @Nullable Long page,
+            @Nullable Integer size,
+            @Nullable Long total,
+            @Nullable Integer totalPages,
+            @Nullable Boolean first,
+            @Nullable Boolean last,
+            HttpStatus httpStatus
+    ) {
+        if (status.equals(STATUS_SUCCESS)) {
+            PagedBody.PagedContent<T> content = PagedBody.PagedContent.<T>builder()
+                    .items(items != null ? items : Collections.emptyList())
+                    .page(page)
+                    .size(size)
+                    .total(total)
+                    .totalPages(totalPages)
+                    .first(first)
+                    .last(last)
+                    .build();
+
+            return new ResponseEntity<>(PagedBody.<T>builder()
+                    .status(status)
+                    .message(message)
+                    .data(content)
+                    .build(), httpStatus);
+        }
+        throw new RuntimeException("Invalid status for paged response");
+    }
+
+    private <T> ResponseEntity<?> get(
+            String status,
+            @Nullable String message,
+            @Nullable List<T> items,
+            @Nullable Long page,
+            @Nullable Integer size,
+            @Nullable Boolean hasNext,
+            @Nullable Boolean hasPrevious,
+            HttpStatus httpStatus
+    ) {
+        if (status.equals(STATUS_SUCCESS)) {
+            SlicedBody.SlicedContent<T> content = SlicedBody.SlicedContent.<T>builder()
+                    .items(items != null ? items : Collections.emptyList())
+                    .page(page)
+                    .size(size)
+                    .hasNext(hasNext != null ? hasNext : false)
+                    .hasPrevious(hasPrevious != null ? hasPrevious : false)
+                    .build();
+
+            return new ResponseEntity<>(SlicedBody.<T>builder()
+                    .status(status)
+                    .message(message)
+                    .data(content)
+                    .build(), httpStatus);
+        }
+        throw new RuntimeException("Invalid status for sliced response");
     }
 
     /**
@@ -82,7 +129,7 @@ public class ApiResponse {
      * </pre>
      */
     public <T> ResponseEntity<?> success(ResponseCode responseCode, T data) {
-        return get(STATUS_SUCCESS, responseCode.getMessage(), data, null, null, null, null);
+        return get(STATUS_SUCCESS, responseCode.getMessage(), data, null, HttpStatus.OK);
     }
 
     /**
@@ -99,7 +146,7 @@ public class ApiResponse {
      * @return 응답 객체
      */
     public <T> ResponseEntity<?> success(T data) {
-        return get(STATUS_SUCCESS, null, data, null, null, null, null);
+        return get(STATUS_SUCCESS, null, data, null, HttpStatus.OK);
     }
 
     /**
@@ -113,7 +160,7 @@ public class ApiResponse {
      * </pre>
      */
     public <T> ResponseEntity<?> success(ResponseCode responseCode) {
-        return get(STATUS_SUCCESS, responseCode.getMessage(), null, null, null, null, null);
+        return get(STATUS_SUCCESS, responseCode.getMessage(), null, null, HttpStatus.OK);
     }
 
     /**
@@ -129,53 +176,35 @@ public class ApiResponse {
      * @return 응답 객체
      */
     public <T> ResponseEntity<?> success() {
-        return get(STATUS_SUCCESS, null, null, null, null, null, null);
+        return get(STATUS_SUCCESS, null, null, null, HttpStatus.OK);
     }
 
-    /**
-     * <p>페이지네이션 정보를 포함한 성공 응답을 반환합니다.</p>
-     * <pre>
-     *     {
-     *         "status" : "success",
-     *         "message" : null,
-     *         "data" : [{data1}, {data2} ...],
-     *         "page" : 1,
-     *         "size" : 10,
-     *         "total" : 100
-     *     }
-     * </pre>
-     *
-     * @param data  응답 바디 data 필드에 포함될 정보
-     * @param page  응답 바디 page 필드에 포함될 정보
-     * @param size  응답 바디 size 필드에 포함될 정보
-     * @param total 응답 바디 total 필드에 포함될 정보
-     * @return 응답 객체
-     */
-    public <T> ResponseEntity<?> pagination(T data, Long page, Integer size, Long total) {
-        return get(STATUS_SUCCESS, null, data, null, page, size, total);
+    public <T> ResponseEntity<?> pagination(Page<T> page) {
+        return get(
+                STATUS_SUCCESS,
+                null,
+                page.getContent(),
+                page.getNumber() + 1L,
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast(),
+                HttpStatus.OK
+        );
     }
 
-    /**
-     * <p>페이지네이션 정보를 포함한 성공 응답을 반환합니다.</p>
-     * <pre>
-     *     {
-     *         "status" : "success",
-     *         "message" : null,
-     *         "data" : [{data1}, {data2} ... ],
-     *         "page" : 1,
-     *         "size" : 10,
-     *         "total" : 100
-     *     }
-     * </pre>
-     *
-     * @param data     응답 바디 data 필드에 포함될 정보
-     * @param pageable 응답 바디 page, size 필드에 포함될 정보를 가진 Pageable 객체
-     * @param total    응답 바디 total 필드에 포함될 정보
-     * @return 응답 객체
-     */
-    public <T> ResponseEntity<?> pagination(T data, Pageable pageable, Long total) {
-        return get(STATUS_SUCCESS, null, data, null, pageable.getOffset(), pageable.getPageSize(),
-                total);
+    public <T> ResponseEntity<?> slice(Slice<T> slice) {
+        return get(
+                STATUS_SUCCESS,
+                null,
+                slice.getContent(),
+                (long) slice.getNumber() + 1,
+                slice.getSize(),
+                slice.hasNext(),
+                slice.hasPrevious(),
+                HttpStatus.OK
+        );
     }
 
     /**
@@ -188,11 +217,10 @@ public class ApiResponse {
      *     }
      * </pre>
      *
-     * @param message 응답 바디 message 필드에 포함될 정보
      * @return 응답 객체
      */
-    public <T> ResponseEntity<?> fail(String message) {
-        return get(STATUS_FAIL, message, null, null, null, null, null);
+    public <T> ResponseEntity<?> fail(ErrorCode errorCode) {
+        return get(STATUS_FAIL, errorCode.getMessage(), null, null, errorCode.getStatus());
     }
 
     /**
@@ -209,8 +237,8 @@ public class ApiResponse {
      * @param errors  응답 바디 errors 필드에 포함될 정보
      * @return 응답 객체
      */
-    public <E> ResponseEntity<?> fail(String message, E errors) {
-        return get(STATUS_FAIL, message, null, errors, null, null, null);
+    public <E> ResponseEntity<?> fail(String message, E errors, HttpStatus httpStatus) {
+        return get(STATUS_FAIL, message, null, errors, httpStatus);
     }
 
     /**
@@ -226,10 +254,9 @@ public class ApiResponse {
      * @param errors 응답 바디 errors 필드에 포함될 정보
      * @return 응답 객체
      */
-    public ResponseEntity<?> fail(Errors errors) {
-        List<FieldError> fieldErrorList = errors.getAllErrors().stream().map(FieldError::new)
-                .collect(Collectors.toList());
-        return fail(null, fieldErrorList);
+    public ResponseEntity<?> fail(Errors errors, HttpStatus httpStatus) {
+        List<FieldError> fieldErrorList = errors.getAllErrors().stream().map(FieldError::new).collect(Collectors.toList());
+        return fail(null, fieldErrorList, httpStatus);
     }
 
     /**
@@ -246,7 +273,7 @@ public class ApiResponse {
      * @return 응답 객체
      */
     public ResponseEntity<?> fail(BindingResult bindingResult) {
-        return fail((Errors) bindingResult);
+        return fail(bindingResult);
     }
 
     /**
@@ -262,24 +289,8 @@ public class ApiResponse {
      * @param errors 응답 바디 errors 필드에 포함될 정보
      * @return 응답 객체
      */
-    public <E> ResponseEntity<?> fail(E errors) {
-        return get(STATUS_FAIL, null, null, errors, null, null, null);
-    }
-
-    /**
-     * <p>예외 발생 시 에러 응답을 반환합니다.</p>
-     * <pre>
-     *     {
-     *         "status" : "error",
-     *         "message" : "custom error message"
-     *     }
-     * </pre>
-     *
-     * @param message 응답 바디 message 필드에 포함될 정보
-     * @return 응답 객체
-     */
-    public <T> ResponseEntity<?> error(String message) {
-        return get(STATUS_ERROR, message, null, null, null, null, null);
+    public <E> ResponseEntity<?> fail(ErrorCode errorCode, E errors) {
+        return get(STATUS_FAIL, errorCode.getMessage(), null, errors, errorCode.getStatus());
     }
 
     /**
@@ -292,11 +303,20 @@ public class ApiResponse {
      * </pre>
      */
     public <T> ResponseEntity<?> error(ErrorCode errorCode) {
-        return get(STATUS_ERROR, errorCode.getMessage(), null, null, null, null, null);
+        return get(STATUS_ERROR, errorCode.getMessage(), null, null, errorCode.getStatus());
     }
 
-    public <E> ResponseEntity<?> error(ErrorCode errorCode, E errors) {
-        return get(STATUS_ERROR, errorCode.getMessage(), null, errors, null, null, null);
+    /**
+     * <p>예외 발생 시 에러 응답을 반환합니다.</p>
+     * <pre>
+     *     {
+     *         "status" : "error",
+     *         "message" : "Custom ErrorCode Message"
+     *     }
+     * </pre>
+     */
+    public <T> ResponseEntity<?> error(ErrorCode errorCode, String message) {
+        return get(STATUS_ERROR, message, null, null, errorCode.getStatus());
     }
 
     /**
@@ -314,22 +334,54 @@ public class ApiResponse {
         private T data;
     }
 
-    /**
-     * <p>페이지네이션 정보가 포함된 응답 객체의 바디</p>
-     */
     @Builder
     @Setter
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PagedBody<T> {
-
         private String status;
         private String message;
-        private T data;
-        private Long page;
-        private int size;
-        private Long total;
+        private PagedContent<T> data;
+
+        @Builder
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class PagedContent<T> {
+            private List<T> items;
+            private Long page;
+            private int size;
+            private Long total;
+            private Integer totalPages;
+            private Boolean first;
+            private Boolean last;
+        }
+    }
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SlicedBody<T> {
+        private String status;
+        private String message;
+        private SlicedContent<T> data;
+
+        @Builder
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class SlicedContent<T> {
+            private List<T> items;
+            private Long page;
+            private int size;
+            private boolean hasNext;
+            private boolean hasPrevious;
+        }
     }
 
     /**

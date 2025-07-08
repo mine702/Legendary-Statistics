@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final JavaMailSender mailSender;
 
     @Override
+    @Transactional
     public void signUp(SignUpByEmailReq req, HttpServletResponse response) {
         if (userRepository.existsByEmail(req.getEmail()))
             throw new DuplicationException("이메일이 중복되었습니다.");

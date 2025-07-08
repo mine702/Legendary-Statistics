@@ -46,7 +46,7 @@ public class GetSimulatorRes {
                 .actualFileName(entity.getCurrencyEntity().getFileCurrencyEntity() != null ? entity.getCurrencyEntity().getFileCurrencyEntity().getActualFileName() : null)
                 .path(entity.getCurrencyEntity().getFileCurrencyEntity() != null ? entity.getCurrencyEntity().getFileCurrencyEntity().getPath() : null)
                 .name(entity.getName())
-                .rate(6L)
+                .rate(5L)
                 .build();
     }
 

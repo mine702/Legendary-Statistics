@@ -4,6 +4,7 @@ import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeExc
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.probabilityGroup.ProbabilityGroupNotFoundException;
+import com.legendary_statistics.backend.global.exception.standard.DuplicationException;
 import com.legendary_statistics.backend.global.exception.treasure.TreasureNotFoundException;
 import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<?> handle(Exception e) {
         log.error("Exception = {}", e.getMessage());
-        return response.error(ErrorCode.GLOBAL_UNEXPECTED_ERROR);
+        return response.error(ErrorCode.GLOBAL_UNEXPECTED_ERROR, e.getMessage());
     }
 
     /**
@@ -40,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(KindNotFoundException.class)
     protected ResponseEntity<?> handle(KindNotFoundException e) {
         log.error("KindNotFoundException = {}", e.getMessage());
-        return response.error(e.getErrorCode());
+        return response.error(e.getErrorCode(), e.getMessage());
     }
 
     /**
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TreasureNotFoundException.class)
     protected ResponseEntity<?> handle(TreasureNotFoundException e) {
         log.error("TreasureNotFoundException = {}", e.getMessage());
-        return response.error(e.getErrorCode());
+        return response.error(e.getErrorCode(), e.getMessage());
     }
 
     /**
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(LegendNotFoundException.class)
     protected ResponseEntity<?> handle(LegendNotFoundException e) {
         log.error("LegendNotFoundException = {}", e.getMessage());
-        return response.error(e.getErrorCode());
+        return response.error(e.getErrorCode(), e.getMessage());
     }
 
     /**
@@ -67,7 +68,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ProbabilityGroupNotFoundException.class)
     protected ResponseEntity<?> handle(ProbabilityGroupNotFoundException e) {
         log.error("ProbabilityGroupNotFoundException = {}", e.getMessage());
-        return response.error(e.getErrorCode());
+        return response.error(e.getErrorCode(), e.getMessage());
     }
 
     /**
@@ -76,7 +77,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(JsonFileRuntimeException.class)
     protected ResponseEntity<?> handle(JsonFileRuntimeException e) {
         log.error("JsonFileRuntimeException = {}", e.getMessage());
-        return response.error(e.getErrorCode());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    /**
+     * JSON 파일 처리 중 발생하는 예외
+     */
+    @ExceptionHandler(DuplicationException.class)
+    protected ResponseEntity<?> handle(DuplicationException e) {
+        log.error("DuplicationException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
     }
 
     @Override
@@ -92,7 +102,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(error -> new ApiResponse.FieldError(error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.toList());
 
-        return (ResponseEntity<Object>) response.error(ErrorCode.VALIDATION_ERROR, errors);
+        return ResponseEntity
+                .status(HttpStatusCode.valueOf(status.value()))
+                .body(response.fail(ErrorCode.VALIDATION_ERROR, errors));
     }
-
 }

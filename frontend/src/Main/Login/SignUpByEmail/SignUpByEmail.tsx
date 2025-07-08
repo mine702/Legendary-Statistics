@@ -2,7 +2,7 @@ import style from "./SignUpByEmail.module.scss";
 import {useNavigate} from "react-router";
 import {useImmer} from "use-immer";
 import {SignUpByEmailReq} from "../../../server/dto/user.ts";
-import {ChangeEvent} from "react";
+import {ChangeEvent, useEffect} from "react";
 import axios from "axios";
 import {parseValidationMessage} from "../../../util/errorParser.ts";
 import {toast} from "react-toastify";
@@ -13,6 +13,10 @@ export const SignUpByEmail = () => {
   const [reqErrors, setReqErrors] = useImmer<SignUpByEmailReq>({email: "", password: "", name: ""});
   const [passwordRepeat, setPasswordRepeat] = useImmer<string>("");
   const [showPasswordRepeatError, setShowPasswordRepeatError] = useImmer<boolean>(false);
+
+  useEffect(() => {
+    console.log(reqErrors);
+  }, [reqErrors]);
 
   // 입력값 변경 핸들러
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
