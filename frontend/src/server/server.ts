@@ -8,7 +8,7 @@ import {GetTreasureRes} from "./dto/treasure.ts";
 import {GetProbabilityGroupRes} from "./dto/probability.ts";
 import {GetRateRes} from "./dto/rate.ts";
 import {GetBoardListRes} from "./dto/board.ts";
-import {PageResponse} from "./pager.ts";
+import {PagedContent} from "./pager.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -55,6 +55,6 @@ export const useSWRMyBoardList = (page: number, category: string, keyword?: stri
 
   if (keyword) params.set('keyword', keyword);
 
-  return useSWR<PageResponse<GetBoardListRes>>(`/board/list?${params.toString()}`, defaultFetchAxios);
+  return useSWR<PagedContent<GetBoardListRes>>(`/board/list?${params.toString()}`, defaultFetchAxios);
 };
 

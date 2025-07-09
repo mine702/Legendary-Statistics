@@ -5,20 +5,10 @@ import {GetBoardListRes} from "../../server/dto/board.ts";
 
 interface Props {
   onClickItem: (id: number) => void;
-  hideUsername?: boolean;
+  item: GetBoardListRes;
 }
 
 export const BoardListItem = (props: Props) => {
-  const hideUsername = props.hideUsername ?? false;
-
-  const renderAnswerStateLabel = (item: GetBoardListRes) => {
-    if (props.inquiryTypeInfo?.hideAnswer) return null;
-
-    return item.answerAt != null ?
-      <div className={`${style.tag} ${style.answered}`}>답변완료</div> :
-      <div className={`${style.tag} ${style.wait}`}>대기중</div>
-  }
-
   const item = props.item;
   return (
     <div className={style.card} onClick={() => props.onClickItem(item.id)}>
@@ -27,13 +17,11 @@ export const BoardListItem = (props: Props) => {
           {item.title}
           {isNew(item.createdAt) && <span className={style.newBadge}>NEW</span>}
         </div>
-        <div className={style.date}>{`${item.createdAt}, ${item.category}`}
-          {!hideUsername ? `, ${item.userName}` : null}
-          {item.shared ? ', 개발팀 수정 가능' : null}
+        <div className={style.date}>{`${item.createdAt}`}
+          {item.userName}
         </div>
       </div>
       <Space/>
-      {renderAnswerStateLabel(item)}
     </div>
   )
 }

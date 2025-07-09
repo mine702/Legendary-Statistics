@@ -8,7 +8,6 @@
   padding: 50px 0;
 
   .reactive-container {
-    flex: 1;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -67,7 +66,7 @@
         background-color: var(--fill-color-1);
         border-radius: 10px;
         padding: 20px;
-        min-height: 600px;
+        height: auto;
       }
     }
   }

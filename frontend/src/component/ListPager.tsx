@@ -1,19 +1,19 @@
 import style from "./ListPager.module.scss";
-import {PageResponse} from "../server/pager";
 import {IconButton} from "./simple/IconButton.tsx";
 import LeftIcon from "../assets/icons/left.svg";
 import RightIcon from "../assets/icons/right.svg";
+import {PagedContent} from "../server/pager.ts";
 
 interface Props {
   page: number;
-  pageItem: PageResponse<any> | undefined;
+  pageItem: PagedContent<any> | undefined;
   onChangePage: (page: number) => void;
 }
 
 export const ListPager = (props: Props) => {
-  if (!props.pageItem?.data) return null;
+  if (!props.pageItem) return null;
 
-  const {first, last, totalPages} = props.pageItem.data;
+  const {first, last, totalPages} = props.pageItem;
 
   const goToPrevPage = () => {
     if (!first) props.onChangePage(props.page - 1);
