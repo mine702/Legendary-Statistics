@@ -38,7 +38,7 @@ jobs:
             docker build -t mine0702/legendary-frontend .
 
             echo "✅ docker-compose 재시작"
-            cd /home/mine/service/Legendary-Statistics
+            cd /home/mine/service
             echo "✅ 기존 컨테이너 정리"
             docker rm -f backend frontend || true
 
