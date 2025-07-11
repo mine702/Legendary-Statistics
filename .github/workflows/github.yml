@@ -11,25 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔍 GitHub Secrets 디버깅
-        run: |
-          echo "✅ EC2_HOST 확인:"
-          echo "${{ secrets.EC2_HOST }}"
-
-          echo "✅ EC2_USER 확인:"
-          echo "${{ secrets.EC2_USER }}"
-
-          echo "✅ EC2_KEY 길이 (줄 수):"
-          echo "${{ secrets.EC2_KEY }}" | wc -l
-
-          echo "✅ EC2_KEY 첫 줄:"
-          echo "${{ secrets.EC2_KEY }}" | head -n 1
-
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ${{ secrets.EC2_USER }} # ex: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
             echo "✅ 프로젝트 디렉토리 이동"
@@ -52,7 +38,7 @@ jobs:
             docker build -t mine0702/legendary-frontend .
 
             echo "✅ docker-compose 재시작"
-            cd /home/mine/service
+            cd /home/mine/service/Legendary-Statistics
             echo "✅ 기존 컨테이너 정리"
             docker rm -f backend frontend || true
 
@@ -61,3 +47,4 @@ jobs:
 
             echo "✅ docker-compose 재시작"
             docker-compose up -d
+
