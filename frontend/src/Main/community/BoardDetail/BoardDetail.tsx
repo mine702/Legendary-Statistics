@@ -12,7 +12,6 @@ import axios from "axios";
 import {showToastOnError, showToastOnErrorP1} from "../../../util/errorParser.ts";
 import {toast} from "react-toastify";
 import {isImage} from "../../../util/fileNameParser.ts";
-import {MultiFileUploader} from "../../../component/MultiFileUploader.tsx";
 import dayts from "../../../util/dayts.ts";
 import closeIcon from "../../../assets/icons/close.svg";
 import {showConfirmToast} from "../../../component/simple/ConfirmToast.tsx";
@@ -113,9 +112,6 @@ export const BoardDetail = () => {
       </div>
       {data.files.length > 0 && <>
           <h4 className="no-margin">첨부파일</h4>
-          <div>
-              <MultiFileUploader value={data.files} disabled={true}/>
-          </div>
       </>}
       {
         data.files.map((file, index) => (

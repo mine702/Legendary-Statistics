@@ -31,7 +31,7 @@
   .content {
     border-radius: 5px;
     background-color: var(--fill-color-1);
-    min-height: 200px;
+    min-height: 50px;
     font-size: 14px;
     color: var(--font-color-semi-light);
     margin-top: 10px;
@@ -42,7 +42,7 @@
 
   .image {
     max-width: 100%;
-    border: 1px solid #dddddd;
+    border: none;
     margin: 5px 0;
   }
 
