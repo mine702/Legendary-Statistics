@@ -12,7 +12,6 @@ import axios from "axios";
 import {showToastOnError, showToastOnErrorP1} from "../../../util/errorParser.ts";
 import {toast} from "react-toastify";
 import {isImage} from "../../../util/fileNameParser.ts";
-import {requestURL} from "../../../config.ts";
 import {MultiFileUploader} from "../../../component/MultiFileUploader.tsx";
 import dayts from "../../../util/dayts.ts";
 import closeIcon from "../../../assets/icons/close.svg";
@@ -40,7 +39,7 @@ export const BoardDetail = () => {
       onConfirm: onConfirmDelete
     });
   };
-  
+
   const onConfirmDelete = showToastOnError(async () => {
     await axios.delete(`board/${initId}`)
     toast.success("게시글이 삭제되었습니다.");
@@ -122,7 +121,7 @@ export const BoardDetail = () => {
         data.files.map((file, index) => (
           <div key={index}>
             {isImage(file.actualFileName) ?
-              <img src={`${requestURL}/file/${file.id}`} alt="첨부 이미지" className={style.image}/> : null}
+              <img src={`/uploads/${file.path}`} alt="첨부 이미지" className={style.image}/> : null}
           </div>
         ))
       }
