@@ -28,6 +28,7 @@ export interface GetBoardListRes {
 export interface GetFileRes {
   id: number;
   actualFileName: string;
+  path: string;
   size: number;
 }
 

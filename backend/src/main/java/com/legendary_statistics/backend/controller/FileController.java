@@ -46,6 +46,6 @@ public class FileController {
     @PostMapping("/upload/board")
     @PreAuthorize("authenticated")
     public ResponseEntity<?> uploadFilePublic(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
-        return response.success(fileService.uploadFile(file, principal));
+        return response.success(fileService.uploadBoardFile(file, principal));
     }
 }

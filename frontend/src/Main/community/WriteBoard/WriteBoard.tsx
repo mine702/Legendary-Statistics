@@ -6,7 +6,6 @@ import {toast} from "react-toastify";
 import {showToastOnError} from "../../../util/errorParser.ts";
 import {useLocation, useNavigate, useParams} from "react-router";
 import {GetFileRes, GetMultiBoardRes, PostMultiBoardReq} from "../../../server/dto/board.ts";
-import {requestURL} from "../../../config.ts";
 import {MultiFileUploader} from "../../../component/MultiFileUploader.tsx";
 import {isImage} from "../../../util/fileNameParser.ts";
 import {checkIsAuthenticated, parseJWT} from "../../../util/loginManager.ts";
@@ -134,7 +133,7 @@ export const WriteBoard = () => {
           {form.files.map((file) => (
             <div key={file.id} className={style.fileItem}>
               {file && isImage(file.actualFileName) ?
-                <img src={`${requestURL}/file/${file.id}`} alt="첨부 이미지" className={style.image}/> : null}
+                <img src={`/uploads${file.path}`} alt="첨부 이미지" className={style.image}/> : null}
             </div>
           ))}
         </div>

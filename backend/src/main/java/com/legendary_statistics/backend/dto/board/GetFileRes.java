@@ -9,12 +9,14 @@ import lombok.Setter;
 public class GetFileRes {
     private long id;
     private String actualFileName;
+    private String path;
     private Long size;
 
     @Builder
-    public GetFileRes(long id, String actualFileName, Long size) {
+    public GetFileRes(long id, String actualFileName, String path, Long size) {
         this.id = id;
         this.actualFileName = actualFileName;
+        this.path = path;
         this.size = size;
     }
 }

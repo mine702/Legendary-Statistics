@@ -135,7 +135,7 @@ public class FileService {
         }
     }
 
-    public GetFileRes uploadFile(MultipartFile file, Principal principal) throws IOException {
+    public GetFileRes uploadBoardFile(MultipartFile file, Principal principal) throws IOException {
         long userId = JwtAuthentication.getUserId(principal);
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         LocalDate today = LocalDate.now();
@@ -150,7 +150,7 @@ public class FileService {
         String fileName = file.getOriginalFilename() + UUID.randomUUID();
 
         Path saveAbsolutePath = Path.of(saveAbsolutePathWithoutFileName.toString(), fileName);
-        Path saveRelativePath = Path.of(dailyPath.toString(), fileName);
+        Path saveRelativePath = Path.of("board", dailyPath.toString(), fileName);
 
         new File(saveAbsolutePathWithoutFileName.toString()).mkdirs();
         Files.copy(file.getInputStream(), saveAbsolutePath);
@@ -168,6 +168,7 @@ public class FileService {
         return GetFileRes.builder()
                 .id(save.getId())
                 .actualFileName(save.getActualFileName())
+                .path(save.getPath())
                 .size(save.getSize())
                 .build();
     }

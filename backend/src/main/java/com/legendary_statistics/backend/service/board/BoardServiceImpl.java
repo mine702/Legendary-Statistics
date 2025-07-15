@@ -94,6 +94,7 @@ public class BoardServiceImpl implements BoardService {
                     return GetFileRes.builder()
                             .id(file.getId())
                             .actualFileName(file.getActualFileName())
+                            .path(file.getPath())
                             .size(file.getSize())
                             .build();
                 })
