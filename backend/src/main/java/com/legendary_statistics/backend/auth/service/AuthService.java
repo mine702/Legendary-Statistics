@@ -10,7 +10,6 @@ import com.legendary_statistics.backend.global.exception.user.UserNotFoundExcept
 import com.legendary_statistics.backend.repository.token.TokenRepository;
 import com.legendary_statistics.backend.repository.user.UserRepository;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenConfigure jwtTokenConfigure;
 
-    public void authByEmail(AuthReq authReq, HttpServletResponse response, HttpServletRequest request) {
+    public void authByEmail(AuthReq authReq, HttpServletResponse response) {
         if (authReq.getEmail() == null)
             throw new UserNotFoundException();
 
@@ -44,20 +43,13 @@ public class AuthService {
                 !authReq.getPassword().equals("PDssj$n1EOcWauVfM"))
             throw new PassWordIncorrectException();
 
-        provideToken(user, response, request);
+        provideToken(user, response);
     }
 
     /**
      * http 헤더에 accessToken과 refreshToken을 등록합니다.
      */
-    public void provideToken(UserEntity user, HttpServletResponse response, HttpServletRequest request) {
-
-        String serverName = request.getServerName();
-        String origin = request.getHeader("Origin");
-        log.info(serverName);
-        log.info(origin);
-        boolean isProdDomain = serverName != null && serverName.endsWith("tftmeta.co.kr");
-
+    public void provideToken(UserEntity user, HttpServletResponse response) {
         TokenEntity token;
         if (jwtTokenConfigure.isAllowMultiLogin()) {
             token = new TokenEntity();
@@ -75,16 +67,13 @@ public class AuthService {
         Cookie accessToken = new Cookie("accessToken", jwt.createToken(user));
         accessToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
         accessToken.setDomain("tftmeta.co.kr");
-
         accessToken.setPath("/");
 
         response.addCookie(accessToken);
         Cookie refreshToken = new Cookie("refreshToken", token.getRefreshToken());
         refreshToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
         refreshToken.setDomain("tftmeta.co.kr");
-
         refreshToken.setPath("/");
-
 
         response.addCookie(refreshToken);
     }
