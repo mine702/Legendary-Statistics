@@ -2,7 +2,7 @@ FROM node:alpine AS build-stage
 
 RUN npm install -g pnpm
 
-ENV VITE_REQUEST_URL=https://api.tftmeta.co.kr/api
+ENV VITE_REQUEST_URL=https://tftmeta.co.kr/api
 
 WORKDIR /app
 

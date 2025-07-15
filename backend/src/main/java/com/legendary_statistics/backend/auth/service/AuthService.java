@@ -66,13 +66,11 @@ public class AuthService {
 
         Cookie accessToken = new Cookie("accessToken", jwt.createToken(user));
         accessToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
-        accessToken.setDomain("tftmeta.co.kr");
         accessToken.setPath("/");
 
         response.addCookie(accessToken);
         Cookie refreshToken = new Cookie("refreshToken", token.getRefreshToken());
         refreshToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
-        refreshToken.setDomain("tftmeta.co.kr");
         refreshToken.setPath("/");
 
         response.addCookie(refreshToken);

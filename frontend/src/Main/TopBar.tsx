@@ -23,8 +23,8 @@ export const TopBar = () => {
   const onClickLogout = () => {
     //로그아웃 요청
     const cookie = new Cookies();
-    cookie.remove("accessToken", {path: "/", domain: "tftmeta.co.kr"});
-    cookie.remove("refreshToken", {path: "/", domain: "tftmeta.co.kr"});
+    cookie.remove("accessToken", {path: "/"});
+    cookie.remove("refreshToken", {path: "/"});
     window.location.reload();
   }
 
