@@ -38,8 +38,8 @@ services:
     image: mine0702/legendary-frontend
     restart: unless-stopped
     container_name: frontend
-    expose:
-      - "3000"
+    ports: 
+      - "3000:3000"
     stdin_open: true
     volumes:
       - /home/mine/service/image:/uploads
