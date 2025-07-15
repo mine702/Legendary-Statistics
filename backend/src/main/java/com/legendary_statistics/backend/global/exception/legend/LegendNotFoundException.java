@@ -8,6 +8,7 @@ public class LegendNotFoundException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public LegendNotFoundException() {
+        super(ErrorCode.LEGEND_NOT_FOUND.getMessage());
         this.errorCode = ErrorCode.LEGEND_NOT_FOUND;
     }
 }

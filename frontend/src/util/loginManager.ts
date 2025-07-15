@@ -3,10 +3,11 @@ import {jwtDecode} from "jwt-decode";
 
 export interface JWT {
   sub: string,
-  name?: string,
   admin?: true,
+  user?: true,
+  name?: string,
   email?: string,
-  hashcode?: string
+  profilePictureFileId?: number;
 }
 
 export const parseJWT = (): JWT => {

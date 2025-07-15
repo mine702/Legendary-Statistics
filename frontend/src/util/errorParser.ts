@@ -12,14 +12,23 @@ export const parseErrorMessageToOneLine = (e: any): string => {
       else return "알 수 없는 에러입니다."
     }
 
+    if (e.response.status === 400) {
+      try {
+        const parsed = parseValidationMessage(e);
+        return parsed.length > 0 ? parsed[0].message : "검증에 실패했습니다.";
+      } catch (err) {
+        return (err as Error).message;
+      }
+    }
+
     if (e.response.status === 403) return "권한이 없습니다."
     if (e.response.status === 500) return "서버 에러입니다. 잠시 후 다시 시도해주세요."
 
-    const detail = e.response.data.detail
-    if (!Array.isArray(detail)) return e.response.data.msg;
+    const errors = e.response.data
+    if (!Array.isArray(errors)) return errors.message;
 
-    if (detail.length == 0) return "검증에 실패했습니다.";
-    return detail[0].msg;
+    if (errors.length == 0) return "검증에 실패했습니다.";
+    return errors[0].msg;
   } catch (e) {
     console.log(e)
     return "알 수 없는 에러입니다."

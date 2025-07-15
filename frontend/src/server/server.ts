@@ -7,7 +7,7 @@ import {GetLegendListRes} from "./dto/legend.ts";
 import {GetTreasureRes} from "./dto/treasure.ts";
 import {GetProbabilityGroupRes} from "./dto/probability.ts";
 import {GetRateRes} from "./dto/rate.ts";
-import {GetBoardListRes} from "./dto/board.ts";
+import {GetBoardCategoryRes, GetBoardCommentRes, GetBoardListRes, GetBoardRes} from "./dto/board.ts";
 import {PagedContent} from "./pager.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
@@ -47,7 +47,7 @@ export const useSWRGetRateList = () => {
 }
 
 // 내 보드 리스트 불러오기
-export const useSWRMyBoardList = (page: number, category: string, keyword?: string) => {
+export const useSWRBoardList = (page: number, category: string, keyword?: string) => {
   const params = new URLSearchParams();
   params.set('category', category);
   params.set('page', String(page));
@@ -58,3 +58,26 @@ export const useSWRMyBoardList = (page: number, category: string, keyword?: stri
   return useSWR<PagedContent<GetBoardListRes>>(`/board/list?${params.toString()}`, defaultFetchAxios);
 };
 
+export const useSWRGetMyBoardList = (page: number, keyword?: string) => {
+  const params = new URLSearchParams();
+  params.set('page', String(page));
+  params.set('size', '10');
+  if (keyword) params.set('keyword', keyword);
+  return useSWR<PagedContent<GetBoardListRes>>(`/board/my-list?${params.toString()}`, defaultFetchAxios);
+}
+
+export const useSWRGetLastTimeBoard = () => {
+  return useSWR<{ [index: string]: string }>(`/board/last-time-inquiry`, defaultFetchAxios)
+}
+
+export const useSWRBoardCategories = () => {
+  return useSWR<GetBoardCategoryRes[]>(`/board/categories`, defaultFetchAxios);
+}
+
+export const useSWRGetBoardDetail = (id: number) => {
+  return useSWR<GetBoardRes>(`/board/detail/${id}`, defaultFetchAxios);
+}
+
+export const useSWRGetBoardCommentList = (boardId: number) => {
+  return useSWR<GetBoardCommentRes[]>(`/board/comment/${boardId}`, defaultFetchAxios)
+}

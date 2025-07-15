@@ -40,7 +40,7 @@ export const TopBar = () => {
   return (
     <div className={style.root}>
       <div className={style.titleBtn} onClick={() => navigate('/home')}>
-        <img className={style.logo} src={topBarLogo as string} alt="wiztim"/>
+        <img className={style.logo} src={topBarLogo as string} alt="logo"/>
       </div>
       <div style={{marginLeft: "30px"}}/>
       <Space/>

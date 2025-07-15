@@ -1,11 +1,15 @@
 package com.legendary_statistics.backend.global.handler;
 
+import com.legendary_statistics.backend.global.exception.board.BoardNotFoundException;
+import com.legendary_statistics.backend.global.exception.file.FileNotFoundException;
 import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.probabilityGroup.ProbabilityGroupNotFoundException;
 import com.legendary_statistics.backend.global.exception.standard.DuplicationException;
+import com.legendary_statistics.backend.global.exception.standard.ForbiddenException;
 import com.legendary_statistics.backend.global.exception.treasure.TreasureNotFoundException;
+import com.legendary_statistics.backend.global.exception.user.PassWordIncorrectException;
 import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -89,6 +93,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode(), e.getMessage());
     }
 
+    /**
+     * 파일을 찾지 못하였을때 뜨는 예외
+     */
+    @ExceptionHandler(FileNotFoundException.class)
+    protected ResponseEntity<?> handle(FileNotFoundException e) {
+        log.error("FileNotFoundException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    /**
+     * 게시판을 찾지 못하였을때 뜨는 예외
+     */
+    @ExceptionHandler(BoardNotFoundException.class)
+    protected ResponseEntity<?> handle(BoardNotFoundException e) {
+        log.error("BoardNotFoundException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    protected ResponseEntity<?> handle(ForbiddenException e) {
+        log.error("ForbiddenException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(PassWordIncorrectException.class)
+    protected ResponseEntity<?> handle(PassWordIncorrectException e) {
+        log.error("PassWordIncorrectException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    /**
+     * 유효성 검사 실패시 발생하는 예외
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

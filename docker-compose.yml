@@ -42,7 +42,7 @@ services:
       - "3000"
     stdin_open: true
     volumes:
-      - /home/ubuntu/service/image:/uploads
+      - /home/mine/service/image:/uploads
   
   backend:
     image: mine0702/legendary-backend

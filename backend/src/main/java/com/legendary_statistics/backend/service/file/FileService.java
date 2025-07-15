@@ -3,13 +3,21 @@ package com.legendary_statistics.backend.service.file;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.legendary_statistics.backend.auth.config.JwtAuthentication;
+import com.legendary_statistics.backend.config.LegendaryConfigure;
+import com.legendary_statistics.backend.dto.board.GetFileRes;
+import com.legendary_statistics.backend.entity.FileEntity;
 import com.legendary_statistics.backend.entity.FileLegendEntity;
 import com.legendary_statistics.backend.entity.LegendEntity;
+import com.legendary_statistics.backend.entity.UserEntity;
 import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
+import com.legendary_statistics.backend.global.exception.user.UserNotFoundException;
 import com.legendary_statistics.backend.repository.file.FileLegendRepository;
+import com.legendary_statistics.backend.repository.file.FileRepository;
 import com.legendary_statistics.backend.repository.kind.KindRepository;
 import com.legendary_statistics.backend.repository.legend.LegendRepository;
+import com.legendary_statistics.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +28,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,9 +44,12 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class FileService {
 
+    private final LegendaryConfigure configure;
+    private final UserRepository userRepository;
     private final LegendRepository legendRepository;
     private final KindRepository kindRepository;
     private final FileLegendRepository fileLegendRepository;
+    private final FileRepository fileRepository;
     private final ObjectMapper objectMapper;
 
     public void uploadLegend() {
@@ -117,5 +133,42 @@ public class FileService {
 
             zos.closeEntry();
         }
+    }
+
+    public GetFileRes uploadFile(MultipartFile file, Principal principal) throws IOException {
+        long userId = JwtAuthentication.getUserId(principal);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        LocalDate today = LocalDate.now();
+
+        Path dailyPath = Path.of(
+                Integer.toString(today.getYear()),
+                Integer.toString(today.getMonth().getValue()),
+                Integer.toString(today.getDayOfMonth())
+        );
+
+        Path saveAbsolutePathWithoutFileName = Path.of(configure.getFileUploadPath(), dailyPath.toString());
+        String fileName = file.getOriginalFilename() + UUID.randomUUID();
+
+        Path saveAbsolutePath = Path.of(saveAbsolutePathWithoutFileName.toString(), fileName);
+        Path saveRelativePath = Path.of(dailyPath.toString(), fileName);
+
+        new File(saveAbsolutePathWithoutFileName.toString()).mkdirs();
+        Files.copy(file.getInputStream(), saveAbsolutePath);
+
+        FileEntity fileEntity = FileEntity.builder()
+                .userEntity(userEntity)
+                .actualFileName(file.getOriginalFilename())
+                .size(file.getSize())
+                .path(saveRelativePath.toString())
+                .uploadAt(today)
+                .build();
+
+        FileEntity save = fileRepository.save(fileEntity);
+
+        return GetFileRes.builder()
+                .id(save.getId())
+                .actualFileName(save.getActualFileName())
+                .size(save.getSize())
+                .build();
     }
 }

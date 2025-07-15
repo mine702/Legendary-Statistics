@@ -33,10 +33,8 @@ export const EmailLogin = () => {
 
   const onClickLogin = showToastOnError(async () => {
     await axios.post("/auth", req)
-
     if (saveId) setSavedId(req.email);
     else setSavedId("");
-
     navigate("/main")
   });
 

@@ -38,6 +38,5 @@ export const RouterSwitchTransition = (props: Props) => {
         </div>
       </CSSTransition>
     </SwitchTransition>
-
   )
 }

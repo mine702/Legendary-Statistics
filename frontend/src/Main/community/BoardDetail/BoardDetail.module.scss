@@ -31,8 +31,7 @@
   .content {
     border-radius: 5px;
     background-color: var(--fill-color-1);
-    min-height: 300px;
-
+    min-height: 200px;
     font-size: 14px;
     color: var(--font-color-semi-light);
     margin-top: 10px;
@@ -45,36 +44,6 @@
     max-width: 100%;
     border: 1px solid #dddddd;
     margin: 5px 0;
-  }
-
-  .answer {
-    font-size: 14px;
-    color: var(--font-color-light);
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: left;
-    white-space: pre-wrap;
-  }
-
-  .tag {
-    border-radius: 3px;
-    padding: 2px 7px;
-    height: fit-content;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--fill-color-4);
-    color: var(--font-color-light);
-
-    &.answered {
-      background-color: var(--intense-color);
-      color: white;
-    }
-
-    &.wait {
-      background-color: var(--fill-color-4);
-      color: var(--font-color-light);
-    }
   }
 
   .comment {
@@ -93,19 +62,22 @@
 
     .comment-input {
       flex: 1;
-      height: 45px;
+      height: 25px;
       padding: 10px;
       border: 1px solid var(--card-border-color);
       border-radius: 5px;
+      background-color: var(--fill-color-2);
       resize: none;
     }
 
     .comment-button {
-      background-color: var(--intense-color);
+      background-color: var(--button-color);
       color: white;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
       white-space: nowrap;
+      padding: 5px 10px;
     }
 
     .comment-list {
@@ -121,26 +93,39 @@
 
         .comment-header {
           display: flex;
-          justify-content: space-between; /* 사용자 이름과 작성 시간을 양쪽 끝에 배치 */
+          justify-content: space-between;
           align-items: center;
-          margin-bottom: 5px; /* 사용자와 내용 간 여백 */
-        }
+          margin-bottom: 5px;
 
-        .comment-user {
-          font-weight: bold;
-          font-size: 14px;
-          color: var(--font-color-dark);
-        }
+          .comment-user {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--font-color-dark);
+          }
 
-        .created-at {
-          font-size: 12px;
-          color: var(--font-color-light);
-        }
+          .right-area {
+            display: flex;
+            align-items: center;
+            gap: 8px; // 시간과 X 버튼 간격
 
-        .comment-content {
-          font-size: 14px;
-          color: var(--font-color-semi-light);
-          margin-top: 5px;
+            .created-at {
+              font-size: 12px;
+              color: var(--font-color-light);
+            }
+
+            .close-icon {
+              width: 16px;
+              height: 16px;
+              cursor: pointer;
+              opacity: 0.6;
+              transition: opacity 0.2s ease;
+              filter: var(--red-color-filter);
+
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
         }
       }
     }
@@ -149,5 +134,15 @@
   .button-area {
     margin-top: 10px;
     text-align: right;
+
+    button {
+      background-color: var(--button-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 5px 10px;
+    }
   }
 }

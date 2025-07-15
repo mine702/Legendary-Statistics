@@ -1,0 +1,23 @@
+.root {
+  border: 2px solid #bbbbbb;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: 0.3s all;
+  cursor: pointer;
+  
+  &.checked{
+    background-color: var(--intense-color-bright);
+  }
+  
+  .checked-icon{
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+  }
+}

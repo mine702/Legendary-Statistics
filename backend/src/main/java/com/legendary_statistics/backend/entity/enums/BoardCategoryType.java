@@ -1,9 +1,18 @@
 package com.legendary_statistics.backend.entity.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum BoardCategoryType {
-    NOTICE,
-    LEGEND,
-    FREE;
+    NOTICE("공지사항"),
+    LEGEND("신규 전설이"),
+    FREE("자유게시판");
+
+    private final String displayName;
+
+    BoardCategoryType(String displayName) {
+        this.displayName = displayName;
+    }
 
     public static BoardCategoryType fromApiName(String apiName) {
         if (apiName != null) {

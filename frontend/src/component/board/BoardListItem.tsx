@@ -17,11 +17,15 @@ export const BoardListItem = (props: Props) => {
           {item.title}
           {isNew(item.createdAt) && <span className={style.newBadge}>NEW</span>}
         </div>
-        <div className={style.date}>{`${item.createdAt}`}
-          {item.userName}
+        <div className={style.date}>
+          {` ${item.createdAt} `}
+          {` ${item.userName} `}
         </div>
       </div>
       <Space/>
+      <div className={style.comment}>
+        {item.commentCount > 0 ? `${item.commentCount} 개의 댓글` : "댓글 없음"}
+      </div>
     </div>
   )
 }

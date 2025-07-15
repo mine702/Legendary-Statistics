@@ -8,6 +8,7 @@ public class JsonFileRuntimeException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public JsonFileRuntimeException() {
+        super(ErrorCode.JSON_PARSE_ERROR.getMessage());
         this.errorCode = ErrorCode.JSON_PARSE_ERROR;
     }
 }

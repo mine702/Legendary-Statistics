@@ -1,35 +1,32 @@
 import style from "./BoardDetail.module.scss"
 import {useNavigate, useParams} from "react-router";
 import {
-  useSWRGetInquiryCommentList,
-  useSWRGetLastTimeInquiry,
-  useSWRInquiryCategories,
-  useSWRMyInquiry,
-  useSWRUserSettings
-} from "../../../../../server/server.ts";
-import {parseJWT} from "../../../../../util/loginManager.ts";
-import {useContext, useState} from "react";
-import {PopupContext} from "../../../../../context/PopupContext.ts";
-import {ConfirmPopup} from "../../../../../component/popup/ConfirmPopup.tsx";
+  useSWRBoardCategories,
+  useSWRGetBoardCommentList,
+  useSWRGetBoardDetail,
+  useSWRGetLastTimeBoard
+} from "../../../server/server.ts";
+import {parseJWT} from "../../../util/loginManager.ts";
+import {useState} from "react";
 import axios from "axios";
-import {showToastOnError} from "../../../../../util/errorParser.ts";
+import {showToastOnError, showToastOnErrorP1} from "../../../util/errorParser.ts";
 import {toast} from "react-toastify";
-import {isImage} from "../../../../../util/fileNameParser.ts";
-import {requestURL} from "../../../../../config.ts";
-import {MultiFileUploader} from "../../../../../component/MultiFileUploader.tsx";
-import dayjs from "dayjs";
+import {isImage} from "../../../util/fileNameParser.ts";
+import {requestURL} from "../../../config.ts";
+import {MultiFileUploader} from "../../../component/MultiFileUploader.tsx";
+import dayts from "../../../util/dayts.ts";
+import closeIcon from "../../../assets/icons/close.svg";
+import {showConfirmToast} from "../../../component/simple/ConfirmToast.tsx";
 
 export const BoardDetail = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const initId = parseInt(params.id);
-  const popupContext = useContext(PopupContext);
-  const {data} = useSWRMyInquiry(initId);
+  const initId = parseInt(params.id as string);
+  const {data} = useSWRGetBoardDetail(initId);
   const [commentText, setCommentText] = useState<string>("");
-  const {data: comments, mutate} = useSWRGetInquiryCommentList(initId);
-  const {data: userSettings} = useSWRUserSettings();
-  const {mutate: getLastTime} = useSWRGetLastTimeInquiry();
-  const {data: categoryInfo} = useSWRInquiryCategories();
+  const {data: comments, mutate} = useSWRGetBoardCommentList(initId);
+  const {mutate: getLastTime} = useSWRGetLastTimeBoard();
+  const {data: categoryInfo} = useSWRBoardCategories();
 
   const jwt = parseJWT();
 
@@ -38,26 +35,30 @@ export const BoardDetail = () => {
   }
 
   const onClickDelete = () => {
-    popupContext.addPopup(popupId =>
-      <ConfirmPopup message="정말로 삭제하시겠습니까?"
-                    onCancel={() => () => {
-                    }}
-                    onConfirm={onConfirmDelete} key={popupId} popupId={popupId}/>
-    )
-  }
-
+    showConfirmToast({
+      message: "정말 삭제하시겠습니까?",
+      onConfirm: onConfirmDelete
+    });
+  };
+  
   const onConfirmDelete = showToastOnError(async () => {
-    await axios.delete(`inquiry/${initId}`)
-    toast.success("문의가 삭제되었습니다.");
+    await axios.delete(`board/${initId}`)
+    toast.success("게시글이 삭제되었습니다.");
     navigate(-1);
     await getLastTime();
   });
 
+  const handleDeleteComment = showToastOnErrorP1(async (commentId: number) => {
+    await axios.delete(`board/comment/${commentId}`);
+    toast.success("댓글이 삭제되었습니다.");
+    await mutate();
+  });
+
   if (!data) return <div></div>
-  const targetCategoryInfo = categoryInfo[data.category];
+  const targetCategoryInfo = categoryInfo?.find(item => item.name === data.category)?.label ?? "";
 
   const onAddComment = showToastOnError(async () => {
-    await axios.post(`inquiry/comment`, {inquiryId: initId, comment: commentText});
+    await axios.post(`board/comment`, {boardId: initId, comment: commentText});
     setCommentText("");
     await mutate();
   });
@@ -70,17 +71,27 @@ export const BoardDetail = () => {
       <div key={index} className={style.commentItem}>
         <div className={style.commentHeader}>
           <span className={style.commentUser}>{comment.userName}</span>
-          <span
-            className={style.createdAt}>{dayjs(comment.createdAt).toKoreanDateTimeString(userSettings.timeDisplayFormat)}</span>
+          <div className={style.rightArea}>
+            <span className={style.createdAt}>{dayts(comment.createdAt).toKoreanDateString()}</span>
+            {jwt.sub === comment.userId.toString() && (
+              <img
+                src={closeIcon}
+                alt="삭제"
+                className={style.closeIcon}
+                onClick={() => handleDeleteComment(comment.id)}
+              />
+            )}
+          </div>
         </div>
-        <div className={style.commentContent}>{comment.comment}</div>
-      </div>)
+        <div className={style.commentContent}>{comment.content}</div>
+      </div>
+    )
   }
 
   return (
     <div className={style.root}>
-      <h1 style={{marginBottom: "40px"}}>
-        {targetCategoryInfo?.hideAnswer ? targetCategoryInfo?.displayTitle : "문의 기록"}</h1>
+      <h1 style={{marginBottom: "20px"}}>
+        {"게시글"}</h1>
       <div className={style.titleArea}>
         <div className={style.title}>{data.title}</div>
         <div>
@@ -93,16 +104,10 @@ export const BoardDetail = () => {
         </div>
         <div>
           <div className={style.subdataHeader}>분류</div>
-          {data.category} {data.shared ? "(개발팀 수정 가능)" : null}
+          {targetCategoryInfo}
         </div>
-        {!targetCategoryInfo?.hideAnswer && <div>
-            <div className={style.subdataHeader}>상태</div>
-          {data.answerAt != null ?
-            <div className={`${style.tag} ${style.answered}`}>답변완료</div> :
-            <div className={`${style.tag} ${style.wait}`}>대기중</div>}
-        </div>}
       </div>
-      <h3>{targetCategoryInfo?.hideAnswer ? "내용" : "질문 내용"}</h3>
+      <h3>내용</h3>
       <div className="horizontal-line"/>
       <div className={style.content}>
         {data.content}
@@ -121,41 +126,36 @@ export const BoardDetail = () => {
           </div>
         ))
       }
-      {!targetCategoryInfo?.hideAnswer && <div>
-          <h3>답변 내용</h3>
-          <div className="horizontal-line"/>
-        {data.answerAt == null ? <div>아직 답변이 없습니다. 잠시만 기다려주세요.</div> :
-          <div className={style.answer}>{data.answer}</div>}
-      </div>}
-      {!targetCategoryInfo?.prohibitComment && <div className={style.comment}>
-          <h3>댓글</h3>
-          <div className="horizontal-line"/>
-          <div className={style.commentInputWrapper}>
+      <div className={style.comment}>
+        <h3>댓글</h3>
+        <div className="horizontal-line"/>
+        <div className={style.commentInputWrapper}>
         <textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                onAddComment();
-              }
-            }}
-            placeholder="댓글을 입력하세요"
-            className={style.commentInput}
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              onAddComment();
+            }
+          }}
+          placeholder="댓글을 입력하세요"
+          className={style.commentInput}
         />
-              <button onClick={onAddComment} className={style.commentButton}>작성</button>
-          </div>
-          <div className={style.commentList}>
-            {renderCommentArea()}
-          </div>
-      </div>}
+          <button onClick={onAddComment} className={style.commentButton}>작성</button>
+        </div>
+        <div className={style.commentList}>
+          {renderCommentArea()}
+        </div>
+      </div>
 
       <div className={style.buttonArea}>
         <button onClick={() => navigate(-1)}>뒤로</button>
-        {(data.userId.toString() == jwt.sub || (data.shared && jwt.dev)) && <>
-            <button className="ml" onClick={onClickEdit}>수정</button>
-            <button className="ml" onClick={onClickDelete}>삭제</button>
-        </>}
+        {(data.userId.toString() == jwt.sub &&
+            <>
+                <button className="ml" onClick={onClickEdit}>수정</button>
+                <button className="ml" onClick={onClickDelete}>삭제</button>
+            </>)}
       </div>
     </div>
   )
