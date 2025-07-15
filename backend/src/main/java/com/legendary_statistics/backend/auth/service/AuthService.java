@@ -53,6 +53,9 @@ public class AuthService {
     public void provideToken(UserEntity user, HttpServletResponse response, HttpServletRequest request) {
 
         String serverName = request.getServerName();
+        String origin = request.getHeader("Origin");
+        log.info(serverName);
+        log.info(origin);
         boolean isProdDomain = serverName != null && serverName.endsWith("tftmeta.co.kr");
 
         TokenEntity token;
