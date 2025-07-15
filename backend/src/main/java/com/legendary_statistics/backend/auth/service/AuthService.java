@@ -13,6 +13,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class AuthService {
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenConfigure jwtTokenConfigure;
+    private final Environment environment;
 
     public void authByEmail(AuthReq authReq, HttpServletResponse response) {
         if (authReq.getEmail() == null)
@@ -67,10 +69,16 @@ public class AuthService {
         Cookie accessToken = new Cookie("accessToken", jwt.createToken(user));
         accessToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
         accessToken.setPath("/");
+
+        if (isProdProfile()) accessToken.setDomain(".tftmeta.co.kr");
+
         response.addCookie(accessToken);
         Cookie refreshToken = new Cookie("refreshToken", token.getRefreshToken());
         refreshToken.setMaxAge(jwtTokenConfigure.getRefreshTokenExpiryDays() * 24 * 60 * 60);
         refreshToken.setPath("/");
+
+        if (isProdProfile()) refreshToken.setDomain(".tftmeta.co.kr");
+
         response.addCookie(refreshToken);
     }
 
@@ -81,5 +89,9 @@ public class AuthService {
     public void deleteExpiredRefreshToken() {
         log.info("만료된 토큰 삭제 절차 실행");
         tokenRepository.deleteByExpireDateBefore(LocalDateTime.now());
+    }
+
+    private boolean isProdProfile() {
+        return List.of(environment.getActiveProfiles()).contains("prod");
     }
 }
