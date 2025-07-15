@@ -5,6 +5,7 @@ import com.legendary_statistics.backend.dto.user.FindPasswordReq;
 import com.legendary_statistics.backend.dto.user.SignUpByEmailReq;
 import com.legendary_statistics.backend.service.user.UserService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,9 @@ public class UserController {
 
     @PostMapping("/signup")
     @PreAuthorize("permitAll")
-    public void signUp(@RequestBody @Valid SignUpByEmailReq req, HttpServletResponse response) {
+    public void signUp(@RequestBody @Valid SignUpByEmailReq req, HttpServletResponse response, HttpServletRequest request) {
         userService.signUp(req, response);
-        authService.authByEmail(req.toAuthReq(), response);
+        authService.authByEmail(req.toAuthReq(), response, request);
     }
 
     @PostMapping("/find-password")
