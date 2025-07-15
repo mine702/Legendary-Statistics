@@ -35,8 +35,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<?> handle(Exception e) {
-        log.error("Exception = {}", e.getMessage());
-        return response.error(ErrorCode.GLOBAL_UNEXPECTED_ERROR, e.getMessage());
+        log.error("Exception", e);
+        return response.error(ErrorCode.GLOBAL_UNEXPECTED_ERROR);
     }
 
     /**
