@@ -28,4 +28,6 @@ public interface BoardService {
     void deleteBoard(Long boardId, Principal principal);
 
     Page<GetBoardListRes> getMyBoardList(Pageable pageable, String keyword, Principal principal);
+
+    void editBoard(PostBoardReq postBoardReq, Principal principal);
 }

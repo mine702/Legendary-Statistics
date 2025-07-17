@@ -40,6 +40,13 @@ public class BoardController {
         boardService.writeBoard(postBoardReq, principal);
     }
 
+    @PutMapping("/write")
+    @PreAuthorize("authenticated")
+    public void editBoard(@Valid @RequestBody PostBoardReq postBoardReq, Principal principal) {
+        boardService.editBoard(postBoardReq, principal);
+    }
+
+
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> getBoardDetail(@PathVariable Long id) {
         return response.success(boardService.getBoardDetail(id));

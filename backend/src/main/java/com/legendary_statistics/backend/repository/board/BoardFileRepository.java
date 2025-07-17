@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface BoardFileRepository extends JpaRepository<BoardFileEntity, Long> {
     List<BoardFileEntity> findAllByBoardEntity(BoardEntity boardEntity);
+
+    void deleteAllByBoardEntity(BoardEntity boardEntity);
 }
+

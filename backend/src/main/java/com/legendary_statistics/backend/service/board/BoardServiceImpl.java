@@ -83,6 +83,33 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
+    public void editBoard(PostBoardReq postBoardReq, Principal principal) {
+        long userId = JwtAuthentication.getUserId(principal);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        BoardEntity boardEntity = boardRepository.findById(postBoardReq.getId()).orElseThrow(BoardNotFoundException::new);
+        if (!boardEntity.getUserEntity().equals(userEntity)) throw new ForbiddenException();
+
+        boardEntity.setTitle(postBoardReq.getTitle());
+        boardEntity.setContent(postBoardReq.getContent());
+        boardEntity.setCategory(BoardCategoryType.fromApiName(postBoardReq.getCategory()));
+        boardRepository.save(boardEntity);
+
+        // 기존 파일 삭제
+        boardFileRepository.deleteAllByBoardEntity(boardEntity);
+        // 새 파일 추가
+        List<BoardFileEntity> boardFileEntities = new ArrayList<>();
+        fileRepository.findAllById(postBoardReq.getFileIds()).forEach(file ->
+                boardFileEntities.add(BoardFileEntity.builder()
+                        .boardEntity(boardEntity)
+                        .fileEntity(file)
+                        .build())
+        );
+        boardFileRepository.saveAll(boardFileEntities);
+    }
+
+    @Override
     public GetBoardRes getBoardDetail(Long id) {
         BoardEntity boardEntity = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));

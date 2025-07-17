@@ -38,6 +38,7 @@ export const WriteBoard = () => {
   const jwt = parseJWT();
 
   const [form, setForm] = useState<PostBoardForm>({
+    id: 0,
     category: "",
     title: "",
     content: "",
@@ -61,6 +62,7 @@ export const WriteBoard = () => {
     const {title, content, category, files} = resData;
 
     setForm({
+      id: resData.id,
       title: title ?? "",
       content: content ?? "",
       category: category ?? "",
@@ -91,7 +93,7 @@ export const WriteBoard = () => {
       }
     }
     toast.success("게시글이 등록되었습니다.");
-    navigate("../freeboard");
+    navigate("../my-list");
   });
 
   return (

@@ -10,6 +10,7 @@ export interface GetMultiBoardRes {
 }
 
 export interface PostMultiBoardReq {
+  id: number;
   title: string;
   content: string;
   category: string;

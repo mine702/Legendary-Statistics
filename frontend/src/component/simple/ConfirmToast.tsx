@@ -9,26 +9,25 @@ export const showConfirmToast = ({message, onConfirm}: ConfirmToastProps) => {
   toast(({closeToast}: ToastContentProps) => (
     <div
       style={{
-        padding: "10px",
+        padding: "8px",
         fontSize: "14px",
-        lineHeight: "1.5",
-        minWidth: "200px",
+        lineHeight: "2",
+        minWidth: "250px",
         maxWidth: "400px",
+        gap: "8px",
       }}
     >
-      <div style={{margin: "10px 0px 16px 5px", color: "#444"}}>
-        {message}
-      </div>
+      <div style={{margin: "5px 0px 15px 10px", color: "#444"}}>{message}</div>
       <div
         style={{
           display: "flex",
           justifyContent: "flex-end",
-          gap: "4px",
+          gap: "6px",
         }}
       >
         <button
           style={{
-            padding: "6px 12px",
+            padding: "4px 10px",
             backgroundColor: "#4285f4",
             color: "white",
             border: "none",
@@ -45,7 +44,7 @@ export const showConfirmToast = ({message, onConfirm}: ConfirmToastProps) => {
         </button>
         <button
           style={{
-            padding: "6px 12px",
+            padding: "4px 10px",
             backgroundColor: "#ea4335",
             color: "white",
             border: "none",
@@ -65,7 +64,7 @@ export const showConfirmToast = ({message, onConfirm}: ConfirmToastProps) => {
     closeOnClick: false,
     closeButton: false,
     style: {
-      padding: 0,
+      padding: 0,            // toast 자체의 padding 제거
       borderRadius: "8px",
       width: "fit-content",
     },
