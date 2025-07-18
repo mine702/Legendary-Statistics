@@ -40,11 +40,12 @@ public class LegendEntity extends BaseEntity {
     private Boolean animation;
 
     @Builder
-    public LegendEntity(KindEntity kindEntity, FileLegendEntity fileLegendEntity, RateEntity rateEntity, String name, Boolean limited, Boolean animation) {
+    public LegendEntity(KindEntity kindEntity, FileLegendEntity fileLegendEntity, RateEntity rateEntity, String name, Integer star, Boolean limited, Boolean animation) {
         this.kindEntity = kindEntity;
         this.fileLegendEntity = fileLegendEntity;
         this.rateEntity = rateEntity;
         this.name = name;
+        this.star = star;
         this.limited = limited;
         this.animation = animation;
     }

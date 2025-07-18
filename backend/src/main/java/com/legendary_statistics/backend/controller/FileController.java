@@ -32,6 +32,11 @@ public class FileController {
         fileService.uploadKind();
     }
 
+    @PostMapping("/upload/CommunityDragon/legend")
+    public void uploadCommunityDragonLegend() throws Exception {
+        fileService.uploadCommunityDragonLegend();
+    }
+
     @PostMapping("/filter/CommunityDragon")
     public ResponseEntity<?> filterCommunityDragonJson(@RequestParam("file") MultipartFile file) {
         return response.success(ResponseCode.GET_JSON_SUCCESS, fileService.filterCommunityDragonJson(file));
@@ -41,6 +46,7 @@ public class FileController {
     public void filterCommunityDragonItemJson(@RequestParam("file") MultipartFile file) {
         gameItemsService.filterCommunityDragonItemJson(file);
     }
+
 
     @ResponseBody
     @PostMapping("/upload/board")

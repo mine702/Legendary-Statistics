@@ -13,6 +13,7 @@ import com.legendary_statistics.backend.entity.UserEntity;
 import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.user.UserNotFoundException;
+import com.legendary_statistics.backend.module.CommunityDragonImageDownload;
 import com.legendary_statistics.backend.repository.file.FileLegendRepository;
 import com.legendary_statistics.backend.repository.file.FileRepository;
 import com.legendary_statistics.backend.repository.kind.KindRepository;
@@ -51,6 +52,7 @@ public class FileService {
     private final FileLegendRepository fileLegendRepository;
     private final FileRepository fileRepository;
     private final ObjectMapper objectMapper;
+    private CommunityDragonImageDownload communityDragonImageDownload;
 
     public void uploadLegend() {
         List<LegendEntity> all = legendRepository.findAll();
@@ -171,5 +173,30 @@ public class FileService {
                 .path(save.getPath())
                 .size(save.getSize())
                 .build();
+    }
+
+    @Transactional
+    public void uploadCommunityDragonLegend() throws Exception {
+        List<FileLegendEntity> fileLegendEntities = communityDragonImageDownload.downloadAllImages(configure.getFileUploadPath() + "legend").stream()
+                .map(fileName -> FileLegendEntity.builder()
+                        .actualFileName(fileName)
+                        .path("uploads/legend/" + fileName)
+                        .build())
+                .toList();
+
+        fileLegendRepository.saveAll(fileLegendEntities);
+
+        for (FileLegendEntity fileLegendEntity : fileLegendEntities) {
+            log.info("file id = {}", fileLegendEntity.getId());
+
+            String[] parts = fileLegendEntity.getActualFileName().replace(".png", "").split("_");
+            LegendEntity.builder()
+                    .kindEntity(kindRepository.findByEn(parts[1]).orElse(null))
+                    .fileLegendEntity(fileLegendEntity)
+                    .rateEntity(null)
+                    .name(parts[2])
+                    .star(Integer.parseInt(parts[3].replace("tier", "")))
+                    .build();
+        }
     }
 }

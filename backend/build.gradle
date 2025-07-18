@@ -54,6 +54,9 @@ dependencies {
     implementation 'org.apache.poi:poi:5.4.0'
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
 
+    // HTML 파싱
+    implementation 'org.jsoup:jsoup:1.16.1'
+
     if (!project.hasProperty('profile') || !profile) {
         ext.profile = 'dev'
     }

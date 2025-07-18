@@ -19,12 +19,16 @@ public class KindEntity extends BaseEntity {
     @JoinColumn(name = "file_legend_id")
     private FileLegendEntity fileLegendEntity;
 
+    @Column(name = "en", nullable = false)
+    private String en;
+
     @Column(name = "name", nullable = false)
     private String name;
 
     @Builder
-    public KindEntity(FileLegendEntity fileLegendEntity, String name) {
+    public KindEntity(FileLegendEntity fileLegendEntity, String en, String name) {
         this.fileLegendEntity = fileLegendEntity;
+        this.en = en;
         this.name = name;
     }
 }
