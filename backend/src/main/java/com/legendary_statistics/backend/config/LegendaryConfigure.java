@@ -9,4 +9,5 @@ import org.springframework.stereotype.Component;
 @Data
 public class LegendaryConfigure {
     private String fileUploadPath;
+    private String fileLegendUploadPath;
 }

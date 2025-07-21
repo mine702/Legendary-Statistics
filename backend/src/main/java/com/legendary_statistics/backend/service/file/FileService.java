@@ -52,7 +52,6 @@ public class FileService {
     private final FileLegendRepository fileLegendRepository;
     private final FileRepository fileRepository;
     private final ObjectMapper objectMapper;
-    private CommunityDragonImageDownload communityDragonImageDownload;
 
     public void uploadLegend() {
         List<LegendEntity> all = legendRepository.findAll();
@@ -177,7 +176,9 @@ public class FileService {
 
     @Transactional
     public void uploadCommunityDragonLegend() throws Exception {
-        List<FileLegendEntity> fileLegendEntities = communityDragonImageDownload.downloadAllImages(configure.getFileUploadPath() + "legend").stream()
+        CommunityDragonImageDownload communityDragonImageDownload = new CommunityDragonImageDownload();
+
+        List<FileLegendEntity> fileLegendEntities = communityDragonImageDownload.downloadAllImages(configure.getFileLegendUploadPath()).stream()
                 .map(fileName -> FileLegendEntity.builder()
                         .actualFileName(fileName)
                         .path("uploads/legend/" + fileName)
@@ -186,17 +187,42 @@ public class FileService {
 
         fileLegendRepository.saveAll(fileLegendEntities);
 
+        List<LegendEntity> legendEntities = new LinkedList<>();
         for (FileLegendEntity fileLegendEntity : fileLegendEntities) {
             log.info("file id = {}", fileLegendEntity.getId());
 
-            String[] parts = fileLegendEntity.getActualFileName().replace(".png", "").split("_");
-            LegendEntity.builder()
-                    .kindEntity(kindRepository.findByEn(parts[1]).orElse(null))
-                    .fileLegendEntity(fileLegendEntity)
-                    .rateEntity(null)
-                    .name(parts[2])
-                    .star(Integer.parseInt(parts[3].replace("tier", "")))
-                    .build();
+            String[] parts = fileLegendEntity.getActualFileName()
+                    .replace(".png", "")
+                    .split("_");
+
+            int star = parseStarFromParts(parts);
+
+            legendEntities.add(
+                    LegendEntity.builder()
+                            .kindEntity(kindRepository.findByEn(parts[1]).orElse(null))
+                            .fileLegendEntity(fileLegendEntity)
+                            .rateEntity(null)
+                            .name(fileLegendEntity.getActualFileName())
+                            .star(star)
+                            .limited(false)
+                            .animation(false)
+                            .build()
+            );
         }
+
+        legendRepository.saveAll(legendEntities);
+    }
+
+    private int parseStarFromParts(String[] parts) {
+        String lastPart = parts[parts.length - 1];
+        if (lastPart.startsWith("tier")) {
+            try {
+                return Integer.parseInt(lastPart.replace("tier", ""));
+            } catch (NumberFormatException e) {
+                log.warn("tier 파싱 실패: {}", lastPart, e);
+                return 1;
+            }
+        }
+        return 1;
     }
 }
