@@ -214,15 +214,18 @@ public class FileService {
     }
 
     private int parseStarFromParts(String[] parts) {
-        String lastPart = parts[parts.length - 1];
-        if (lastPart.startsWith("tier")) {
-            try {
-                return Integer.parseInt(lastPart.replace("tier", ""));
-            } catch (NumberFormatException e) {
-                log.warn("tier 파싱 실패: {}", lastPart, e);
-                return 1;
+        for (String part : parts) {
+            if (part.startsWith("tier")) {
+                try {
+                    String number = part.replaceAll("[^0-9]", "");
+                    return Integer.parseInt(number);
+                } catch (NumberFormatException e) {
+                    log.warn("tier 파싱 실패: {}", part, e);
+                    return 1;
+                }
             }
         }
         return 1;
     }
+
 }
