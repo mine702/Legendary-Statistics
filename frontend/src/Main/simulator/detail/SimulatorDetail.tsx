@@ -21,8 +21,8 @@ export const SimulatorDetail = () => {
   };
 
   const formatProbability = (value: number) => {
-    const raw = Number(value);
-    return `${raw.toFixed(11)}%`; // 최대 10자리까지 보여줌 (필요하면 줄이자)
+    const raw = Number(value) * 100;
+    return `${raw.toFixed(11)} %`; // 최대 10자리까지 보여줌 (필요하면 줄이자)
   };
 
   return (

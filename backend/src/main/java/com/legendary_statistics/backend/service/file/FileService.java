@@ -181,7 +181,7 @@ public class FileService {
         List<FileLegendEntity> fileLegendEntities = communityDragonImageDownload.downloadAllImages(configure.getFileLegendUploadPath()).stream()
                 .map(fileName -> FileLegendEntity.builder()
                         .actualFileName(fileName)
-                        .path("uploads/legend/" + fileName)
+                        .path(configure.getFileLegendUploadPath() + fileName)
                         .build())
                 .toList();
 
