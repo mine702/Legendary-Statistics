@@ -36,6 +36,7 @@ public class ProbabilityServiceImpl implements ProbabilityService {
     public void saveProbabilityExcelData(List<GetExcelLegendReq> getExcelLegendReqs, Long treasureId) {
         TreasureEntity treasureEntity = treasureRepository.findById(treasureId).orElseThrow(TreasureNotFoundException::new);
 
+        
         List<ProbabilityEntity> probabilityEntities = new ArrayList<>();
 
         for (GetExcelLegendReq legend : getExcelLegendReqs) {

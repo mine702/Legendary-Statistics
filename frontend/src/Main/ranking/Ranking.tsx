@@ -1,9 +1,13 @@
-import style from "./Ranking.module.scss"
+// Simulator.tsx
+import {Route, Routes} from "react-router";
+import {RankingMain} from "./main/RankingMain.tsx";
+import {RankingVote} from "./vote/RankingVote.tsx"; // 기존 UI를 분리
 
 export const Ranking = () => {
   return (
-    <div className={style.root}>
-
-    </div>
-  )
-}
+    <Routes>
+      <Route path="/" element={<RankingMain/>}/>
+      <Route path="vote" element={<RankingVote/>}/>
+    </Routes>
+  );
+};

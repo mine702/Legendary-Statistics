@@ -8,6 +8,7 @@ const menuItems = [
   {label: "꼬마 전설이 랭킹", path: "/ranking"},
   {label: "실시간 통계", path: "/stats"},
   {label: "커뮤니티", path: "/community"},
+  {label: "신규 꼬마 전설이", path: "/inquiry"},
 ];
 
 export const NavBar = () => {

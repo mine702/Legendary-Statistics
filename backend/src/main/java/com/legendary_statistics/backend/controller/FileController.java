@@ -6,7 +6,6 @@ import com.legendary_statistics.backend.service.file.FileService;
 import com.legendary_statistics.backend.service.gameItems.GameItemsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,10 +46,8 @@ public class FileController {
         gameItemsService.filterCommunityDragonItemJson(file);
     }
 
-
     @ResponseBody
     @PostMapping("/upload/board")
-    @PreAuthorize("authenticated")
     public ResponseEntity<?> uploadFilePublic(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
         return response.success(fileService.uploadBoardFile(file, principal));
     }

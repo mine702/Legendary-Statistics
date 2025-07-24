@@ -21,6 +21,7 @@ import com.legendary_statistics.backend.repository.legend.LegendRepository;
 import com.legendary_statistics.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +53,21 @@ public class FileService {
     private final FileLegendRepository fileLegendRepository;
     private final FileRepository fileRepository;
     private final ObjectMapper objectMapper;
+
+    @Scheduled(cron = "0 0 0 1 * *")
+    public void deleteFiles() {
+        log.info("파일 삭제 절차 실행");
+
+        List<String> paths = fileRepository.findUnreferencedFilePaths();
+
+        for (String path : paths) {
+            File file = new File(path);
+            if (file.exists()) file.delete();
+        }
+
+        int deletedCount = fileRepository.deleteUnreferencedFiles();
+        log.info("삭제된 파일 수: {}", deletedCount);
+    }
 
     public void uploadLegend() {
         List<LegendEntity> all = legendRepository.findAll();
