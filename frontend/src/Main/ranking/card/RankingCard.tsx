@@ -1,4 +1,4 @@
-import style from "./TopRankingCard.module.scss";
+import style from "./RankingCard.module.scss";
 
 import gold from "../../../assets/img/medal/gold.png";
 import silver from "../../../assets/img/medal/silver.png";
@@ -10,7 +10,7 @@ interface Props {
   rank: number;
 }
 
-export const TopRankingCard = ({image, name, rank}: Props) => {
+export const RankingCard = ({image, name, rank}: Props) => {
   const medal = getMedalImage(rank);
 
   return (

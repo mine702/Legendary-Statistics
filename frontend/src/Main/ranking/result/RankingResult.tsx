@@ -1,6 +1,6 @@
 import style from "./RankingResult.module.scss";
 import {GetRankingRes} from "../../../server/dto/ranking.ts";
-import {TopRankingCard} from "../card/TopRankingCard.tsx";
+import {RankingCard} from "../card/RankingCard.tsx";
 
 interface Props {
   value: GetRankingRes[] | undefined;
@@ -22,7 +22,7 @@ export const RankingResult = (props: Props) => {
       {top3.length > 0 && (
         <div className={style.top}>
           {top3.length === 1 && (
-            <TopRankingCard
+            <RankingCard
               rank={top3[0].rank}
               image={top3[0].path}
               name={top3[0].name}
@@ -31,12 +31,12 @@ export const RankingResult = (props: Props) => {
 
           {top3.length === 2 && (
             <>
-              <TopRankingCard
+              <RankingCard
                 rank={top3[0].rank}
                 image={top3[0].path}
                 name={top3[0].name}
               />
-              <TopRankingCard
+              <RankingCard
                 rank={top3[1].rank}
                 image={top3[1].path}
                 name={top3[1].name}
@@ -47,21 +47,21 @@ export const RankingResult = (props: Props) => {
           {top3.length === 3 && (
             <>
               <div className={style.second}>
-                <TopRankingCard
+                <RankingCard
                   rank={2}
                   image={top3[1].path}
                   name={top3[1].name}
                 />
               </div>
               <div className={style.first}>
-                <TopRankingCard
+                <RankingCard
                   rank={1}
                   image={top3[0].path}
                   name={top3[0].name}
                 />
               </div>
               <div className={style.third}>
-                <TopRankingCard
+                <RankingCard
                   rank={3}
                   image={top3[2].path}
                   name={top3[2].name}
@@ -75,7 +75,7 @@ export const RankingResult = (props: Props) => {
       {/* 4등 이후 */}
       <div className={style.restList}>
         {rest.map((item) => (
-          <TopRankingCard
+          <RankingCard
             key={item.id}
             rank={item.rank}
             image={item.path}
