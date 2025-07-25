@@ -1,0 +1,31 @@
+.root {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  border: 2px solid var(--card-border-color);
+
+  .image {
+    width: 100%;
+  }
+
+  .medal {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20%;
+  }
+  
+  .info {
+    position: relative;
+    z-index: 1;
+    border-radius: 0 0 12px 12px;
+    padding: 8px 2px;
+    font-size: clamp(4px, 1.0vw, 12px);
+  }
+}
+

@@ -39,6 +39,7 @@ public class LegendEntity extends BaseEntity {
     @Column(name = "animation", nullable = false)
     private Boolean animation;
 
+    
     @Builder
     public LegendEntity(KindEntity kindEntity, FileLegendEntity fileLegendEntity, RateEntity rateEntity, String name, Integer star, Boolean limited, Boolean animation) {
         this.kindEntity = kindEntity;

@@ -25,8 +25,7 @@ public class BoardController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getBoardList(Pageable pageable, @RequestParam String category, @RequestParam(required = false) String keyword) {
-        Page<GetBoardListRes> boardList = boardService.getBoardList(pageable, category, keyword);
-        return response.pagination(boardList);
+        return response.pagination(boardService.getBoardList(pageable, category, keyword));
     }
 
     @GetMapping("/categories")

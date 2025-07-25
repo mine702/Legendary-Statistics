@@ -34,54 +34,49 @@
       }
     }
 
-    .headerText {
+    .selectContainer {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      max-width: 100%;
-      margin-top: 10px;
+      justify-content: space-between;;
 
-      .descriptionBox {
+      .paramsContainer {
         display: flex;
-        justify-content: center;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        padding: 20px 15px;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        gap: 6px;
       }
 
-      .textBox {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+      button {
+        background-color: var(--button-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 4px 10px;
 
-        .mainText {
-          font-size: clamp(10px, 1.7vw, 20px); // 최소 16px, 최대 22px
-          font-weight: bold;
-          line-height: 1.8;
-          color: white;
-          text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
-        }
-
-        .subText {
-          font-size: clamp(10px, 1.5vw, 18px); // 최소 14px, 최대 18px
-          font-weight: normal;
-          margin-top: 10px;
-          color: #EEEEEE;
-        }
+        font-size: clamp(8px, 1.2vw, 14px);
       }
+
+      select {
+        background-color: var(--fill-color-1);
+        border: 1px solid var(--card-border-color);
+        border-radius: 5px;
+        padding: 4px 5px;
+        cursor: pointer;
+        font-size: clamp(8px, 1.2vw, 14px);
+      }
+
+      input {
+        background-color: var(--fill-color-1);
+        border: 1px solid var(--card-border-color);
+        border-radius: 5px;
+        padding: 4px 5px;
+        cursor: pointer;
+        font-size: clamp(8px, 1.2vw, 14px);
+        width: 10vw;
+      }
+
     }
 
     .list-container {
-      gap: 20px;
-      padding: 20px 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      overflow: visible;
     }
   }
 }

@@ -22,11 +22,16 @@ export const useSearchParamState = <T>(searchParamList: [URLSearchParams, SetURL
 
   const setParam = (value: T) => {
     setURLSearchParams((prev) => {
-      prev.set(paramName, String(value));
+      if (value === undefined || value === null || value === "undefined") {
+        prev.delete(paramName);
+      } else {
+        prev.set(paramName, String(value));
+      }
       return prev;
     }, {replace: true});
     setState(value);
-  }
+  };
+
 
   return [state, setParam] as const;
 }

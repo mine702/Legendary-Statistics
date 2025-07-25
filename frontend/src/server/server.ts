@@ -9,6 +9,7 @@ import {GetProbabilityGroupRes} from "./dto/probability.ts";
 import {GetRateRes} from "./dto/rate.ts";
 import {GetBoardCategoryRes, GetBoardCommentRes, GetBoardListRes, GetBoardRes} from "./dto/board.ts";
 import {PagedContent} from "./pager.ts";
+import {GetRankingRes} from "./dto/ranking.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -81,3 +82,17 @@ export const useSWRGetBoardDetail = (id: number) => {
 export const useSWRGetBoardCommentList = (boardId: number) => {
   return useSWR<GetBoardCommentRes[]>(`/board/comment/${boardId}`, defaultFetchAxios)
 }
+
+export const useSWRRankingList = (page: number, kind?: number, limit?: boolean, rate?: number | undefined, year?: number | undefined, keyword?: string | undefined) => {
+  const params = new URLSearchParams();
+  params.set('page', String(page));
+  params.set('size', String(30));
+
+  if (kind) params.set('kind', String(kind));
+  if (limit) params.set('limit', String(limit));
+  if (rate) params.set('rate', String(rate));
+  if (year) params.set('year', String(year));
+  if (keyword) params.set('keyword', keyword);
+
+  return useSWR<PagedContent<GetRankingRes>>(`/ranking/list?${params.toString()}`, defaultFetchAxios);
+};
