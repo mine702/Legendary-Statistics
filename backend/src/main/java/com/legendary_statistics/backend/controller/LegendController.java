@@ -22,4 +22,6 @@ public class LegendController {
     public ResponseEntity<?> getLegendListByKind(@PathVariable long id) {
         return response.success(legendService.getLegendListByKind(id));
     }
+
+    
 }

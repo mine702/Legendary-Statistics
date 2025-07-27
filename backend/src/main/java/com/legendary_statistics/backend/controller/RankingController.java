@@ -28,4 +28,5 @@ public class RankingController {
             @RequestParam(required = false) String keyword) {
         return response.pagination(rankingService.getRanking(pageable, kind, limit, rate, year, keyword));
     }
+
 }
