@@ -1,3 +1,43 @@
 .root {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
 
+  .loading {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .container {
+    width: 60%;
+    max-width: 1500px;
+    padding: 40px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .headerWrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      width: auto;
+    }
+  }
 }

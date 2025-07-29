@@ -5,7 +5,6 @@ import {Redirect} from "../../component/Redirect.tsx";
 import {FreeBoard} from "./FreeBoard/FreeBoard.tsx";
 import {WriteBoard} from "./WriteBoard/WriteBoard.tsx";
 import {BoardDetail} from "./BoardDetail/BoardDetail.tsx";
-import {LegendBoard} from "./LegendBoard/LegendBoard.tsx";
 import {MyBoardList} from "./MyBoardList/MyBoardList.tsx";
 
 export const Community = () => {
@@ -25,9 +24,6 @@ export const Community = () => {
             <button className={`custom ${style.menuItem} ${getMatchPathStyle("notice")}`}
                     onClick={() => navigate("/community/notice")}>공지사항
             </button>
-            <button className={`custom ${style.menuItem} ${getMatchPathStyle("new-legend")}`}
-                    onClick={() => navigate("/community/new-legend")}>신규 전설이
-            </button>
             <button className={`custom ${style.menuItem} ${getMatchPathStyle("freeboard")}`}
                     onClick={() => navigate("/community/freeboard")}>자유게시판
             </button>
@@ -42,7 +38,6 @@ export const Community = () => {
             <Routes>
               <Route path="/notice" element={<NoticeBoard/>}/>
               <Route path="/freeboard" element={<FreeBoard/>}/>
-              <Route path="/new-legend" element={<LegendBoard/>}/>
               <Route path="/write" element={<WriteBoard/>}/>
               <Route path="/detail/:id" element={<BoardDetail/>}/>
               <Route path="/edit/:id" element={<WriteBoard/>}/>

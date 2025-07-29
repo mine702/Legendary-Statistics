@@ -16,15 +16,17 @@ export const NavBar = () => {
 
   return (
     <div className={style.root}>
-      {menuItems.map((item, index) => (
-        <button
-          key={index}
-          className={`${style.menuBtn} ${location.pathname.includes(item.path) ? style.active : ""}`}
-          onClick={() => navigate(item.path)}
-        >
-          {item.label}
-        </button>
-      ))}
+      <div className={style.container}>
+        {menuItems.map((item, index) => (
+          <button
+            key={index}
+            className={`${style.menuBtn} ${location.pathname.includes(item.path) ? style.active : ""}`}
+            onClick={() => navigate(item.path)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

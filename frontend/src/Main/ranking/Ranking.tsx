@@ -44,6 +44,7 @@ export const Ranking = () => {
     setRate(undefined);
     setYear(undefined);
     setKeyword(undefined);
+    setPage(0);
   };
 
   const onClickLimit = () => {

@@ -71,3 +71,34 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .root {
+    padding: 20px 0;
+
+    .reactive-container {
+
+      .container-inbox {
+        flex-direction: column;
+        gap: 10px;
+
+        .left-navigator {
+          display: flex;
+          width: auto;
+          margin: 0;
+          gap: 10px;
+
+          .menu-item {
+            width: auto;
+            margin: 0;
+          }
+        }
+
+        .content-area {
+          width: auto;
+        }
+      }
+    }
+  }
+
+}
