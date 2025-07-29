@@ -15,8 +15,8 @@
   .container {
     width: 60%;
     max-width: 1500px;
-    padding: 40px;
     gap: 10px;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
 
@@ -69,16 +69,21 @@
         width: 100%;
         max-width: 200px;
       }
-
-    }
-
-    .list-container {
     }
   }
 
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
+
+      .selectContainer {
+        gap: 2px;
+      }
+
+      .list-container {
+        width: 90%;
+        margin: 0 auto;
+      }
     }
   }
 }

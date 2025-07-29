@@ -15,8 +15,8 @@
   .container {
     width: 60%;
     max-width: 1500px;
-    padding: 40px;
     gap: 10px;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
 
@@ -36,16 +36,28 @@
 
     .legend-container {
       gap: 20px;
-      padding: 20px 0;
+      margin: 20px 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       overflow: visible;
+    }
+
+    @media (max-width: 1200px) {
+      .legend-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
+
+      .legend-container {
+        width: 90%;
+        gap: 10px;
+        margin: 0 auto;
+      }
     }
   }
 }

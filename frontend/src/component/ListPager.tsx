@@ -3,6 +3,7 @@ import {IconButton} from "./simple/IconButton.tsx";
 import LeftIcon from "../assets/icons/left.svg";
 import RightIcon from "../assets/icons/right.svg";
 import {PagedContent} from "../server/pager.ts";
+import {getAgentTypeByWidth} from "../util/agent.ts";
 
 interface Props {
   page: number;
@@ -15,31 +16,39 @@ export const ListPager = (props: Props) => {
 
   const {first, last, totalPages} = props.pageItem;
 
+  const isMobile = getAgentTypeByWidth() === "mobile";
+  const maxPageCount = isMobile ? 5 : 10;
+
   const goToPrevPage = () => {
     if (!first) props.onChangePage(props.page - 1);
   };
+
   const goToNextPage = () => {
     if (!last) props.onChangePage(props.page + 1);
   };
 
   let pageListToShow: number[] = [];
+
   if (totalPages === 0) {
     pageListToShow.push(0);
-  } else if (totalPages <= 10) {
+  } else if (totalPages <= maxPageCount) {
     for (let i = 0; i < totalPages; i++) {
       pageListToShow.push(i);
     }
   } else {
-    let start = props.page - 4;
-    let end = props.page + 5;
+    let start = props.page - Math.floor(maxPageCount / 2);
+    let end = props.page + Math.ceil(maxPageCount / 2);
+
     if (start < 0) {
       start = 0;
-      end = 10;
+      end = maxPageCount;
     }
+
     if (end > totalPages) {
-      start = totalPages - 10;
       end = totalPages;
+      start = Math.max(0, totalPages - maxPageCount);
     }
+
     for (let i = start; i < end; i++) {
       pageListToShow.push(i);
     }

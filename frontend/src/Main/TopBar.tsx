@@ -68,7 +68,7 @@ export const TopBar = () => {
           </IconButton>
         </ToolTip>
       )}
-      <div style={{marginRight: '30px'}}/>
+      <div className={style.rightArea}/>
     </div>
   )
 }

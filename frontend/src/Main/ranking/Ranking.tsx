@@ -4,7 +4,7 @@ import {RankingResult} from "./result/RankingResult.tsx";
 import {useSWRGetRateList, useSWRRankingList} from "../../server/server.ts";
 import {useSearchParamState} from "../../util/hooks/useSearchParamState.ts";
 import {useSearchParams} from "react-router";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {KindList} from "../../component/kind/KindList.tsx";
 import {ListPager} from "../../component/ListPager.tsx";
 
@@ -20,10 +20,6 @@ export const Ranking = () => {
 
   const {data: rateList} = useSWRGetRateList();
   const {data} = useSWRRankingList(page, kind, limit, rate, year, keyword);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const [showKindList, setShowKindList] = useState(false);
 
@@ -129,7 +125,6 @@ export const Ranking = () => {
         <div className={style.listContainer}>
           <RankingResult value={data?.items} start={data?.page} size={data?.size}/>
         </div>
-
         <ListPager page={page} pageItem={data} onChangePage={setPage}/>
       </div>
     </div>

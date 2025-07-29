@@ -15,8 +15,8 @@
   .container {
     width: 60%;
     max-width: 1500px;
-    padding: 40px;
     gap: 10px;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
 
@@ -78,16 +78,51 @@
 
     .list-container {
       gap: 20px;
-      padding: 20px 0;
+      margin: 20px 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       overflow: visible;
+    }
+
+    @media (max-width: 1200px) {
+      .list-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
+
+      .headerText, .list-container {
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .list-container {
+        gap: 10px;
+      }
+
+      .headerText {
+        .textBox {
+
+          .mainText {
+            font-size: clamp(8px, 1.7vw, 12px); // 최소 16px, 최대 22px
+            font-weight: bold;
+            line-height: 1.8;
+            color: white;
+            text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+          }
+
+          .subText {
+            font-size: clamp(8px, 1.5vw, 12px); // 최소 14px, 최대 18px
+            font-weight: normal;
+            margin-top: 10px;
+            color: #EEEEEE;
+          }
+        }
+      }
     }
   }
 }
