@@ -16,7 +16,7 @@ import {AuthorizedByOAuth} from "./component/AuthorizedByOAuth.tsx";
 import {EditorProvider} from "react-simple-wysiwyg";
 import {Main} from "./Main/Main.tsx";
 import {checkIsAuthenticated} from "./util/loginManager.ts";
-
+import {useMobileViewport} from "./util/hooks/useMobileViewport.ts";
 //axios 설정
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = requestURL;
@@ -40,7 +40,7 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDarkMode, _] = useLocalStorage("isDarkMode", false);
   const navigate = useNavigate();
-
+  useMobileViewport();
   //다크모드 설정
   useEffect(() => {
     document.body.setAttribute("theme", isDarkMode ? "dark" : "light");
