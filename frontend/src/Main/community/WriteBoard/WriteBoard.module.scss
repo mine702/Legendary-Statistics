@@ -1,4 +1,8 @@
 .root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
   .section-header {
     font-size: 17px;
     color: var(--font-color-semi-light);
@@ -23,7 +27,7 @@
   }
 
   .textArea {
-    width: 100%;
+    width: auto;
     background-color: var(--fill-color-1);
     border: 1px solid var(--card-border-color);
     border-radius: 5px;

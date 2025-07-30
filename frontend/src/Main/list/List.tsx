@@ -17,14 +17,16 @@ export const List = () => {
           <img src={listLogo} alt="로고"/>
         </div>
 
-        {/* Kind 리스트 */}
-        <KindList selectedId={selectedId} setSelectedId={setSelectedId}/>
+        <div className={style.content}>
+          {/* Kind 리스트 */}
+          <KindList selectedId={selectedId} setSelectedId={setSelectedId}/>
 
-        {/* 전설 카드 리스트 */}
-        <div className={style.legendContainer}>
-          {legendList?.map((legend) => (
-            <LegendCard key={legend.name} legend={legend}/>
-          ))}
+          {/* 전설 카드 리스트 */}
+          <div className={style.legendContainer}>
+            {legendList?.map((legend) => (
+              <LegendCard key={legend.name} legend={legend}/>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -86,46 +86,48 @@ export const Ranking = () => {
         <div className={style.headerWrapper}>
           <img src={rankingLogo} alt="로고"/>
         </div>
-        <div className={style.selectContainer}>
-          <button onClick={onClickAll}>전체</button>
-          <button onClick={onClickKind}>종류</button>
-          <button onClick={onClickLimit}>미니 전설이</button>
-          <select value={rate ?? ""} onChange={handleRateChange}>
-            <option value="">등급 선택</option>
-            {rateList
-              ?.filter((rate) => rate.name !== "화폐")
-              .map((rate) => (
-                <option key={rate.id} value={rate.id}>
-                  {rate.name}
+        <div className={style.content}>
+          <div className={style.selectContainer}>
+            <button onClick={onClickAll}>전체</button>
+            <button onClick={onClickKind}>종류</button>
+            <button onClick={onClickLimit}>미니 전설이</button>
+            <select value={rate ?? ""} onChange={handleRateChange}>
+              <option value="">등급</option>
+              {rateList
+                ?.filter((rate) => rate.name !== "화폐")
+                .map((rate) => (
+                  <option key={rate.id} value={rate.id}>
+                    {rate.name}
+                  </option>
+                ))}
+            </select>
+            <select value={year ?? ""} onChange={handleYearChange}>
+              <option value="">연도</option>
+              {getYearOptions().map((y) => (
+                <option key={y} value={y}>
+                  {y}
                 </option>
               ))}
-          </select>
-          <select value={year ?? ""} onChange={handleYearChange}>
-            <option value="">연도 선택</option>
-            {getYearOptions().map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            placeholder="꼬마 전설이 입력..."
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-        </div>
-
-        {showKindList && (
-          <div className={style.filterContainer}>
-            <KindList selectedId={kind} setSelectedId={setKind}/>
+            </select>
+            <input
+              type="text"
+              placeholder="꼬마 전설이 입력..."
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
           </div>
-        )}
 
-        <div className={style.listContainer}>
-          <RankingResult value={data?.items} start={data?.page} size={data?.size}/>
+          {showKindList && (
+            <div className={style.filterContainer}>
+              <KindList selectedId={kind} setSelectedId={setKind}/>
+            </div>
+          )}
+
+          <div className={style.listContainer}>
+            <RankingResult value={data?.items} start={data?.page} size={data?.size}/>
+          </div>
+          <ListPager page={page} pageItem={data} onChangePage={setPage}/>
         </div>
-        <ListPager page={page} pageItem={data} onChangePage={setPage}/>
       </div>
     </div>
   )
