@@ -88,8 +88,6 @@ export const BoardDetail = () => {
 
   return (
     <div className={style.root}>
-      <h1 style={{marginBottom: "20px"}}>
-        {"게시글"}</h1>
       <div className={style.titleArea}>
         <div className={style.title}>{data.title}</div>
         <div>

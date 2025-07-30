@@ -8,7 +8,7 @@
     border: 1px solid var(--card-border-color);
 
     .title {
-      font-size: 24px;
+      font-size: clamp(14px, 1.7vw, 24px); // 최소 16px, 최대 22px
       font-weight: bold;
       margin-bottom: 10px;
     }

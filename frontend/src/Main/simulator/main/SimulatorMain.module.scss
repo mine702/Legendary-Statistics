@@ -16,7 +16,7 @@
     width: 60%;
     max-width: 1500px;
     gap: 10px;
-    margin: 10px 0;
+    margin: 20px 0;
     display: flex;
     flex-direction: column;
 
@@ -94,6 +94,7 @@
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
+      margin: 0;
 
       .headerText, .list-container {
         width: 90%;
@@ -108,7 +109,7 @@
         .textBox {
 
           .mainText {
-            font-size: clamp(8px, 1.7vw, 12px); // 최소 16px, 최대 22px
+            font-size: clamp(8px, 1.7vw, 15px); // 최소 16px, 최대 22px
             font-weight: bold;
             line-height: 1.8;
             color: white;
