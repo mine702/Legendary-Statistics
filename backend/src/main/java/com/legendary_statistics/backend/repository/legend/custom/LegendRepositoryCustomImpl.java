@@ -1,10 +1,12 @@
 package com.legendary_statistics.backend.repository.legend.custom;
 
+import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileName;
 import com.legendary_statistics.backend.dto.legend.GetLegendListRes;
 import com.legendary_statistics.backend.dto.legend.GetLegendRes;
 import com.legendary_statistics.backend.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -82,5 +84,18 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
             legendList.getLegends().add(legendRes);
         }
         return new ArrayList<>(groupedMap.values());
+    }
+
+    @Override
+    public List<GetIdAndActualFileName> findAllLegendIdAndFileName(List<String> actualFileNames) {
+        return jpqlQuery.from(legendEntity)
+                .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
+                .where(fileLegendEntity.actualFileName.in(actualFileNames))
+                .select(Projections.bean(
+                        GetIdAndActualFileName.class,
+                        legendEntity.id,
+                        fileLegendEntity.actualFileName
+                ))
+                .fetch();
     }
 }

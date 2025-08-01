@@ -14,6 +14,7 @@ import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeExc
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.user.UserNotFoundException;
 import com.legendary_statistics.backend.module.CommunityDragonImageDownload;
+import com.legendary_statistics.backend.module.CommunityDragonScreenImageDownload;
 import com.legendary_statistics.backend.repository.file.FileLegendRepository;
 import com.legendary_statistics.backend.repository.file.FileRepository;
 import com.legendary_statistics.backend.repository.kind.KindRepository;
@@ -197,7 +198,7 @@ public class FileService {
         List<FileLegendEntity> fileLegendEntities = communityDragonImageDownload.downloadAllImages(configure.getFileLegendUploadPath()).stream()
                 .map(fileName -> FileLegendEntity.builder()
                         .actualFileName(fileName)
-                        .path(configure.getFileLegendUploadPath() + fileName)
+                        .path(configure.getFileLegendUploadPath() + "/" + fileName)
                         .build())
                 .toList();
 
@@ -244,4 +245,8 @@ public class FileService {
         return 1;
     }
 
+    public void screenCommunityDragonLegend() throws Exception {
+        CommunityDragonScreenImageDownload communityDragonImageDownload = new CommunityDragonScreenImageDownload();
+        communityDragonImageDownload.downloadAllImages(configure.getFileLegendScreenPath());
+    }
 }

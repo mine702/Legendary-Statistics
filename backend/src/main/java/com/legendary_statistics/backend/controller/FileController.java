@@ -36,6 +36,11 @@ public class FileController {
         fileService.uploadCommunityDragonLegend();
     }
 
+    @PostMapping("/screen/CommunityDragon/legend")
+    public void screenCommunityDragonLegend() throws Exception {
+        fileService.screenCommunityDragonLegend();
+    }
+
     @PostMapping("/filter/CommunityDragon")
     public ResponseEntity<?> filterCommunityDragonJson(@RequestParam("file") MultipartFile file) {
         return response.success(ResponseCode.GET_JSON_SUCCESS, fileService.filterCommunityDragonJson(file));
