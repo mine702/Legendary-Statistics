@@ -46,8 +46,9 @@ public class LegendScoreRepositoryCustomImpl implements LegendScoreRepositoryCus
 
         // score expression
         NumberExpression<Integer> scoreExpr = (year != null)
-                ? qLegendScoreEntity.score.coalesce(0)
+                ? qLegendScoreEntity.score.max().coalesce(0)
                 : qLegendScoreEntity.score.sum().coalesce(0);
+
 
         if (keyword == null || keyword.isEmpty()) {
             List<GetRankingRes> result = jpqlQuery
@@ -123,10 +124,5 @@ public class LegendScoreRepositoryCustomImpl implements LegendScoreRepositoryCus
 
             return new PageImpl<>(pagedList, pageable, filtered.size());
         }
-    }
-
-    @Override
-    public void setScoreByLabels(List<String> labels) {
-
     }
 }

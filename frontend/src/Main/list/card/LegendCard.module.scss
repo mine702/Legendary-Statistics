@@ -42,7 +42,6 @@
 .name {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -54,7 +53,7 @@
 
 .starImage {
   width: 3vw;
-  min-width: 40px;
+  min-width: 50px;
   object-fit: contain;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
