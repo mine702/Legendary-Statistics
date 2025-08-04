@@ -4,7 +4,6 @@ import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileName;
 import com.legendary_statistics.backend.dto.ranking.GetRankingRes;
 import com.legendary_statistics.backend.entity.LegendEntity;
 import com.legendary_statistics.backend.entity.LegendScoreEntity;
-import com.legendary_statistics.backend.repository.file.FileLegendRepository;
 import com.legendary_statistics.backend.repository.legend.LegendRepository;
 import com.legendary_statistics.backend.repository.legendScore.LegendScoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 public class RankingServiceImpl implements RankingService {
 
     private final LegendScoreRepository legendScoreRepository;
-    private final FileLegendRepository fileLegendRepository;
     private final LegendRepository legendRepository;
 
     @Override
@@ -52,7 +51,27 @@ public class RankingServiceImpl implements RankingService {
                 new ArrayList<>(labelCountMap.keySet())
         );
 
-        Map<Long, Long> idToCountMap = legends.stream()
+        List<GetIdAndActualFileName> resolvedLegends = new ArrayList<>();
+
+        for (GetIdAndActualFileName dto : legends) {
+            if (dto.getStar() == 1) {
+                resolvedLegends.add(dto);
+            } else {
+                Optional<LegendEntity> oneStarLegend = legendRepository.findByNameAndStar(dto.getName(), 1);
+
+                if (oneStarLegend.isPresent()) {
+                    LegendEntity entity = oneStarLegend.get();
+                    GetIdAndActualFileName mappedDto = new GetIdAndActualFileName();
+                    mappedDto.setId(entity.getId());
+                    mappedDto.setActualFileName(dto.getActualFileName());
+                    resolvedLegends.add(mappedDto);
+                } else {
+                    log.warn("1성 매핑 실패: " + dto.getName() + ", star=" + dto.getStar());
+                }
+            }
+        }
+
+        Map<Long, Long> idToCountMap = resolvedLegends.stream()
                 .collect(Collectors.toMap(
                         GetIdAndActualFileName::getId,
                         legend -> labelCountMap.getOrDefault(legend.getActualFileName(), 0L)

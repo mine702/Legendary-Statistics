@@ -10,4 +10,6 @@ import lombok.ToString;
 public class GetIdAndActualFileName {
     private Long id;
     private String actualFileName;
+    private String name;
+    private Integer star;
 }

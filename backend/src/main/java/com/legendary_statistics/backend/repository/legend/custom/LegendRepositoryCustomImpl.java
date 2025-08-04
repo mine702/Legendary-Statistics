@@ -94,7 +94,9 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                 .select(Projections.bean(
                         GetIdAndActualFileName.class,
                         legendEntity.id,
-                        fileLegendEntity.actualFileName
+                        fileLegendEntity.actualFileName,
+                        legendEntity.name,
+                        legendEntity.star
                 ))
                 .fetch();
     }

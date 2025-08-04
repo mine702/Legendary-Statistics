@@ -10,9 +10,10 @@ import java.util.Optional;
 
 @Repository
 public interface LegendRepository extends JpaRepository<LegendEntity, Long>, LegendRepositoryCustom {
-    Optional<LegendEntity> findIdByNameAndStar(String name, int star);
+    Optional<LegendEntity> findByNameAndStar(String name, int star);
 
     Optional<LegendEntity> findByName(String name);
 
     Optional<LegendEntity> findFirstByKindEntityOrderByIdAsc(KindEntity kindEntity);
+
 }
