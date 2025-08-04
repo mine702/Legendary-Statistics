@@ -57,6 +57,7 @@
   object-fit: contain;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  margin-bottom: -15px;
 
   &:hover {
     transform: scale(1.2);

@@ -1,0 +1,40 @@
+# ▶️ Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.log
+
+# 📦 Virtual environments
+.venv/
+env/
+venv/
+
+# 🔧 PyInstaller build folders and files
+dist/
+build/
+*.spec
+
+# 🧠 Data files (local use only)
+data/
+*.npy
+*.json
+
+# 📁 IDE/editor config
+.vscode/
+.idea/
+
+# 🗂️ OS metadata
+.DS_Store
+Thumbs.db
+
+# 🧪 Test cache (pytest, coverage etc.)
+.pytest_cache/
+coverage/
+htmlcov/
+
+# ⚙️ Misc
+*.bak
+*.swp
+*.tmp

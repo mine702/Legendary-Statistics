@@ -1,0 +1,39 @@
+📦 [TFT 전설이 감지기 EXE 빌드 가이드 - PyCharm 전용]
+
+✅ 1단계: 필요한 패키지 설치 (PyCharm 터미널에서 아래 명령 실행)
+------------------------------------------------------------
+pip install pyinstaller
+pip install PyQt5 transformers torch scikit-learn numpy opencv-python pillow requests
+
+✅ 2단계: 이전 빌드 결과 삭제 (선택사항)
+------------------------------------------------------------
+cmd : rmdir /s /q dist
+powershell : Remove-Item -Recurse -Force dist
+
+cmd : rmdir /s /q build
+powershell : Remove-Item -Recurse -Force build
+
+✅ 3단계: EXE 빌드 실행
+------------------------------------------------------------
+pyinstaller --clean main.spec
+
+✅ 4단계: 빌드 후 data 폴더를 EXE 옆으로 복사
+------------------------------------------------------------
+결과 경로: dist\main.exe
+
+같이 있어야 할 폴더:
+    dist\data\
+        ├── dinov2.npy
+        ├── legend_vectors.npy
+        └── legend_labels.json
+
+✅ 최종 폴더 구조 예시
+------------------------------------------------------------
+dist/
+├── main.exe
+└── data/
+    ├── dinov2.npy
+    ├── legend_vectors.npy
+    └── legend_labels.json
+
+🎉 완료! 이제 main.exe 실행하면 됨.
