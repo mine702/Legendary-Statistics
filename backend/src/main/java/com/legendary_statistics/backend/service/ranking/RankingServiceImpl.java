@@ -74,7 +74,8 @@ public class RankingServiceImpl implements RankingService {
         Map<Long, Long> idToCountMap = resolvedLegends.stream()
                 .collect(Collectors.toMap(
                         GetIdAndActualFileName::getId,
-                        legend -> labelCountMap.getOrDefault(legend.getActualFileName(), 0L)
+                        legend -> labelCountMap.getOrDefault(legend.getActualFileName(), 0L),
+                        Long::sum // 중복된 ID가 있을 경우 count를 합치기
                 ));
 
         // 미리 해당 LegendEntity들 로딩
