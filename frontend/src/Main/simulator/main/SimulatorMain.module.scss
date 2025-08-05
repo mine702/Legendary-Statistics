@@ -80,13 +80,13 @@
       gap: 20px;
       margin: 20px 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       overflow: visible;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1400px) {
       .list-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   }
@@ -94,7 +94,7 @@
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
-      margin: 0;
+      margin: 0 0 10px 0;
 
       .headerText, .list-container {
         width: 90%;

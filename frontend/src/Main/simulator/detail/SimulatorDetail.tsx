@@ -24,7 +24,7 @@ export const SimulatorDetail = () => {
 
   const formatProbability = (value: number) => {
     const raw = Number(value) * 100;
-    return `${raw.toFixed(11)} %`;
+    return `${raw.toFixed(8)} %`;
   };
 
   return (

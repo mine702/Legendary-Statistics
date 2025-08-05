@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const SimulatorLegendCard = (props: Props) => {
-  console.log(props.item)
   return (
     <div className={style.card} onClick={props.onClick}>
       <img src={props.item.path ? props.item.path : img} alt={props.item.name} className={style.image}/>

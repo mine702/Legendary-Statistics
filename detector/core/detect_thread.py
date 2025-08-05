@@ -42,7 +42,7 @@ class DownloadAndDetectThread(QThread):
         self.video_path = os.path.join(video_dir, video_filename)
 
         ydl_opts = {
-            'format': 'best[height<=720][ext=mp4]',
+            'format': 'bestvideo[height<=1080][fps<=30][ext=mp4]',
             'outtmpl': self.video_path,
             'quiet': True,
             'no_warnings': True,

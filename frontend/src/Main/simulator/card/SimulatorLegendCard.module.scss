@@ -16,10 +16,10 @@
     width: 100%;
     object-fit: cover;
   }
- 
+
   .name {
     margin-top: 18px;
-    font-size: 18px;
+    font-size: clamp(8px, 1.2vw, 14px);
     font-weight: bold;
     text-align: center;
   }
