@@ -1,6 +1,6 @@
 package com.legendary_statistics.backend.service.ranking;
 
-import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileName;
+import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileNameRes;
 import com.legendary_statistics.backend.dto.ranking.GetRankingRes;
 import com.legendary_statistics.backend.entity.LegendEntity;
 import com.legendary_statistics.backend.entity.LegendScoreEntity;
@@ -47,13 +47,13 @@ public class RankingServiceImpl implements RankingService {
         Map<String, Long> labelCountMap = labels.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        List<GetIdAndActualFileName> legends = legendRepository.findAllLegendIdAndFileName(
+        List<GetIdAndActualFileNameRes> legends = legendRepository.findAllLegendIdAndFileName(
                 new ArrayList<>(labelCountMap.keySet())
         );
 
-        List<GetIdAndActualFileName> resolvedLegends = new ArrayList<>();
+        List<GetIdAndActualFileNameRes> resolvedLegends = new ArrayList<>();
 
-        for (GetIdAndActualFileName dto : legends) {
+        for (GetIdAndActualFileNameRes dto : legends) {
             if (dto.getStar() == 1) {
                 resolvedLegends.add(dto);
             } else {
@@ -61,7 +61,7 @@ public class RankingServiceImpl implements RankingService {
 
                 if (oneStarLegend.isPresent()) {
                     LegendEntity entity = oneStarLegend.get();
-                    GetIdAndActualFileName mappedDto = new GetIdAndActualFileName();
+                    GetIdAndActualFileNameRes mappedDto = new GetIdAndActualFileNameRes();
                     mappedDto.setId(entity.getId());
                     mappedDto.setActualFileName(dto.getActualFileName());
                     resolvedLegends.add(mappedDto);
@@ -73,7 +73,7 @@ public class RankingServiceImpl implements RankingService {
 
         Map<Long, Long> idToCountMap = resolvedLegends.stream()
                 .collect(Collectors.toMap(
-                        GetIdAndActualFileName::getId,
+                        GetIdAndActualFileNameRes::getId,
                         legend -> labelCountMap.getOrDefault(legend.getActualFileName(), 0L),
                         Long::sum // 중복된 ID가 있을 경우 count를 합치기
                 ));

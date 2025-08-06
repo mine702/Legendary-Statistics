@@ -23,35 +23,57 @@ export const Ranking = () => {
 
   const [showKindList, setShowKindList] = useState(false);
 
-  const onClickAll = () => {
+  const resetFilters = ({
+                          kind = undefined,
+                          limit = undefined,
+                          rate = undefined,
+                          year = undefined,
+                          keyword = undefined,
+                        }: {
+    kind?: number | undefined;
+    limit?: boolean | undefined;
+    rate?: number | undefined;
+    year?: number | undefined;
+    keyword?: string | undefined;
+  }) => {
     setShowKindList(false);
-    setKind(undefined);
-    setLimit(undefined);
-    setRate(undefined);
-    setYear(undefined);
-    setKeyword(undefined);
-    setPage(0);
-  }
-
-  const onClickKind = () => {
-    setShowKindList(!showKindList)
-    setKind(undefined);
-    setLimit(undefined);
-    setRate(undefined);
-    setYear(undefined);
-    setKeyword(undefined);
+    setKind(kind);
+    setLimit(limit);
+    setRate(rate);
+    setYear(year);
+    setKeyword(keyword);
     setPage(0);
   };
 
+  const onClickAll = () => {
+    resetFilters({});
+  };
+
+  const onClickKind = () => {
+    resetFilters({});
+    setShowKindList((prev) => !prev);
+  };
+
   const onClickLimit = () => {
-    setShowKindList(false);
-    setKind(undefined);
-    setLimit(true);
-    setRate(undefined);
-    setYear(undefined);
-    setKeyword(undefined);
+    resetFilters({limit: true});
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedYear = Number(e.target.value);
+    setYear(selectedYear);
     setPage(0);
-  }
+  };
+
+  const handleRateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRate = Number(e.target.value);
+    resetFilters({rate: selectedRate});
+  };
+
+  const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    setKeyword(value === "" ? undefined : value);
+    setPage(0);
+  };
 
   const getYearOptions = () => {
     const currentYear = new Date().getFullYear();
@@ -61,23 +83,6 @@ export const Ranking = () => {
     }
     return years;
   };
-
-  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedYear = Number(e.target.value);
-    setYear(selectedYear);
-    setPage(0); // 연도 변경 시 페이지 초기화
-  };
-
-  const handleRateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedRate = Number(e.target.value);
-    setRate(selectedRate);
-    setShowKindList(false);
-    setKind(undefined);
-    setLimit(false);
-    setYear(undefined);
-    setKeyword(undefined);
-    setPage(0);
-  }
 
   return (
     <div className={style.root}>
@@ -112,8 +117,8 @@ export const Ranking = () => {
             <input
               type="text"
               placeholder="꼬마 전설이 입력..."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
+              value={keyword ?? ""}
+              onChange={handleKeywordChange}
             />
           </div>
 
@@ -132,3 +137,4 @@ export const Ranking = () => {
     </div>
   )
 }
+

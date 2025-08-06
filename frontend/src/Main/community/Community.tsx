@@ -30,7 +30,7 @@ export const Community = () => {
             <button className={`custom ${style.menuItem} ${getMatchPathStyle("write")}`}
                     onClick={() => navigate("/community/write")}>글 작성
             </button>
-            <button className={`custom ${style.menuItem} ${getMatchPathStyle("/list")}`}
+            <button className={`custom ${style.menuItem} ${getMatchPathStyle("/listItem")}`}
                     onClick={() => navigate("/community/my-list")}>작성 기록
             </button>
           </div>

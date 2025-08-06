@@ -142,6 +142,16 @@
 
   }
 
+  @media screen and (max-width: 1200px) {
+    .container {
+      .content {
+        .imageBox {
+          display: none;
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
@@ -150,6 +160,10 @@
       .content {
         width: 90%;
         margin: 0 auto 10px;
+
+        .imageBox {
+          display: none;
+        }
 
         .detailWrapper {
           height: auto;

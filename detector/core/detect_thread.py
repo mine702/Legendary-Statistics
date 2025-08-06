@@ -1,17 +1,16 @@
-# core/detect_thread.py
 import os
+import sys
 import datetime
+import subprocess
+import ctypes
 from PyQt5.QtCore import QThread, pyqtSignal
-from PIL import Image as PILImage, Image
-import numpy as np
+from PIL import Image as PILImage
 import cv2
-import requests
 from sklearn.metrics.pairwise import cosine_similarity
 
-from yt_dlp import YoutubeDL
 from core.vector_utils import get_frame_vector
 from core.image_cropper import simple_crop
-
+from core.legend_analyzer import analyze_legends
 
 class DownloadAndDetectThread(QThread):
     log_signal = pyqtSignal(str)
@@ -41,18 +40,32 @@ class DownloadAndDetectThread(QThread):
 
         self.video_path = os.path.join(video_dir, video_filename)
 
-        ydl_opts = {
-            'format': 'bestvideo[height<=1080][fps<=30][ext=mp4]',
-            'outtmpl': self.video_path,
-            'quiet': True,
-            'no_warnings': True,
-            'progress_hooks': [self.yt_log_hook]
-        }
+        yt_dlp_path = os.path.join(os.path.dirname(sys.executable), "yt-dlp.exe")
+
+        cmd = [
+            yt_dlp_path,
+            "-f", "bestvideo[ext=mp4][height<=1080]",
+            "-o", self.video_path,
+            self.url
+        ]
 
         try:
             self.log_signal.emit(f"🎬 유튜브 영상 다운로드 시작")
-            with YoutubeDL(ydl_opts) as ydl:
-                ydl.download([self.url])
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+                encoding="utf-8",
+                creationflags=subprocess.CREATE_NO_WINDOW
+            )
+            for line in process.stdout:
+                if not self._is_running:
+                    self.log_signal.emit("🛑 다운로드 중단됨")
+                    process.terminate()
+                    return
+                self.log_signal.emit(line.strip())
+            process.wait()
 
             if not os.path.exists(self.video_path):
                 self.log_signal.emit("❌ 영상 다운로드 실패")
@@ -66,15 +79,6 @@ class DownloadAndDetectThread(QThread):
 
         finally:
             self.log_signal.emit("🔚 탐지 스레드 종료됨")
-
-    def yt_log_hook(self, d):
-        if d['status'] == 'downloading':
-            downloaded = d.get('downloaded_bytes', 0)
-            total = d.get('total_bytes', 0) or d.get('total_bytes_estimate', 0)
-            percent = (downloaded / total * 100) if total else 0
-            self.log_signal.emit(f"📥 다운로드 중... {percent:.2f}%")
-        elif d['status'] == 'finished':
-            self.log_signal.emit("✅ 다운로드 완료 처리 중...")
 
     def detect_from_video(self, save_dir):
         self.log_signal.emit("🔍 DINOv2로 탐지 시작")
@@ -127,40 +131,7 @@ class DownloadAndDetectThread(QThread):
             except Exception as e:
                 self.log_signal.emit(f"❌ 자르기 실패: {e}")
 
-        crop_imgs = [f for f in os.listdir(cropped_dir) if f.lower().endswith(".jpg")]
-        self.log_signal.emit(f"🧠 전설 분석 시작 ({len(crop_imgs)}장)")
-
-        labels_to_send = set()
-        for i, fname in enumerate(crop_imgs, 1):
-            try:
-                img_path = os.path.join(cropped_dir, fname)
-                img = Image.open(img_path).convert("RGB")
-                vec = get_frame_vector(img)
-                sims = cosine_similarity([vec], self.legend_vectors)[0]
-                score = sims.max()
-                if score >= 0.7:
-                    labels_to_send.add(self.legend_labels[np.argmax(sims)])
-            except Exception as e:
-                self.log_signal.emit(f"❌ 분석 실패: {e}")
-
-        self.log_signal.emit("✅ 전설 분석 완료")
-
-        if labels_to_send:
-            try:
-                self.log_signal.emit(f"🌐 {len(labels_to_send)}개 라벨 전송 중...")
-                response = requests.post(
-                    "https://tftmeta.co.kr/api/ranking/set",
-                    json=list(labels_to_send),
-                    timeout=10
-                )
-                if response.status_code == 200:
-                    self.log_signal.emit("✅ 전송 성공")
-                else:
-                    self.log_signal.emit(f"⚠️ 전송 실패: {response.status_code}")
-            except Exception as e:
-                self.log_signal.emit(f"💥 전송 중 오류 발생: {e}")
-        else:
-            self.log_signal.emit("ℹ️ 전송할 라벨 없음")
+        analyze_legends(cropped_dir, self.legend_vectors, self.legend_labels, log_fn=self.log_signal.emit)
 
         try:
             if self.video_path and os.path.exists(self.video_path):

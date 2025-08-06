@@ -13,14 +13,12 @@ import com.legendary_statistics.backend.repository.probability.ProbabilityReposi
 import com.legendary_statistics.backend.repository.probabilityGroup.ProbabilityGroupRepository;
 import com.legendary_statistics.backend.repository.treasure.TreasureRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -40,7 +38,6 @@ public class ProbabilityServiceImpl implements ProbabilityService {
         List<ProbabilityEntity> probabilityEntities = new ArrayList<>();
 
         for (GetExcelLegendReq legend : getExcelLegendReqs) {
-            log.info("legend = {}", legend);
             LegendEntity legendEntity = legendRepository.findByNameAndStar(legend.getName(), legend.getStar())
                     .orElseThrow(LegendNotFoundException::new);
 

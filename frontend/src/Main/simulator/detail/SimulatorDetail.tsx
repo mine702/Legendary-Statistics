@@ -5,11 +5,9 @@ import {useState} from "react";
 import simulatorLogo from "../../../assets/img/simulator_logo.png";
 import defaultImage from "../../../assets/img/강도깨비.png";
 import {SimulatorResult} from "../result/SimulatorResult.tsx";
-import {getAgentTypeByWidth} from "../../../util/agent";
 
 export const SimulatorDetail = () => {
   const {id} = useParams();
-  const isMobile = getAgentTypeByWidth() === "mobile";
 
   const {data: treasureData, isLoading: treasureIsLoading} = useSWRGetTreasureDetail(id);
   const {data: probabilityData, isLoading: probabilityIsLoading} = useSWRGetProbabilityByTreasureId(id);
@@ -38,12 +36,9 @@ export const SimulatorDetail = () => {
         ) : (
           <div className={style.content}>
             <div className={style.detailWrapper}>
-              {/* 왼쪽 이미지 - 모바일에서는 렌더링 안 함 */}
-              {!isMobile && (
-                <div className={style.imageBox}>
-                  <img src={treasureData?.path || defaultImage} alt="전설이 이미지"/>
-                </div>
-              )}
+              <div className={style.imageBox}>
+                <img src={treasureData?.path || defaultImage} alt="전설이 이미지"/>
+              </div>
 
               {/* 오른쪽 확률 정보 */}
               <div className={style.probabilityBox}>

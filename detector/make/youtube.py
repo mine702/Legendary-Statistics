@@ -3,7 +3,7 @@ import cv2
 import subprocess
 
 # 유튜브 링크
-yt_link = "https://www.youtube.com/watch?v=LQXTB3aMd9Q"
+yt_link = "https://www.youtube.com/watch?v=Cy1W5xinlHM&t=951s"
 
 # 저장 경로
 video_dir = "downloaded_video"
@@ -18,7 +18,7 @@ video_path = os.path.join(video_dir, "video.mp4")
 print("📥 영상 다운로드 중...")
 subprocess.run([
     "yt-dlp",
-    "-f", "best[ext=mp4]",
+    "-f", "bestvideo[ext=mp4][height<=1080]",
     "-o", video_path,
     yt_link
 ], check=True)

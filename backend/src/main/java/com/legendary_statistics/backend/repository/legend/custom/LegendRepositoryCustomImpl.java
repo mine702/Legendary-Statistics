@@ -1,6 +1,6 @@
 package com.legendary_statistics.backend.repository.legend.custom;
 
-import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileName;
+import com.legendary_statistics.backend.dto.legend.GetIdAndActualFileNameRes;
 import com.legendary_statistics.backend.dto.legend.GetLegendListRes;
 import com.legendary_statistics.backend.dto.legend.GetLegendRes;
 import com.legendary_statistics.backend.entity.*;
@@ -87,12 +87,12 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
     }
 
     @Override
-    public List<GetIdAndActualFileName> findAllLegendIdAndFileName(List<String> actualFileNames) {
+    public List<GetIdAndActualFileNameRes> findAllLegendIdAndFileName(List<String> actualFileNames) {
         return jpqlQuery.from(legendEntity)
                 .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
                 .where(fileLegendEntity.actualFileName.in(actualFileNames))
                 .select(Projections.bean(
-                        GetIdAndActualFileName.class,
+                        GetIdAndActualFileNameRes.class,
                         legendEntity.id,
                         fileLegendEntity.actualFileName,
                         legendEntity.name,
