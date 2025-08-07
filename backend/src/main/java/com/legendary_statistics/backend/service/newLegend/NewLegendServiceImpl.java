@@ -1,16 +1,22 @@
 package com.legendary_statistics.backend.service.newLegend;
 
-import com.legendary_statistics.backend.dto.newLegend.GetNewLegendListRes;
-import com.legendary_statistics.backend.dto.newLegend.GetNewLegendRes;
-import com.legendary_statistics.backend.dto.newLegend.PostVoteReq;
+import com.legendary_statistics.backend.auth.config.JwtAuthentication;
+import com.legendary_statistics.backend.dto.newLegend.*;
+import com.legendary_statistics.backend.entity.NewLegendCommentEntity;
 import com.legendary_statistics.backend.entity.NewLegendEntity;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
+import com.legendary_statistics.backend.global.exception.newLegend.NewLegendNotFoundException;
+import com.legendary_statistics.backend.global.exception.standard.ForbiddenException;
+import com.legendary_statistics.backend.global.exception.user.UserNotFoundException;
 import com.legendary_statistics.backend.module.RecaptchaValidator;
+import com.legendary_statistics.backend.repository.newLegend.NewLegendCommentRepository;
 import com.legendary_statistics.backend.repository.newLegend.NewLegendRepository;
+import com.legendary_statistics.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -18,7 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewLegendServiceImpl implements NewLegendService {
 
+    private final UserRepository userRepository;
     private final NewLegendRepository newLegendRepository;
+    private final NewLegendCommentRepository newLegendCommentRepository;
     private final RecaptchaValidator recaptchaValidator;
 
     @Override
@@ -58,5 +66,31 @@ public class NewLegendServiceImpl implements NewLegendService {
         else throw new RuntimeException("잘못된 요청입니다.");
 
         newLegendRepository.save(newLegendEntity);
+    }
+
+    @Override
+    public List<GetNewLegendCommentRes> getNewLegendComments(Long id) {
+        return newLegendRepository.findCommentsByNewLegendId(id);
+    }
+
+    @Override
+    @Transactional
+    public void postNewLegendComment(PostNewLegendCommentReq postNewLegendCommentReq, Principal principal) {
+        newLegendCommentRepository.save(NewLegendCommentEntity.builder()
+                .newLegendEntity(newLegendRepository.findById(postNewLegendCommentReq.getId())
+                        .orElseThrow(NewLegendNotFoundException::new))
+                .userEntity(userRepository.findById(JwtAuthentication.getUserId(principal))
+                        .orElseThrow(UserNotFoundException::new))
+                .content(postNewLegendCommentReq.getComment())
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void deleteNewLegendComment(Long commentId, Principal principal) {
+        NewLegendCommentEntity newLegendCommentEntity = newLegendCommentRepository.findById(commentId).orElseThrow(NewLegendNotFoundException::new);
+        long userId = JwtAuthentication.getUserId(principal);
+        if (!newLegendCommentEntity.getUserEntity().getId().equals(userId)) throw new ForbiddenException();
+        else newLegendCommentRepository.delete(newLegendCommentEntity);
     }
 }

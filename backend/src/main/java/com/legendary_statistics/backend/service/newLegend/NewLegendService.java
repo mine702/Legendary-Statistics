@@ -1,9 +1,8 @@
 package com.legendary_statistics.backend.service.newLegend;
 
-import com.legendary_statistics.backend.dto.newLegend.GetNewLegendListRes;
-import com.legendary_statistics.backend.dto.newLegend.GetNewLegendRes;
-import com.legendary_statistics.backend.dto.newLegend.PostVoteReq;
+import com.legendary_statistics.backend.dto.newLegend.*;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface NewLegendService {
@@ -13,4 +12,10 @@ public interface NewLegendService {
     GetNewLegendRes getNewLegendDetail(Long id);
 
     void voteNewLegend(PostVoteReq request);
+
+    List<GetNewLegendCommentRes> getNewLegendComments(Long id);
+
+    void postNewLegendComment(PostNewLegendCommentReq postNewLegendCommentReq, Principal principal);
+
+    void deleteNewLegendComment(Long commentId, Principal principal);
 }

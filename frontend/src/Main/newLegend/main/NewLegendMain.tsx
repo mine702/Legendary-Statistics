@@ -1,6 +1,10 @@
 import style from "./NewLegendMain.module.scss"
 import newLegendLogo from "../../../assets/img/new_legend_logo.png";
-import {useSWRGetNewLegendDetail, useSWRGetNewLegendList} from "../../../server/server.ts";
+import {
+  useSWRGetNewLegendCommentList,
+  useSWRGetNewLegendDetail,
+  useSWRGetNewLegendList
+} from "../../../server/server.ts";
 import {ListItem} from "../listItem/ListItem.tsx";
 import {useEffect, useRef, useState} from "react";
 import thumbUpIcon from "../../../assets/icons/thumb_up.svg";
@@ -10,18 +14,24 @@ import {getRateName} from "../../../server/dto/rate.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {showToastOnError, showToastOnErrorP1} from "../../../util/errorParser.ts";
+import closeIcon from "../../../assets/icons/close.svg";
+import {parseJWT} from "../../../util/loginManager.ts";
 
 export const NewLegendMain = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const {data: list, isLoading} = useSWRGetNewLegendList();
   const {data: legend, mutate} = useSWRGetNewLegendDetail(selectedId);
+  const {data: comments, mutate: commentMutate} = useSWRGetNewLegendCommentList(selectedId);
 
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [commentText, setCommentText] = useState<string>("");
   const [legendHeight, setLegendHeight] = useState<number | null>(null);
+
   const legendRef = useRef<HTMLDivElement>(null);
 
   const {executeRecaptcha} = useGoogleReCaptcha();
+  const jwt = parseJWT();
 
   useEffect(() => {
     const el = legendRef.current;
@@ -73,6 +83,46 @@ export const NewLegendMain = () => {
     }
   };
 
+  const onAddComment = showToastOnError(async () => {
+    if (!jwt.sub) {
+      toast.error("로그인이 필요합니다.");
+      return;
+    }
+    await axios.post(`new-legend/comment`, {id: selectedId, comment: commentText});
+    setCommentText("");
+    await commentMutate();
+  });
+
+  const handleDeleteComment = showToastOnErrorP1(async (commentId: number) => {
+    await axios.delete(`new-legend/comment/${commentId}`);
+    toast.success("댓글이 삭제되었습니다.");
+    await commentMutate();
+  });
+
+  const renderCommentArea = () => {
+    if (comments === undefined) return <div className={style.commentItem}>로딩중...</div>
+    if (comments.length === 0) return <div className={style.commentItem}>댓글이 없습니다.</div>
+
+    return comments.map((comment, index) =>
+      <div key={index} className={style.commentItem}>
+        <div className={style.commentHeader}>
+          <span className={style.commentUser}>{comment.userName}</span>
+          <div className={style.rightArea}>
+            <span className={style.createdAt}>{dayts(comment.createdAt).toKoreanDateString()}</span>
+            {jwt.sub === comment.userId.toString() && (
+              <img
+                src={closeIcon}
+                alt="삭제"
+                className={style.closeIcon}
+                onClick={() => handleDeleteComment(comment.id)}
+              />
+            )}
+          </div>
+        </div>
+        <div className={style.commentContent}>{comment.content}</div>
+      </div>
+    )
+  }
 
   return (
     <div className={style.root}>
@@ -155,6 +205,29 @@ export const NewLegendMain = () => {
                     <div className={style.voteButton} onClick={() => handleVote("bad")}>
                       <img className={style.thumbDown} src={thumbDownIcon} alt="thumbDownIcon"/>
                       <span>{legend.bad}</span>
+                    </div>
+                  </div>
+
+                  <div className={style.comment}>
+                    <h3>댓글</h3>
+                    <div className="horizontal-line"/>
+                    <div className={style.commentInputWrapper}>
+                      <textarea
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            onAddComment();
+                          }
+                        }}
+                        placeholder="댓글을 입력하세요"
+                        className={style.commentInput}
+                      />
+                      <button onClick={onAddComment} className={style.commentButton}>작성</button>
+                    </div>
+                    <div className={style.commentList}>
+                      {renderCommentArea()}
                     </div>
                   </div>
                 </div>

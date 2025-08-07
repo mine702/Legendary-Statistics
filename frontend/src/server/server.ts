@@ -10,7 +10,7 @@ import {GetRateRes} from "./dto/rate.ts";
 import {GetBoardCategoryRes, GetBoardCommentRes, GetBoardListRes, GetBoardRes} from "./dto/board.ts";
 import {PagedContent} from "./pager.ts";
 import {GetRankingRes} from "./dto/ranking.ts";
-import {GetNewLegendListRes, GetNewLegendRes} from "./dto/newLegend.ts";
+import {GetNewLegendCommentRes, GetNewLegendListRes, GetNewLegendRes} from "./dto/newLegend.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -104,4 +104,8 @@ export const useSWRGetNewLegendList = () => {
 
 export const useSWRGetNewLegendDetail = (id: number | null) => {
   return useSWR<GetNewLegendRes>(id ? `/new-legend/detail/${id}` : null, defaultFetchAxios);
+}
+
+export const useSWRGetNewLegendCommentList = (id: number | null) => {
+  return useSWR<GetNewLegendCommentRes[]>(id ? `/new-legend/comment/${id}` : null, defaultFetchAxios)
 }

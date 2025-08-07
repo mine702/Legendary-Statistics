@@ -6,6 +6,7 @@ import com.legendary_statistics.backend.global.exception.file.FileNotFoundExcept
 import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
+import com.legendary_statistics.backend.global.exception.newLegend.NewLegendNotFoundException;
 import com.legendary_statistics.backend.global.exception.probabilityGroup.ProbabilityGroupNotFoundException;
 import com.legendary_statistics.backend.global.exception.standard.DuplicationException;
 import com.legendary_statistics.backend.global.exception.standard.ForbiddenException;
@@ -127,6 +128,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ReCaptchaException.class)
     protected ResponseEntity<?> handle(ReCaptchaException e) {
         log.error("ReCaptchaException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(NewLegendNotFoundException.class)
+    protected ResponseEntity<?> handle(NewLegendNotFoundException e) {
+        log.error("NewLegendNotFoundException = {}", e.getMessage());
         return response.error(e.getErrorCode(), e.getMessage());
     }
 

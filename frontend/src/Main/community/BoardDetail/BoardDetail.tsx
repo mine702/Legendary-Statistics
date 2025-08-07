@@ -56,6 +56,10 @@ export const BoardDetail = () => {
   const targetCategoryInfo = categoryInfo?.find(item => item.name === data.category)?.label ?? "";
 
   const onAddComment = showToastOnError(async () => {
+    if (!jwt.sub) {
+      toast.error("로그인이 필요합니다.");
+      return;
+    }
     await axios.post(`board/comment`, {boardId: initId, comment: commentText});
     setCommentText("");
     await mutate();

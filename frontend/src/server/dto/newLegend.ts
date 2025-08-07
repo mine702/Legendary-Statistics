@@ -14,3 +14,11 @@ export interface GetNewLegendRes {
   bad: number;
   createdAt: string;
 }
+
+export interface GetNewLegendCommentRes {
+  id: number;
+  userId: number;
+  userName: number;
+  content: string;
+  createdAt: string;
+}
