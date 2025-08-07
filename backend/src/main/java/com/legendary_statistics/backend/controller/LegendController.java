@@ -23,5 +23,9 @@ public class LegendController {
         return response.success(legendService.getLegendListByKind(id));
     }
 
-    
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> getLegendByName(@PathVariable String name) {
+        return response.success(legendService.getLegendByName(name));
+    }
+
 }

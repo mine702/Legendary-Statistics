@@ -1,14 +1,23 @@
 import {useSWRGetLegendListByKind} from "../../server/server.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import style from "./List.module.scss";
 import {LegendCard} from "./card/LegendCard.tsx";
 import listLogo from "../../assets/img/list_logo.png";
 import {KindList} from "../../component/kind/KindList.tsx";
+import {useLocation} from "react-router";
 
 export const List = () => {
+  const location = useLocation();
+  const kindIdFromState = location.state?.kindId;
   const [selectedId, setSelectedId] = useState<number>(1);
   const {data: legendList} = useSWRGetLegendListByKind(selectedId);
 
+  useEffect(() => {
+    if (kindIdFromState) {
+      setSelectedId(kindIdFromState);
+    }
+  }, [kindIdFromState]);
+  
   return (
     <div className={style.root}>
       <div className={style.container}>

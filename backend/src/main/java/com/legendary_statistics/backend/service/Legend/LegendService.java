@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface LegendService {
     List<GetLegendListRes> getLegendListByKind(long id);
+
+    GetLegendListRes getLegendByName(String name);
 }

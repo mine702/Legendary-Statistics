@@ -16,4 +16,5 @@ public interface LegendRepository extends JpaRepository<LegendEntity, Long>, Leg
 
     Optional<LegendEntity> findFirstByKindEntityOrderByIdAsc(KindEntity kindEntity);
 
+    Optional<LegendEntity> findFirstByNameContainingIgnoreCaseOrderByIdAsc(String name);
 }

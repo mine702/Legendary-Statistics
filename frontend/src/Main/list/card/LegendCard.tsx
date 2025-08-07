@@ -72,6 +72,7 @@ export const LegendCard = (props: Props) => {
         <div className={style.stars}>
           {props.legend.legends.map((legend) => (
             <img
+              key={legend.id}
               src={getTierImage(legend.star)}
               alt={`${legend.star}성`}
               className={`${style.starImage} ${selectedStar === legend.star ? style.active : ""}`}

@@ -84,10 +84,10 @@ export const useSWRGetBoardCommentList = (boardId: number) => {
   return useSWR<GetBoardCommentRes[]>(`/board/comment/${boardId}`, defaultFetchAxios)
 }
 
-export const useSWRRankingList = (page: number, kind?: number, limit?: boolean, rate?: number | undefined, year?: number | undefined, keyword?: string | undefined) => {
+export const useSWRRankingList = (page: number, size: number, kind?: number, limit?: boolean, rate?: number | undefined, year?: number | undefined, keyword?: string | undefined) => {
   const params = new URLSearchParams();
   params.set('page', String(page));
-  params.set('size', String(30));
+  params.set('size', String(size));
 
   if (kind) params.set('kind', String(kind));
   if (limit) params.set('limit', String(limit));

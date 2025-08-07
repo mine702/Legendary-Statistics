@@ -19,7 +19,7 @@ export const Ranking = () => {
   const [keyword, setKeyword] = useSearchParamState<string | undefined>(searchParamsList, "keyword", undefined);
 
   const {data: rateList} = useSWRGetRateList();
-  const {data} = useSWRRankingList(page, kind, limit, rate, year, keyword);
+  const {data} = useSWRRankingList(page, 30, kind, limit, rate, year, keyword);
 
   const [showKindList, setShowKindList] = useState(false);
 
