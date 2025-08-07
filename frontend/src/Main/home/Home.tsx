@@ -57,7 +57,21 @@ export const Home = () => {
         </button>
       </div>
 
-      <div className={style.sectionThree} onClick={() => navigate("/ranking")}>
+      <div className={style.simulatorContainer}>
+        {!treasure ? (
+          <div>시뮬레이터 전설 정보를 불러오는 중입니다...</div>
+        ) : (
+          treasure.map((item) => (
+            <SimulatorLegendCard
+              key={item.name}
+              item={item}
+              onClick={() => handleCardClick(item.id)}
+            />
+          ))
+        )}
+      </div>
+
+      <div className={style.rankingContainer} onClick={() => navigate("/ranking")}>
         {ranking?.items ? (
           <>
             <RankingCard
@@ -81,16 +95,7 @@ export const Home = () => {
         )}
       </div>
 
-      {/* 🌟 두 번째 공간 */}
-      <div className={style.sectionTwo}>
-        {
-          treasure?.map((item) => (
-            <SimulatorLegendCard key={item.name} item={item} onClick={() => handleCardClick(item.id)}/>
-          ))
-        }
-      </div>
-
-      <div className={style.sectionOne}>
+      <div className={style.videoContainer}>
         {legend ? (
           <div className={style.videoWrapper}>
             <iframe
