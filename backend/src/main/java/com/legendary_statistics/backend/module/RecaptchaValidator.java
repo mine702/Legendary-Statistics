@@ -31,26 +31,32 @@ public class RecaptchaValidator {
             ResponseEntity<Map> response = restTemplate.postForEntity(url, params, Map.class);
 
             if (response.getStatusCode() != HttpStatus.OK) {
+                log.warn("reCAPTCHA 인증 응답 상태 비정상: {}", response.getStatusCode());
                 return false;
             }
 
             Map body = response.getBody();
+            log.info("reCAPTCHA 응답: {}", body); // ← 응답 전체 찍어봄
+
             if (body == null || !Boolean.TRUE.equals(body.get("success"))) {
+                log.warn("reCAPTCHA 인증 실패 (success false)");
                 return false;
             }
 
             Object scoreObj = body.get("score");
             if (scoreObj instanceof Number) {
                 double score = ((Number) scoreObj).doubleValue();
+                log.info("reCAPTCHA score: {}", score);
                 return score >= 0.5;
+            } else {
+                log.warn("reCAPTCHA score 없음");
             }
 
             return false;
 
         } catch (Exception e) {
-            log.error("reCAPTCHA 인증 중 예외 발생: " + e.getMessage());
+            log.error("reCAPTCHA 예외 발생: ", e);
             return false;
         }
     }
-
 }

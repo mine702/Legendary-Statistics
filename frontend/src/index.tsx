@@ -3,7 +3,7 @@ import {createRoot} from 'react-dom/client'
 import './index.scss'
 import ScrollToTop from "./util/ScrollToTop.ts";
 import {BrowserRouter, Route, Routes, useNavigate} from "react-router";
-import {reCaptchaKey, requestURL} from "./config.ts";
+import {requestURL} from "./config.ts";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import {Slide, ToastContainer} from "react-toastify";
@@ -17,7 +17,6 @@ import {EditorProvider} from "react-simple-wysiwyg";
 import {Main} from "./Main/Main.tsx";
 import {checkIsAuthenticated} from "./util/loginManager.ts";
 import {useMobileViewport} from "./util/hooks/useMobileViewport.ts";
-import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 
 //axios 설정
 axios.defaults.withCredentials = true;
@@ -74,14 +73,12 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary fallbackRender={ErrorBoundaryFallbackRender}>
       <EditorProvider>
-        <GoogleReCaptchaProvider reCaptchaKey={reCaptchaKey}>
-          <BrowserRouter>
-            <ScrollToTop/>
-            <App/>
-            <ToastContainer position="bottom-center" closeButton={false} hideProgressBar={true}
-                            transition={Slide} autoClose={3000}/>
-          </BrowserRouter>
-        </GoogleReCaptchaProvider>
+        <BrowserRouter>
+          <ScrollToTop/>
+          <App/>
+          <ToastContainer position="bottom-center" closeButton={false} hideProgressBar={true}
+                          transition={Slide} autoClose={3000}/>
+        </BrowserRouter>
       </EditorProvider>
     </ErrorBoundary>
   </StrictMode>,
