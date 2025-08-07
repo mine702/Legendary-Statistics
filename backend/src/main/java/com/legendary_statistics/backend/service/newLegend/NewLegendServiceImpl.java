@@ -2,8 +2,10 @@ package com.legendary_statistics.backend.service.newLegend;
 
 import com.legendary_statistics.backend.dto.newLegend.GetNewLegendListRes;
 import com.legendary_statistics.backend.dto.newLegend.GetNewLegendRes;
+import com.legendary_statistics.backend.dto.newLegend.PostVoteReq;
 import com.legendary_statistics.backend.entity.NewLegendEntity;
 import com.legendary_statistics.backend.global.exception.legend.LegendNotFoundException;
+import com.legendary_statistics.backend.module.RecaptchaValidator;
 import com.legendary_statistics.backend.repository.newLegend.NewLegendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.List;
 public class NewLegendServiceImpl implements NewLegendService {
 
     private final NewLegendRepository newLegendRepository;
+    private final RecaptchaValidator recaptchaValidator;
 
     @Override
     public List<GetNewLegendListRes> getNewLegendList() {
@@ -37,7 +40,26 @@ public class NewLegendServiceImpl implements NewLegendService {
         newLegendRes.setGood(newLegendEntity.getGood());
         newLegendRes.setBad(newLegendEntity.getBad());
         newLegendRes.setCreatedAt(newLegendEntity.getCreatedAt());
-        
+
         return newLegendRes;
+    }
+
+    @Override
+    public void voteNewLegend(PostVoteReq request) {
+        boolean verified = recaptchaValidator.verifyToken(request.getToken());
+        if (!verified) throw new RuntimeException("Recaptcha 인증 실패");
+
+        NewLegendEntity newLegendEntity = newLegendRepository.findById(request.getId())
+                .orElseThrow(LegendNotFoundException::new);
+
+        if (request.getType().equals("good")) {
+            newLegendEntity.setGood(newLegendEntity.getGood() + 1);
+        } else if (request.getType().equals("bad")) {
+            newLegendEntity.setBad(newLegendEntity.getBad() + 1);
+        } else {
+            throw new RuntimeException("잘못된 요청입니다.");
+        }
+
+        newLegendRepository.save(newLegendEntity);
     }
 }

@@ -7,14 +7,21 @@ import thumbUpIcon from "../../assets/icons/thumb_up.svg";
 import thumbDownIcon from "../../assets/icons/thumb_down.svg";
 import dayts from "../../util/dayts.ts";
 import {getRateName} from "../../server/dto/rate.ts";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import axios from "axios";
+import {toast} from "react-toastify";
 
 export const NewLegend = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const {data: list, isLoading} = useSWRGetNewLegendList();
-  const {data: legend} = useSWRGetNewLegendDetail(selectedId);
+  const {data: legend, mutate} = useSWRGetNewLegendDetail(selectedId);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [legendHeight, setLegendHeight] = useState<number | null>(null);
   const legendRef = useRef<HTMLDivElement>(null);
+
+  const {executeRecaptcha} = useGoogleReCaptcha();
 
   useEffect(() => {
     const el = legendRef.current;
@@ -36,7 +43,6 @@ export const NewLegend = () => {
   }, [legend]);
 
   const handleClickCard = (id: number) => {
-    console.log(id)
     setSelectedId(id);
   }
 
@@ -46,9 +52,36 @@ export const NewLegend = () => {
     }
   }, [list]);
 
+
+  const handleVote = async (type: "good" | "bad") => {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA 로딩 중입니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    try {
+      const token = await executeRecaptcha("vote");
+      const res = await axios.post("new-legend/vote", {
+        id: selectedId,
+        type,
+        token,
+      });
+
+      if (res.data.success) {
+        await mutate();
+        toast.success("투표 완료!");
+      } else {
+        toast.error("reCAPTCHA 인증 실패");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("오류 발생");
+    }
+  };
+
+
   return (
     <div className={style.root}>
-
       <div className={style.container}>
         {/* 헤더 이미지 */}
         <div className={style.headerWrapper}>
@@ -59,12 +92,27 @@ export const NewLegend = () => {
         ) : (
           <div className={style.content}>
 
-            <div className={style.listContainer} style={{maxHeight: legendHeight ?? 'auto', overflowY: 'auto'}}>
-              {
-                list?.map((legend) => (
-                  <ListItem key={legend.id} id={legend.id} name={legend.name} onClick={handleClickCard}/>
-                ))
-              }
+            <div className={style.listContainer} style={{maxHeight: legendHeight ?? 'auto'}}>
+              <div className={style.searchContainer}>
+                <input
+                  type="text"
+                  placeholder="전설 이름으로 검색"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+
+              <div className={style.listItems}>
+                {
+                  list
+                    ?.filter(legend => legend.name.includes(searchTerm))
+                    .map((legend) => (
+                      <ListItem key={legend.id} id={legend.id} name={legend.name} rateId={legend.rateId}
+                                onClick={handleClickCard}/>
+                    ))
+                }
+              </div>
+
             </div>
 
             <div className={style.legendContainer} ref={legendRef}>
@@ -99,12 +147,13 @@ export const NewLegend = () => {
 
                   {/* 좋아요/싫어요 */}
                   <div className={style.voteWrapper}>
-                    <div className={style.voteButton}>
-                      <img className={style.thumbUp} src={thumbUpIcon as string} alt="thumbUpIcon"/>
+                    <div className={style.voteButton} onClick={() => handleVote("good")}>
+                      <img className={style.thumbUp} src={thumbUpIcon} alt="thumbUpIcon"/>
                       <span>{legend.good}</span>
                     </div>
-                    <div className={style.voteButton}>
-                      <img className={style.thumbDown} src={thumbDownIcon as string} alt="thumbDownIcon"/>
+
+                    <div className={style.voteButton} onClick={() => handleVote("bad")}>
+                      <img className={style.thumbDown} src={thumbDownIcon} alt="thumbDownIcon"/>
                       <span>{legend.bad}</span>
                     </div>
                   </div>

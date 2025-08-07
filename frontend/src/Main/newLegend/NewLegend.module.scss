@@ -47,8 +47,31 @@
         border: 1px solid var(--card-border-color);
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px 1vw;
-        gap: 10px;
+        padding: 10px 0;
+
+        .search-container {
+          margin-bottom: 10px;
+          padding: 0 1vw;
+
+          input {
+            width: auto;
+            box-sizing: border-box;
+            background-color: var(--fill-color-1);
+            border: 1px solid var(--card-border-color);
+            border-radius: 5px;
+            padding: 4px 5px;
+            cursor: pointer;
+            font-size: clamp(8px, 1.2vw, 14px);
+          }
+        }
+
+        .list-items {
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+          gap: 1vh;
+          padding: 0 1vw;
+        }
       }
 
       .legend-container {

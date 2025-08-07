@@ -17,7 +17,9 @@ def analyze_legends(cropped_dir, legend_vectors, legend_labels, log_fn=print):
             img = Image.open(img_path).convert("RGB")
             vec = get_frame_vector(img)
             sims = cosine_similarity([vec], legend_vectors)[0]
-            labels_to_send.append(legend_labels[np.argmax(sims)])
+            score = sims.max()
+            if score >= 0.7:
+                labels_to_send.append(legend_labels[np.argmax(sims)])
         except Exception as e:
             log_fn(f"❌ 분석 실패: {e}")
 

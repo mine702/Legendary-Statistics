@@ -1,12 +1,7 @@
 .card {
+  border-radius: 3px;
   background-color: var(--fill-color-1);
-  border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: clamp(12px, 1vw, 16px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   border: 1px solid var(--card-border-color);
@@ -19,10 +14,27 @@
     transform: scale(0.98);
   }
 
-  .name {
-    padding: 5px 10px;
-    text-align: center;
+  .card-content {
+    border-radius: 3px;
+    display: flex;
+    overflow-x: hidden;
+    align-items: center;
+
+    .bar {
+      width: 6px;
+      align-self: stretch;
+    }
+
+
+    .name {
+      margin: 0 auto;
+      padding: 5px 10px;
+      text-align: center;
+      font-size: clamp(12px, 1vw, 16px);
+    }
   }
+
+
 }
 
 

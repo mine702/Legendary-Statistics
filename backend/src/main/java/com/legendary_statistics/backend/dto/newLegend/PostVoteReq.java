@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetNewLegendListRes {
+public class PostVoteReq {
     private Long id;
-    private String name;
-    private Long rateId;
+    private String type;
+    private String token;
 }

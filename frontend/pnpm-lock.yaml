@@ -26,6 +26,9 @@ importers:
       react-error-boundary:
         specifier: ^5.0.0
         version: 5.0.0(react@18.3.1)
+      react-google-recaptcha-v3:
+        specifier: ^1.11.0
+        version: 1.11.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router:
         specifier: ^7.6.3
         version: 7.6.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -976,6 +979,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hoist-non-react-statics@3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -1169,6 +1175,12 @@ packages:
     resolution: {integrity: sha512-tnjAxG+IkpLephNcePNA7v6F/QpWLH8He65+DmedchDwg162JZqx4NmbXj0mlAYVVEd81OW7aFhmbsScYfiAFQ==}
     peerDependencies:
       react: '>=16.13.1'
+
+  react-google-recaptcha-v3@1.11.0:
+    resolution: {integrity: sha512-kLQqpz/77m8+trpBwzqcxNtvWZYoZ/YO6Vm2cVTHW8hs80BWUfDpC7RDwuAvpswwtSYApWfaSpIDFWAIBNIYxQ==}
+    peerDependencies:
+      react: ^16.3 || ^17.0 || ^18.0 || ^19.0
+      react-dom: ^17.0 || ^18.0 || ^19.0
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -2417,6 +2429,10 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hoist-non-react-statics@3.3.2:
+    dependencies:
+      react-is: 16.13.1
+
   ignore@5.3.2: {}
 
   immer@10.1.1: {}
@@ -2575,6 +2591,12 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.9
       react: 18.3.1
+
+  react-google-recaptcha-v3@1.11.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react-is@16.13.1: {}
 

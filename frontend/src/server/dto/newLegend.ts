@@ -1,6 +1,7 @@
 export interface GetNewLegendListRes {
   id: number;
   name: string;
+  rateId: number;
 }
 
 export interface GetNewLegendRes {

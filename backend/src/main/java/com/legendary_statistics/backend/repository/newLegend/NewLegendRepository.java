@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface NewLegendRepository extends JpaRepository<NewLegendEntity, Long> {
 
-    @Query("SELECT new com.legendary_statistics.backend.dto.newLegend.GetNewLegendListRes(n.id, n.name) " +
+    @Query("SELECT new com.legendary_statistics.backend.dto.newLegend.GetNewLegendListRes(n.id, n.name, n.rateEntity.id) " +
             "FROM NewLegendEntity n WHERE n.deleted = false ORDER BY n.createdAt DESC")
     List<GetNewLegendListRes> findAllNamesOrderByCreatedAt();
 
