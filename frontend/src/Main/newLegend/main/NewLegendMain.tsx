@@ -85,8 +85,14 @@ export const NewLegendMain = () => {
           <div className={style.loading}>로딩중...</div>
         ) : (
           <div className={style.content}>
-
-            <div className={style.listContainer} style={{maxHeight: legendHeight ?? 'auto'}}>
+            <div
+              className={style.listContainer}
+              style={
+                window.innerWidth > 1200
+                  ? {maxHeight: legendHeight ?? 'auto'}
+                  : undefined
+              }
+            >
               <div className={style.searchContainer}>
                 <input
                   type="text"

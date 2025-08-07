@@ -61,7 +61,7 @@
             border-radius: 5px;
             padding: 4px 5px;
             cursor: pointer;
-            font-size: clamp(8px, 1.2vw, 14px);
+            font-size: clamp(12px, 1.2vw, 13px);
           }
         }
 
@@ -120,7 +120,7 @@
           }
 
           .name {
-            font-size: clamp(12px, 1.5vw, 20px); // 최소 16px, 최대 22px
+            font-size: clamp(16px, 1.5vw, 20px); // 최소 16px, 최대 22px
             font-weight: bold;
             margin-bottom: 20px;
           }
@@ -183,10 +183,50 @@
     }
   }
 
+  @media screen and (max-width: 1200px) {
+    .container {
+      .content {
+        flex-direction: column;
+        width: 100%;
+
+        .list-container {
+          max-height: 150px;
+          width: 100%;
+        }
+
+        .legend-container {
+          flex: none;
+          width: 100%;
+          padding: 10px 0;
+
+          .legendDetail {
+            .title-area {
+              margin: 0 10px;
+            }
+
+            .name {
+              margin: 10px;
+            }
+
+            .videoWrapper {
+              margin: 0 10px;
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 768px) {
     .container {
       width: auto;
       margin: 0 0 10px 0;
+
+      .content {
+        width: 90%;
+        margin: 0 auto;
+      }
     }
   }
 }
