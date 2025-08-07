@@ -61,21 +61,15 @@ export const NewLegendMain = () => {
 
     try {
       const token = await executeRecaptcha("vote");
-      const res = await axios.post("new-legend/vote", {
+      await axios.post("new-legend/vote", {
         id: selectedId,
         type,
         token,
+      }).then(() => {
+        mutate()
       });
-
-      if (res.data.success) {
-        await mutate();
-        toast.success("투표 완료!");
-      } else {
-        toast.error("reCAPTCHA 인증 실패");
-      }
     } catch (err) {
-      console.error(err);
-      toast.error("오류 발생");
+      toast.error("오류 발생 잠시후 다시 시도해주세요.");
     }
   };
 

@@ -19,6 +19,7 @@ public enum ErrorCode {
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "유효성 검사에 실패했습니다."),
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 파일을 찾을 수 없습니다."),
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
+    RECAPTCHA_ERROR(HttpStatus.BAD_REQUEST, "reCAPTCHA 검증에 실패했습니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 없습니다.");
 
     private final HttpStatus status;

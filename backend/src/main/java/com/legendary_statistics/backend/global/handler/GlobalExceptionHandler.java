@@ -1,6 +1,7 @@
 package com.legendary_statistics.backend.global.handler;
 
 import com.legendary_statistics.backend.global.exception.board.BoardNotFoundException;
+import com.legendary_statistics.backend.global.exception.certified.ReCaptchaException;
 import com.legendary_statistics.backend.global.exception.file.FileNotFoundException;
 import com.legendary_statistics.backend.global.exception.file.JsonFileRuntimeException;
 import com.legendary_statistics.backend.global.exception.kind.KindNotFoundException;
@@ -120,6 +121,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PassWordIncorrectException.class)
     protected ResponseEntity<?> handle(PassWordIncorrectException e) {
         log.error("PassWordIncorrectException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(ReCaptchaException.class)
+    protected ResponseEntity<?> handle(ReCaptchaException e) {
+        log.error("ReCaptchaException = {}", e.getMessage());
         return response.error(e.getErrorCode(), e.getMessage());
     }
 

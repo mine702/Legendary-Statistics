@@ -45,6 +45,7 @@ public class NewLegendServiceImpl implements NewLegendService {
     }
 
     @Override
+    @Transactional
     public void voteNewLegend(PostVoteReq request) {
         boolean verified = recaptchaValidator.verifyToken(request.getToken());
         if (!verified) throw new RuntimeException("Recaptcha 인증 실패");
@@ -52,13 +53,9 @@ public class NewLegendServiceImpl implements NewLegendService {
         NewLegendEntity newLegendEntity = newLegendRepository.findById(request.getId())
                 .orElseThrow(LegendNotFoundException::new);
 
-        if (request.getType().equals("good")) {
-            newLegendEntity.setGood(newLegendEntity.getGood() + 1);
-        } else if (request.getType().equals("bad")) {
-            newLegendEntity.setBad(newLegendEntity.getBad() + 1);
-        } else {
-            throw new RuntimeException("잘못된 요청입니다.");
-        }
+        if (request.getType().equals("good")) newLegendEntity.setGood(newLegendEntity.getGood() + 1);
+        else if (request.getType().equals("bad")) newLegendEntity.setBad(newLegendEntity.getBad() + 1);
+        else throw new RuntimeException("잘못된 요청입니다.");
 
         newLegendRepository.save(newLegendEntity);
     }
