@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NewLegendRepository extends JpaRepository<NewLegendEntity, Long>, NewLegendRepositoryCustom {
@@ -16,4 +17,5 @@ public interface NewLegendRepository extends JpaRepository<NewLegendEntity, Long
             "FROM NewLegendEntity n WHERE n.deleted = false ORDER BY n.createdAt DESC")
     List<GetNewLegendListRes> findAllNamesOrderByCreatedAt();
 
+    Optional<NewLegendEntity> findFirstByDeletedFalseOrderByCreatedAtDesc();
 }

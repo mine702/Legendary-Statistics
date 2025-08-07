@@ -52,4 +52,9 @@ public class NewLegendController {
     public void deleteNewLegendComment(@PathVariable Long commentId, Principal principal) {
         newLegendService.deleteNewLegendComment(commentId, principal);
     }
+
+    @GetMapping("last")
+    public ResponseEntity<?> getNewLegendLast() {
+        return response.success(newLegendService.getNewLegendLast());
+    }
 }

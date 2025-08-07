@@ -15,6 +15,7 @@ import com.legendary_statistics.backend.repository.treasure.TreasureRepository;
 import com.legendary_statistics.backend.util.ProbabilityPicker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,13 @@ public class TreasureServiceImpl implements TreasureService {
     @Override
     public List<GetTreasureRes> getTreasureList() {
         List<TreasureEntity> treasureList = treasureRepository.findByDeletedOrderByIdDesc(false);
+        return GetTreasureRes.of(treasureList);
+    }
+
+    @Override
+    public List<GetTreasureRes> getTreasureLast() {
+        Pageable pageable = Pageable.ofSize(3);
+        List<TreasureEntity> treasureList = treasureRepository.findByDeletedOrderByIdDesc(false, pageable);
         return GetTreasureRes.of(treasureList);
     }
 

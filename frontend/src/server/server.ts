@@ -33,6 +33,11 @@ export const useSWRGetTreasureList = () => {
   return useSWR<GetTreasureRes[]>(`/treasure/list`, defaultFetchAxios);
 }
 
+// 보물왕국 리스트 불러오기
+export const useSWRGetTreasureLastList = () => {
+  return useSWR<GetTreasureRes[]>(`/treasure/last`, defaultFetchAxios);
+}
+
 // 보물왕국 상세정보 불러오기
 export const useSWRGetTreasureDetail = (id: string | undefined) => {
   return useSWR<GetTreasureRes>(`/treasure/detail/${id}`, defaultFetchAxios);
@@ -108,4 +113,8 @@ export const useSWRGetNewLegendDetail = (id: number | null) => {
 
 export const useSWRGetNewLegendCommentList = (id: number | null) => {
   return useSWR<GetNewLegendCommentRes[]>(id ? `/new-legend/comment/${id}` : null, defaultFetchAxios)
+}
+
+export const useSWRGetNewLegendLast = () => {
+  return useSWR<GetNewLegendRes>(`/new-legend/last`, defaultFetchAxios);
 }

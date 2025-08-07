@@ -93,4 +93,21 @@ public class NewLegendServiceImpl implements NewLegendService {
         if (!newLegendCommentEntity.getUserEntity().getId().equals(userId)) throw new ForbiddenException();
         else newLegendCommentRepository.delete(newLegendCommentEntity);
     }
+
+    @Override
+    public GetNewLegendRes getNewLegendLast() {
+        NewLegendEntity newLegendEntity = newLegendRepository.findFirstByDeletedFalseOrderByCreatedAtDesc().orElseThrow(NewLegendNotFoundException::new);
+        GetNewLegendRes newLegendRes = new GetNewLegendRes();
+
+        newLegendRes.setId(newLegendEntity.getId());
+        newLegendRes.setName(newLegendEntity.getName());
+        newLegendRes.setRateId(newLegendEntity.getRateEntity().getId());
+        newLegendRes.setPrice(newLegendEntity.getPrice());
+        newLegendRes.setVideoUrl(newLegendEntity.getVideoUrl());
+        newLegendRes.setGood(newLegendEntity.getGood());
+        newLegendRes.setBad(newLegendEntity.getBad());
+        newLegendRes.setCreatedAt(newLegendEntity.getCreatedAt());
+
+        return newLegendRes;
+    }
 }

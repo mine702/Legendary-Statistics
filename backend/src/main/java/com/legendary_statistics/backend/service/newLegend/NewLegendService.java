@@ -18,4 +18,6 @@ public interface NewLegendService {
     void postNewLegendComment(PostNewLegendCommentReq postNewLegendCommentReq, Principal principal);
 
     void deleteNewLegendComment(Long commentId, Principal principal);
+
+    GetNewLegendRes getNewLegendLast();
 }

@@ -32,6 +32,11 @@ public class TreasureController {
         return response.success(treasureService.getTreasureList());
     }
 
+    @GetMapping("/last")
+    public ResponseEntity<?> getTreasureLast() {
+        return response.success(treasureService.getTreasureLast());
+    }
+
     @GetMapping("/simulator/{id}")
     public ResponseEntity<?> getSimulatorList(@PathVariable Long id) {
         return response.success(treasureService.getSimulatorList(id));

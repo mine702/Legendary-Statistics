@@ -15,4 +15,6 @@ public interface TreasureService {
     List<GetSimulatorRes> getSimulatorList(Long id);
 
     List<GetProbabilityGroupRes> getProbabilityByTreasureId(Long id);
+
+    List<GetTreasureRes> getTreasureLast();
 }

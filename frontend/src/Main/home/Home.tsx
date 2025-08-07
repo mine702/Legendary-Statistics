@@ -1,6 +1,6 @@
 import style from "./Home.module.scss";
 import mainImg from "../../assets/img/main_logo.png";
-import {useSWRRankingList} from "../../server/server.ts";
+import {useSWRGetNewLegendLast, useSWRGetTreasureLastList, useSWRRankingList} from "../../server/server.ts";
 import {RankingCard} from "../ranking/card/RankingCard.tsx";
 import {useNavigate} from "react-router";
 import {useState} from "react";
@@ -9,6 +9,7 @@ import axios from "axios";
 import {ApiResponse} from "../../server/dto/format.ts";
 import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
+import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 
 export const Home = () => {
 
@@ -17,6 +18,8 @@ export const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const {data: ranking} = useSWRRankingList(0, 3);
+  const {data: legend} = useSWRGetNewLegendLast();
+  const {data: treasure} = useSWRGetTreasureLastList();
 
   const handleSearch = showToastOnError(async () => {
     if (!searchTerm.trim()) {
@@ -28,6 +31,10 @@ export const Home = () => {
         navigate('/list', {state: {kindId: res.data?.data?.kindId}});
       })
   });
+
+  const handleCardClick = (id: number) => {
+    navigate(`/simulator/${id}`);
+  };
 
   return (
     <div className={style.root}>
@@ -49,16 +56,6 @@ export const Home = () => {
           검색
         </button>
       </div>
-      {/* 🌟 첫 번째 공간 */}
-      <div className={style.sectionOne}>
-        <h2>첫 번째 공간</h2>
-      </div>
-
-      {/* 🌟 두 번째 공간 */}
-      <div className={style.sectionTwo}>
-        <h2>두 번째 공간</h2>
-      </div>
-
 
       <div className={style.sectionThree} onClick={() => navigate("/ranking")}>
         {ranking?.items ? (
@@ -83,6 +80,31 @@ export const Home = () => {
           <div className={style.noRanking}>랭킹 정보가 없습니다.</div>
         )}
       </div>
+
+      {/* 🌟 두 번째 공간 */}
+      <div className={style.sectionTwo}>
+        {
+          treasure?.map((item) => (
+            <SimulatorLegendCard key={item.name} item={item} onClick={() => handleCardClick(item.id)}/>
+          ))
+        }
+      </div>
+
+      <div className={style.sectionOne}>
+        {legend ? (
+          <div className={style.videoWrapper}>
+            <iframe
+              src={legend.videoUrl.replace("watch?v=", "embed/")}
+              title="전설 영상"
+              allowFullScreen
+            ></iframe>
+          </div>
+        ) : (
+          <div>최신 전설 정보를 불러오는 중...</div>
+        )}
+      </div>
+
+
     </div>
   );
 };
