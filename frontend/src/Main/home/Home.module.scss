@@ -65,7 +65,7 @@
     transition: transform 0.2s ease-in-out;
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.01);
     }
   }
 
@@ -95,7 +95,7 @@
     gap: 10px;
 
     @media screen and (max-width: 768px) {
-      grid-template-columns: 1fr;
+      gap: 2px;
     }
   }
 
@@ -105,7 +105,7 @@
     gap: 10px;
 
     @media screen and (max-width: 768px) {
-      grid-template-columns: 1fr;
+      gap: 2px;
     }
   }
 

@@ -108,8 +108,6 @@ export const Home = () => {
           <div>최신 전설 정보를 불러오는 중...</div>
         )}
       </div>
-
-
     </div>
   );
 };
