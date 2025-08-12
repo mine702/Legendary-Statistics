@@ -10,77 +10,79 @@
   &:hover {
     transform: scale(1.05);
   }
-}
 
-.image {
-  width: 100%;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-
-.rateWrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-  width: 100%;
-}
-
-.rateImage {
-  width: 80px;
-  height: auto;
-}
-
-.info {
-  width: 100%;
-  padding: 8px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 0 0 10px 10px;
-}
-
-.name {
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.stars {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-}
-
-.starImage {
-  width: 3vw;
-  min-width: 50px;
-  object-fit: contain;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  margin-bottom: -15px;
-
-  &:hover {
-    transform: scale(1.2);
+  .image {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
   }
 
-  &.active {
-    filter: brightness(1.4);
-  }
-}
-
-
-@media screen and (max-width: 768px) {
-  .name {
-    font-size: 14px;
+  .rateWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    width: 100%;
   }
 
   .rateImage {
-    width: 60px;
+    width: 80px;
+    height: auto;
   }
 
-  .starButton {
-    width: 30px;
-    height: 30px;
-    padding: 2px;
+  .info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .stars {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin: -5px 0 5px;
+  }
+
+  .starImage {
+    width: 3vw;
+    min-width: 50px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    margin-bottom: -15px;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &.active {
+      filter: brightness(1.4);
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .name {
+      font-size: 14px;
+    }
+
+    .rateImage {
+      width: 60px;
+    }
+
+    .starButton {
+      width: 30px;
+      height: 30px;
+      padding: 2px;
+    }
   }
 }
+
+
