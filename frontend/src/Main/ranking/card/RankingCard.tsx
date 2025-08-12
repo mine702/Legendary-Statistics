@@ -18,7 +18,7 @@ export const RankingCard = ({image, name, rank}: Props) => {
       {medal && <img src={medal} alt={`${rank}등`} className={style.medal}/>}
       <img src={image} alt={name} className={style.image}/>
       <div className={style.info}>
-        <span className={style.rank}>{rank}위 </span>
+        <span className={style.rank}>{rank}등 </span>
         <span className={style.name}>{name}</span>
       </div>
     </div>

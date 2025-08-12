@@ -41,7 +41,11 @@ export const Home = () => {
       <img src={mainImg as string} alt="main" className={style.mainImg}/>
       <div className={style.announcement}>
         <p>
-          TFT META 는 라이엇 게임즈의 “지식재산 이용 정책” 에 따라 라이엇 게임즈 소유의 자산을 이용하여 제작되었습니다.</p>
+          TFT META 는 라이엇 게임즈의 지식재산 이용 정책에 따라
+        </p>
+        <p>
+          라이엇 게임즈 소유의 자산을 이용하여 제작되었습니다.
+        </p>
         <p>
           라이엇 게임즈는 이 프로젝트를 지지하거나 후원하지 않습니다.
         </p>
