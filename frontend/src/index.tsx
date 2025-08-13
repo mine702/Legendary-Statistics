@@ -61,6 +61,12 @@ function App() {
     }
   }, [location.pathname])
 
+  // 라우트 변경 시
+  useEffect(() => {
+    // @ts-ignore
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/authorized/:provider" element={<AuthorizedByOAuth onSuccess={onSocialAuthSuccess}/>}/>
