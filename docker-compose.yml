@@ -55,7 +55,7 @@ services:
       - /home/mine/service/image:/uploads
 
   rendertron:
-    image: ghcr.io/rendertron/rendertron:latest
+    image: dockette/rendertron:latest
     restart: unless-stopped
     expose:
       - "3000"
