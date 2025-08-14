@@ -10,13 +10,6 @@
 
     <!-- 주요 페이지 -->
     <url>
-        <loc>https://tftmeta.co.kr/home</loc>
-        <lastmod>2025-08-12</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-
-    <url>
         <loc>https://tftmeta.co.kr/ranking</loc>
         <lastmod>2025-08-12</lastmod>
         <changefreq>daily</changefreq>

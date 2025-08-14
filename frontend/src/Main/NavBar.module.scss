@@ -24,14 +24,17 @@
       padding: 10px;
       flex-shrink: 0;
 
+      text-decoration: none;
+      display: inline-block;
+
       &:hover {
-        color: white;
+        color: #fff;
         transform: scale(1.05);
       }
+    }
 
-      &.active {
-        border-bottom: 2px solid white;
-      }
+    .active {
+      border-bottom: 2px solid #fff;
     }
   }
 }

@@ -3,7 +3,6 @@ import {TopBar} from "./TopBar.tsx";
 import {NavBar} from "./NavBar.tsx";
 import {Route, Routes} from "react-router";
 import {Home} from "./home/Home.tsx";
-import {Redirect} from "../component/Redirect.tsx";
 import {List} from "./list/List.tsx";
 import {Ranking} from "./ranking/Ranking.tsx";
 import {Community} from "./community/Community.tsx";
@@ -23,14 +22,14 @@ export const Main = () => {
         <TopBar/>
         <NavBar/>
         <Routes>
-          <Route path="home/*" element={<Home/>}/>
+          <Route path="/" element={<Home/>}/>
           <Route path="simulator/*" element={<Simulator/>}/>
           <Route path="list/*" element={<List/>}/>
           <Route path="ranking/*" element={<Ranking/>}/>
           <Route path="new-legend/*" element={<NewLegend/>}/>
           <Route path="community/*" element={<Community/>}/>
           <Route path="login/*" element={<Login/>}/>
-          <Route path="*" element={<Redirect path="/home"/>}/>
+          <Route path="*" element={<Home/>}/>
         </Routes>
         <ToolTipRenderer tooltipContent={ttNode} tooltipPosition={ttPosition} isMouseOver={isTtMouseOver}/>
       </div>

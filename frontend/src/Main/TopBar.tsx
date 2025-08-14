@@ -39,7 +39,7 @@ export const TopBar = () => {
 
   return (
     <div className={style.root}>
-      <div className={style.titleBtn} onClick={() => navigate('/home')}>
+      <div className={style.titleBtn} onClick={() => navigate('/')}>
         <img className={style.logo} src={topBarLogo as string} alt="logo"/>
       </div>
       <div style={{marginLeft: "30px"}}/>

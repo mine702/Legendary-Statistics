@@ -25,7 +25,7 @@ export const EmailLogin = () => {
     })
   }
 
-  const onClickGoBack = () => navigate("../../home")
+  const onClickGoBack = () => navigate("../../")
 
   const onClickSignUp = () => navigate("../signup-by-email")
 

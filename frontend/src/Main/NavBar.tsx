@@ -1,8 +1,8 @@
 import style from "./NavBar.module.scss";
-import {useLocation, useNavigate} from "react-router";
+import {NavLink} from "react-router";
 
 const menuItems = [
-  {label: "홈", path: "/home"},
+  {label: "홈", path: "/"},
   {label: "보물 왕국 시뮬레이터", path: "/simulator"},
   {label: "꼬마 전설이 리스트", path: "/list"},
   {label: "꼬마 전설이 랭킹", path: "/ranking"},
@@ -11,20 +11,18 @@ const menuItems = [
 ];
 
 export const NavBar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   return (
     <div className={style.root}>
       <div className={style.container}>
-        {menuItems.map((item, index) => (
-          <button
-            key={index}
-            className={`${style.menuBtn} ${location.pathname.includes(item.path) ? style.active : ""}`}
-            onClick={() => navigate(item.path)}
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({isActive}) => `${style.menuBtn} ${isActive ? style.active : ""}`}
+            end={item.path === "/"}   // "/"는 정확히 일치할 때만 활성
           >
             {item.label}
-          </button>
+          </NavLink>
         ))}
       </div>
     </div>

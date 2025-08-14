@@ -57,7 +57,7 @@ function App() {
     let isAuthenticated = checkIsAuthenticated();
     const isFindPasswordPage = location.pathname.startsWith("/login/find-password");
     if (location.pathname.startsWith("/login") && isAuthenticated && !isFindPasswordPage) {
-      navigate("/home");
+      navigate("/");
     }
   }, [location.pathname])
 
