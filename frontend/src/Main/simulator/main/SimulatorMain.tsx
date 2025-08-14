@@ -21,6 +21,18 @@ export const SimulatorMain = () => {
         <div className={style.headerWrapper}>
           <img src={simulatorLogo} alt="로고"/>
         </div>
+        <div className={style.headerText}>
+          <div className={style.descriptionBox}>
+            <div className={style.textBox}>
+              <p className={style.mainText}>
+                이 시뮬레이터는 실제 게임과 동일한 확률로 작동하는 뽑기 시뮬레이터입니다!
+              </p>
+              <p className={style.subText}>
+                원하는 꼬마 전설이를 뽑을 확률을 직접 확인하고 당신의 운을 확인해 보세요!
+              </p>
+            </div>
+          </div>
+        </div>
         {isLoading ? (
           <div className={style.loading}>로딩중...</div>
         ) : (
