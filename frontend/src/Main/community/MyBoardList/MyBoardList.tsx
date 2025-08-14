@@ -4,12 +4,18 @@ import {useNavigate, useSearchParams} from "react-router";
 import {ListPager} from "../../../component/ListPager.tsx";
 import {useSearchParamState} from "../../../util/hooks/useSearchParamState.ts";
 import {BoardListItem} from "../../../component/board/BoardListItem.tsx";
+import {useEffect} from "react";
+import {checkIsAuthenticated} from "../../../util/loginManager.ts";
 
 export const MyBoardList = () => {
   const navigate = useNavigate();
   const searchParamList = useSearchParams();
   const [page, setPage] = useSearchParamState<number>(searchParamList, "page", 0);
   const {data} = useSWRGetMyBoardList(page);
+
+  useEffect(() => {
+    if (!checkIsAuthenticated()) navigate("/login");
+  }, []);
 
   const onClickItem = (id: number) => {
     navigate(`../detail/${id}`)
