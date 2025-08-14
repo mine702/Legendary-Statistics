@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -111,4 +108,38 @@ public class RankingServiceImpl implements RankingService {
         legendScoreRepository.saveAll(toSave);
     }
 
+    @Override
+    @Transactional
+    public void initScore() {
+        int year = java.time.LocalDate.now().getYear();
+
+        List<LegendEntity> legends = legendRepository.findAllByStar(1);
+
+        Set<Long> legendIds = legends.stream().map(LegendEntity::getId).collect(Collectors.toSet());
+        Set<Long> already = legendScoreRepository.findLegendIdsWithScoreInYear(legendIds, year);
+
+        List<LegendScoreEntity> toSave = new ArrayList<>();
+        for (LegendEntity legend : legends) {
+            if (already.contains(legend.getId())) continue;
+            toSave.add(LegendScoreEntity.builder()
+                    .legendEntity(legend)
+                    .year(year)
+                    .score(0)
+                    .build());
+        }
+        if (!toSave.isEmpty()) legendScoreRepository.saveAll(toSave);
+    }
+
+    @Override
+    @Transactional
+    public void setRandomScore() {
+        Random random = new Random();
+        List<LegendScoreEntity> legendScoreEntities = legendScoreRepository.findAll();
+
+        legendScoreEntities.forEach(
+                legendScoreEntity -> legendScoreEntity.setScore(legendScoreEntity.getScore() + random.nextInt(3) + 1)
+        );
+
+        legendScoreRepository.saveAll(legendScoreEntities);
+    }
 }

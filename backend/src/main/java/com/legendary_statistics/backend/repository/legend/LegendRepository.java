@@ -6,6 +6,7 @@ import com.legendary_statistics.backend.repository.legend.custom.LegendRepositor
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,6 @@ public interface LegendRepository extends JpaRepository<LegendEntity, Long>, Leg
     Optional<LegendEntity> findFirstByKindEntityOrderByIdAsc(KindEntity kindEntity);
 
     Optional<LegendEntity> findFirstByNameContainingIgnoreCaseOrderByIdAsc(String name);
+
+    List<LegendEntity> findAllByStar(int star);
 }

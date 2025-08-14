@@ -10,4 +10,8 @@ public interface RankingService {
     Page<GetRankingRes> getRanking(Pageable pageable, Long kind, Boolean limit, Long rate, Integer year, String keyword);
 
     void setScoreByLabels(List<String> labels);
+
+    void initScore();
+
+    void setRandomScore();
 }
