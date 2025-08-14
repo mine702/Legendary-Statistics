@@ -59,13 +59,13 @@
         width: 100%;
 
         .mainText {
-          font-size: clamp(10px, 1.7vw, 20px); // 최소 16px, 최대 22px
+          font-size: clamp(10px, 1.5vw, 20px); // 최소 16px, 최대 22px
           font-weight: bold;
           line-height: 1;
         }
 
         .subText {
-          font-size: clamp(10px, 1.5vw, 18px); // 최소 14px, 최대 18px
+          font-size: clamp(8px, 1.3vw, 18px); // 최소 14px, 최대 18px
           font-weight: normal;
           margin-top: 5px;
         }
