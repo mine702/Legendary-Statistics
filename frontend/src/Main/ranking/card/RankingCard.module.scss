@@ -25,18 +25,8 @@
     z-index: 1;
     border-radius: 0 0 12px 12px;
     padding: 8px 2px;
-    font-size: clamp(7px, 1.0vw, 12px);
+    font-size: clamp(6px, 0.7vw, 12px);
     background-color: var(--fill-color-5);
   }
-}
-
-@media (max-width: 768px) {
-  .root {
-
-    .info {
-      font-size: 6px;
-    }
-  }
-
 }
 

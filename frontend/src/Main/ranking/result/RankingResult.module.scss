@@ -37,7 +37,12 @@
   }
 
   @media (max-width: 768px) {
-
+    .top {
+      gap: 3px;
+    }
+    .restList {
+      gap: 3px;
+    }
   }
 }
 

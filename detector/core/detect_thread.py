@@ -45,6 +45,10 @@ class DownloadAndDetectThread(QThread):
         cmd = [
             yt_dlp_path,
             "-f", "bestvideo[ext=mp4][height<=1080]",
+            "--concurrent-fragments", "32",
+            "--http-chunk-size", "32M",
+            "--retries", "20",
+            "--fragment-retries", "20",
             "-o", self.video_path,
             self.url
         ]
@@ -112,7 +116,7 @@ class DownloadAndDetectThread(QThread):
                 match_paths.append(out_path)
                 self.log_signal.emit(f"✅ 저장됨: {filename} (유사도: {sim:.3f})")
                 saved += 1
-                frame_id += int(fps * 600)
+                frame_id += int(fps * 900)
                 continue
 
             frame_id += interval
