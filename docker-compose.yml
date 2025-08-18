@@ -36,13 +36,17 @@ services:
 
   frontend:
     image: mine0702/legendary-frontend
-    restart: unless-stopped
     container_name: frontend
-    ports: 
+    restart: unless-stopped
+    ports:
       - "3000:3000"
     stdin_open: true
     volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - /home/mine/service/image:/uploads
+    depends_on:
+      - backend
+      - rendertron
   
   backend:
     image: mine0702/legendary-backend
@@ -57,6 +61,7 @@ services:
   rendertron:
     image: dockette/rendertron:latest
     restart: unless-stopped
-    expose:
-      - "3000"
+    expose: ["3000"]
+    command: ["--timeout=15000","--waitFor=networkidle0"]
+
 
