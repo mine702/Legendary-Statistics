@@ -1,4 +1,3 @@
-// RankingResult.tsx
 import style from "./RankingResult.module.scss";
 import {GetRankingRes} from "../../../server/dto/ranking.ts";
 import {RankingCard} from "../card/RankingCard.tsx";
@@ -14,16 +13,12 @@ export const RankingResult = (props: Props) => {
     return <div className={style.root}>데이터가 없습니다.</div>;
   }
 
-  // 1) 현재 결과를 rank 오름차순으로 정렬
-  const sorted = [...props.value].sort((a, b) => a.rank - b.rank);
-
-  // 2) 현재 결과 기준 상위 3개 + 나머지
-  const top3 = sorted.slice(0, Math.min(3, sorted.length));
-  const rest = sorted.slice(3);
+  const top3 = props.value.filter((item) => item.rank <= 3);
+  const rest = props.value.filter((item) => item.rank > 3);
 
   return (
     <div className={style.root}>
-      {/* 1~3위 형태 배치 */}
+      {/* 1~3등 */}
       {top3.length > 0 && (
         <div className={style.top}>
           {top3.length === 1 && (
@@ -53,21 +48,21 @@ export const RankingResult = (props: Props) => {
             <>
               <div className={style.second}>
                 <RankingCard
-                  rank={top3[1].rank}   // 하드코딩 제거
+                  rank={2}
                   image={top3[1].path}
                   name={top3[1].name}
                 />
               </div>
               <div className={style.first}>
                 <RankingCard
-                  rank={top3[0].rank}   // 하드코딩 제거
+                  rank={1}
                   image={top3[0].path}
                   name={top3[0].name}
                 />
               </div>
               <div className={style.third}>
                 <RankingCard
-                  rank={top3[2].rank}   // 하드코딩 제거
+                  rank={3}
                   image={top3[2].path}
                   name={top3[2].name}
                 />
@@ -77,7 +72,7 @@ export const RankingResult = (props: Props) => {
         </div>
       )}
 
-      {/* 4위 이후 */}
+      {/* 4등 이후 */}
       <div className={style.restList}>
         {rest.map((item) => (
           <RankingCard
