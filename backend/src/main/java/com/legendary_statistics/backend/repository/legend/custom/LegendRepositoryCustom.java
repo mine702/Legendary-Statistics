@@ -10,4 +10,6 @@ public interface LegendRepositoryCustom {
     List<GetLegendListRes> findLegendListByKind(KindEntity kind);
 
     List<GetIdAndActualFileNameRes> findAllLegendIdAndFileName(List<String> actualFileNames);
+
+    List<GetLegendListRes> findLegendListLast();
 }

@@ -11,10 +11,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,33 +24,7 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
     QRateEntity rateEntity = QRateEntity.rateEntity;
     QFileLegendEntity fileLegendEntity = QFileLegendEntity.fileLegendEntity;
 
-    @Override
-    public List<GetLegendListRes> findLegendListByKind(KindEntity kind) {
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.and(legendEntity.kindEntity.eq(kind));
-
-        List<Tuple> fetch = jpqlQuery.from(legendEntity)
-                .where(builder)
-                .leftJoin(legendEntity.rateEntity, rateEntity)
-                .leftJoin(legendEntity.kindEntity, kindEntity)
-                .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
-                .select(
-                        kindEntity.id,
-                        kindEntity.name,
-                        rateEntity.id,
-                        legendEntity.name,
-                        legendEntity.limited,
-                        legendEntity.animation,
-                        legendEntity.id,
-                        fileLegendEntity.actualFileName,
-                        fileLegendEntity.path,
-                        legendEntity.star,
-                        legendEntity.createdAt,
-                        legendEntity.deleted
-                )
-                .orderBy(legendEntity.rateEntity.id.asc(), legendEntity.name.asc(), legendEntity.star.asc())
-                .fetch();
-
+    private Map<String, GetLegendListRes> getGetLegendListResMap(List<Tuple> fetch) {
         Map<String, GetLegendListRes> groupedMap = new LinkedHashMap<>();
 
         for (Tuple tuple : fetch) {
@@ -83,6 +55,37 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
 
             legendList.getLegends().add(legendRes);
         }
+        return groupedMap;
+    }
+
+    @Override
+    public List<GetLegendListRes> findLegendListByKind(KindEntity kind) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(legendEntity.kindEntity.eq(kind));
+
+        List<Tuple> fetch = jpqlQuery.from(legendEntity)
+                .where(builder)
+                .leftJoin(legendEntity.rateEntity, rateEntity)
+                .leftJoin(legendEntity.kindEntity, kindEntity)
+                .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
+                .select(
+                        kindEntity.id,
+                        kindEntity.name,
+                        rateEntity.id,
+                        legendEntity.name,
+                        legendEntity.limited,
+                        legendEntity.animation,
+                        legendEntity.id,
+                        fileLegendEntity.actualFileName,
+                        fileLegendEntity.path,
+                        legendEntity.star,
+                        legendEntity.createdAt,
+                        legendEntity.deleted
+                )
+                .orderBy(legendEntity.rateEntity.id.asc(), legendEntity.name.asc(), legendEntity.star.asc())
+                .fetch();
+
+        Map<String, GetLegendListRes> groupedMap = getGetLegendListResMap(fetch);
         return new ArrayList<>(groupedMap.values());
     }
 
@@ -101,4 +104,36 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<GetLegendListRes> findLegendListLast() {
+        LocalDateTime localDateTime = jpqlQuery.from(legendEntity)
+                .select(legendEntity.createdAt)
+                .orderBy(legendEntity.createdAt.desc())
+                .fetchFirst();
+
+        LocalDateTime start = Objects.requireNonNull(localDateTime).toLocalDate().atStartOfDay();
+
+        List<Tuple> fetch = jpqlQuery.from(legendEntity)
+                .where(legendEntity.createdAt.goe(start))
+                .leftJoin(legendEntity.rateEntity, rateEntity)
+                .leftJoin(legendEntity.kindEntity, kindEntity)
+                .leftJoin(legendEntity.fileLegendEntity, fileLegendEntity)
+                .select(kindEntity.id,
+                        kindEntity.name,
+                        rateEntity.id,
+                        legendEntity.name,
+                        legendEntity.limited,
+                        legendEntity.animation,
+                        legendEntity.id,
+                        fileLegendEntity.actualFileName,
+                        fileLegendEntity.path,
+                        legendEntity.star,
+                        legendEntity.createdAt,
+                        legendEntity.deleted
+                )
+                .fetch();
+
+        Map<String, GetLegendListRes> groupedMap = getGetLegendListResMap(fetch);
+        return new ArrayList<>(groupedMap.values());
+    }
 }

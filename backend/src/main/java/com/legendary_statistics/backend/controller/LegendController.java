@@ -28,4 +28,8 @@ public class LegendController {
         return response.success(legendService.getLegendByName(name));
     }
 
+    @GetMapping("/last")
+    public ResponseEntity<?> getLegendListLast() {
+        return response.success(legendService.getLegendListLast());
+    }
 }

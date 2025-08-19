@@ -118,3 +118,7 @@ export const useSWRGetNewLegendCommentList = (id: number | null) => {
 export const useSWRGetNewLegendLast = () => {
   return useSWR<GetNewLegendRes>(`/new-legend/last`, defaultFetchAxios);
 }
+
+export const useSWRGetLegendLast = () => {
+  return useSWR<GetLegendListRes[]>(`/legend/last`, defaultFetchAxios);
+}

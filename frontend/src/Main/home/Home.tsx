@@ -1,15 +1,21 @@
 import style from "./Home.module.scss";
 import mainImg from "../../assets/img/main_logo.png";
-import {useSWRGetNewLegendLast, useSWRGetTreasureLastList, useSWRRankingList} from "../../server/server.ts";
+import {
+  useSWRGetLegendLast,
+  useSWRGetNewLegendLast,
+  useSWRGetTreasureLastList,
+  useSWRRankingList
+} from "../../server/server.ts";
 import {RankingCard} from "../ranking/card/RankingCard.tsx";
 import {useNavigate} from "react-router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {showToastOnError} from "../../util/errorParser.ts";
 import axios from "axios";
 import {ApiResponse} from "../../server/dto/format.ts";
 import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
+import {LegendCard} from "../list/card/LegendCard.tsx";
 
 export const Home = () => {
 
@@ -20,6 +26,11 @@ export const Home = () => {
   const {data: ranking} = useSWRRankingList(0, 3);
   const {data: legend} = useSWRGetNewLegendLast();
   const {data: treasure} = useSWRGetTreasureLastList();
+  const {data: lastLegend} = useSWRGetLegendLast();
+
+  useEffect(() => {
+    console.log(lastLegend);
+  }, [lastLegend]);
 
   const handleSearch = showToastOnError(async () => {
     if (!searchTerm.trim()) {
@@ -68,41 +79,69 @@ export const Home = () => {
       </div>
 
       <div className={style.simulatorContainer}>
-        {!treasure ? (
-          <div>시뮬레이터 전설 정보를 불러오는 중입니다...</div>
-        ) : (
-          treasure.map((item) => (
-            <SimulatorLegendCard
-              key={item.name}
-              item={item}
-              onClick={() => handleCardClick(item.id)}
-            />
-          ))
-        )}
+        <div className={style.description}>
+          원하는 꼬마 전설이를 뽑을 확률을 직접 확인하고 당신의 운을 확인해 보세요!
+        </div>
+        <div className={style.simulatorContent}>
+          {!treasure ? (
+            <div>시뮬레이터 전설 정보를 불러오는 중입니다...</div>
+          ) : (
+            treasure.map((item) => (
+              <SimulatorLegendCard
+                key={item.name}
+                item={item}
+                onClick={() => handleCardClick(item.id)}
+              />
+            ))
+          )}
+        </div>
       </div>
 
       <div className={style.rankingContainer} onClick={() => navigate("/ranking")}>
-        {ranking?.items ? (
-          <>
-            <RankingCard
-              rank={2}
-              image={ranking.items[1].path}
-              name={ranking.items[1].name}
-            />
-            <RankingCard
-              rank={1}
-              image={ranking.items[0].path}
-              name={ranking.items[0].name}
-            />
-            <RankingCard
-              rank={3}
-              image={ranking.items[2].path}
-              name={ranking.items[2].name}
-            />
-          </>
-        ) : (
-          <div className={style.noRanking}>랭킹 정보가 없습니다.</div>
-        )}
+        <div className={style.description}>
+          좋아하는 꼬마 전설이의 랭킹을 확인해보세요!
+        </div>
+        <div className={style.rankingContent}>
+          {ranking?.items ? (
+            <>
+              <RankingCard
+                rank={2}
+                image={ranking.items[1].path}
+                name={ranking.items[1].name}
+              />
+              <RankingCard
+                rank={1}
+                image={ranking.items[0].path}
+                name={ranking.items[0].name}
+              />
+              <RankingCard
+                rank={3}
+                image={ranking.items[2].path}
+                name={ranking.items[2].name}
+              />
+            </>
+          ) : (
+            <div className={style.noRanking}>랭킹 정보가 없습니다.</div>
+          )}
+        </div>
+      </div>
+
+      <div className={style.legendContainer}>
+        <div className={style.description}>
+          새롭게 추가된 꼬마 전설이 리스트 입니다!
+        </div>
+        <div className={style.legendContent}>
+          {!lastLegend ? (
+            <div>꼬마 전설이 정보를 불러오는 중입니다...</div>
+          ) : (
+            lastLegend.map((item) => (
+              <LegendCard
+                key={item.name}
+                legend={item}
+              />
+            ))
+          )}
+        </div>
       </div>
 
       <div className={style.videoContainer}>

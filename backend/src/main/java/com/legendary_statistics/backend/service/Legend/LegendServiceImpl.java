@@ -34,4 +34,9 @@ public class LegendServiceImpl implements LegendService {
                 .kindId(legendEntity.getKindEntity().getId())
                 .build();
     }
+
+    @Override
+    public List<GetLegendListRes> getLegendListLast() {
+        return legendRepository.findLegendListLast();
+    }
 }

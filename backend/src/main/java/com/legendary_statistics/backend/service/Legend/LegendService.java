@@ -8,4 +8,6 @@ public interface LegendService {
     List<GetLegendListRes> getLegendListByKind(long id);
 
     GetLegendListRes getLegendByName(String name);
+
+    List<GetLegendListRes> getLegendListLast();
 }
