@@ -15,6 +15,10 @@
 }
 
 :root {
+  --content-max: 800px;
+  --ad-width: 160px;
+  --ad-gap: 16px;
+
   --icon-filter: invert(0);
   --intense-color: #f7fcf4;
   --intense-color-2: #f0f0f0;
@@ -245,3 +249,23 @@ input[type="checkbox"] {
   }
 }
 
+//ads
+.side-ad {
+  position: fixed;
+  z-index: 10;
+}
+
+.side-ad.left {
+  left: calc(50vw - (var(--content-max) / 2) - var(--ad-width) - var(--ad-gap));
+}
+
+.side-ad.right {
+  right: calc(50vw - (var(--content-max) / 2) - var(--ad-width) - var(--ad-gap));
+}
+
+/* 데스크톱 전용: 화면이 충분히 넓을 때만 보이기 */
+@media (max-width: 1280px) {
+  .side-ad {
+    display: none;
+  }
+}
