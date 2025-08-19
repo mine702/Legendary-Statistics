@@ -15,10 +15,6 @@
 }
 
 :root {
-  --content-max: 800px;
-  --ad-width: 160px;
-  --ad-gap: 16px;
-
   --icon-filter: invert(0);
   --intense-color: #f7fcf4;
   --intense-color-2: #f0f0f0;
@@ -230,7 +226,6 @@ div.groupbox {
   margin-bottom: 10px;
 }
 
-
 //태그 속성
 //태그 기본 속성은 custom 클래스를 가지지 않은 컴포넌트에만 적용됩니다.
 h1 {
@@ -246,26 +241,5 @@ input[type="checkbox"] {
   &:checked {
     border-color: var(--intense-color);
     background-color: var(--intense-color);
-  }
-}
-
-//ads
-.side-ad {
-  position: fixed;
-  z-index: 10;
-}
-
-.side-ad.left {
-  left: calc(50vw - (var(--content-max) / 2) - var(--ad-width) - var(--ad-gap));
-}
-
-.side-ad.right {
-  right: calc(50vw - (var(--content-max) / 2) - var(--ad-width) - var(--ad-gap));
-}
-
-/* 데스크톱 전용: 화면이 충분히 넓을 때만 보이기 */
-@media (max-width: 1280px) {
-  .side-ad {
-    display: none;
   }
 }

@@ -10,7 +10,6 @@ import {ApiResponse} from "../../server/dto/format.ts";
 import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
-import KakaoSideAds from "../../component/ads/KakaoSideAds.tsx";
 
 export const Home = () => {
 
@@ -36,14 +35,6 @@ export const Home = () => {
   const handleCardClick = (id: number) => {
     navigate(`/simulator/${id}`);
   };
-
-  const contentReady =
-    Boolean(treasure && treasure.length > 0) ||
-    Boolean(ranking && ranking.items && ranking.items.length > 0) ||
-    Boolean(legend && legend.videoUrl);
-
-  const enableAds =
-    contentReady;
 
   return (
     <div className={style.root}>
@@ -127,17 +118,6 @@ export const Home = () => {
           <div>최신 전설 정보를 불러오는 중...</div>
         )}
       </div>
-
-      {/* PC 사이드 배너 */}
-      <KakaoSideAds
-        leftUnit="DAN-J1QA72OWURoG5jRw"
-        rightUnit="DAN-J1QA72OWURoG5jRw"
-        width={160}
-        height={600}
-        top={120}
-        enabled={enableAds}
-        test={true}
-      />
     </div>
   );
 };
