@@ -8,3 +8,9 @@ export interface SignUpByEmailReq {
   email: string;
   password: string;
 }
+
+export interface GetMyInfoRes {
+  id: number;
+  name: string;
+  email: string | null;
+}

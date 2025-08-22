@@ -5,13 +5,14 @@ import {FindPasswordReq} from "../../../server/dto/user.ts";
 import {ChangeEvent} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {parseValidationMessage} from "../../../util/errorParser.ts";
+import {parseValidationMessage, showToastOnError} from "../../../util/errorParser.ts";
 
 export const FindPassword = () => {
   const navigate = useNavigate()
   const [req, setReq] = useImmer<FindPasswordReq>({name: "", email: ""})
   const [reqErrors, setReqErrors] = useImmer<FindPasswordReq>({name: "", email: ""})
   const [noAccount, setNoAccount] = useImmer<string>("")
+  const [isSending, setIsSending] = useImmer<boolean>(false) // 추가
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setReq(draft => {
@@ -35,15 +36,16 @@ export const FindPassword = () => {
 
   const onClickGoBack = () => navigate(-1)
 
-  const onClickFindPassword = async () => {
+  const onClickFindPassword = showToastOnError(async () => {
+    if (isSending) return;
+    setIsSending(true)
     try {
-      await axios.post("/user/find-password", req).then(() => {
-        toast.success(`임시 비밀번호가 입력하신 이메일로 전송되었습니다.`);
-        navigate(-1)
-      })
+      await axios.post("/user/find-password", req)
+      toast.success(`임시 비밀번호가 입력하신 이메일로 전송되었습니다.`);
+      navigate(-1)
     } catch (e: any) {
-      if (e.response.status === 422 && e.response.data?.code === "USER_NOT_FOUND") {
-        setNoAccount(e.response.data.msg)
+      if (e?.response?.status === 404 && e.response.data?.message === "해당 사용자를 찾을 수 없습니다.") {
+        setNoAccount(e.response.data.message)
         return
       }
       try {
@@ -53,14 +55,16 @@ export const FindPassword = () => {
             draft[value.field] = value.message
           })
         })
-      } catch (e: any) {
-        toast.error(e?.message);
+      } catch (err: any) {
+        toast.error(err?.message);
       }
+    } finally {
+      setIsSending(false)
     }
-  }
+  })
 
   const onKeyDown = (e: any) => {
-    if (e.key === "Enter") onClickFindPassword()
+    if (e.key === "Enter" && !isSending) onClickFindPassword() // 요청 중이면 무시
   }
 
   return (
@@ -78,7 +82,16 @@ export const FindPassword = () => {
              value={req.email} onChange={onChangeEmail}/>
       <div className="input-error">{reqErrors.email}</div>
       <div className="input-error">{noAccount}</div>
-      <button className="mt full-width" onClick={onClickFindPassword}>변경하기</button>
+
+      <button
+        className="mt full-width"
+        onClick={onClickFindPassword}
+        disabled={isSending}
+        aria-busy={isSending}
+      >
+        {isSending ? "전송 중..." : "변경하기"}
+      </button>
+
       <div className={style.bottomArea}>
         <a className="mr" onClick={onClickGoBack}>뒤로가기</a>
       </div>

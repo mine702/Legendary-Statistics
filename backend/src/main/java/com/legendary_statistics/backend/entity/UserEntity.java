@@ -29,8 +29,6 @@ public class UserEntity implements JwtUserModel {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "profile_picture_file_id")
-    private Long profilePictureFileId;
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "name", nullable = false)
@@ -39,8 +37,7 @@ public class UserEntity implements JwtUserModel {
     private String password;
 
     @Builder
-    public UserEntity(Long profilePictureFileId, String email, String name, String password) {
-        this.profilePictureFileId = profilePictureFileId;
+    public UserEntity(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -51,14 +48,13 @@ public class UserEntity implements JwtUserModel {
         ClaimsBuilder claimsBuilder = Jwts.claims()
                 .subject(Long.toString(id))
                 .add("name", name)
-                .add("email", email)
-                .add("profilePictureFileId", profilePictureFileId);
+                .add("email", email);
 
         if (operationLevel.equals(OperationLevelType.ADMIN))
             claimsBuilder
                     .add("admin", true)
                     .add("user", true);
-        
+
         if (operationLevel.equals(OperationLevelType.USER))
             claimsBuilder.add("user", true);
 

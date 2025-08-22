@@ -11,6 +11,7 @@ import {Login} from "./Login/Login.tsx";
 import {ToolTipContext, useToolTip} from "../component/tooltip/tooltipContext.ts";
 import {ToolTipRenderer} from "../component/tooltip/ToolTipRenderer.tsx";
 import {NewLegend} from "./newLegend/NewLegend.tsx";
+import {MyPage} from "./myPage/MyPage.tsx";
 
 export const Main = () => {
 
@@ -29,6 +30,7 @@ export const Main = () => {
           <Route path="new-legend/*" element={<NewLegend/>}/>
           <Route path="community/*" element={<Community/>}/>
           <Route path="login/*" element={<Login/>}/>
+          <Route path="my-page" element={<MyPage/>}/>
           <Route path="*" element={<Home/>}/>
         </Routes>
         <ToolTipRenderer tooltipContent={ttNode} tooltipPosition={ttPosition} isMouseOver={isTtMouseOver}/>

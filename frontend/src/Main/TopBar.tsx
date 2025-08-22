@@ -9,7 +9,7 @@ import {useLocalStorage} from "usehooks-ts";
 import topBarLogo from "../assets/img/top_bar_logo.png";
 import darkModeIcon from "../assets/icons/dark_mode.svg";
 import darkModeActiveIcon from "../assets/icons/dark_mode_active.svg";
-import settingsIcon from "../assets/icons/settings.svg";
+import accountIcon from "../assets/icons/person.svg";
 import logoutIcon from "../assets/icons/logout.svg";
 import loginIcon from "../assets/icons/login.svg";
 import {Space} from "../component/simple/Space.tsx";
@@ -29,10 +29,12 @@ export const TopBar = () => {
   }
 
   const onClickLogin = () => {
-    //로그인 페이지로 이동
     navigate('/login');
   }
 
+  const onClickMyPage = () => {
+    navigate('/my-page');
+  }
   const onClickDarkMode = () => setDarkMode(!isDarkMode)
 
   let isAuthenticated = checkIsAuthenticated();
@@ -49,12 +51,16 @@ export const TopBar = () => {
           <img src={isDarkMode ? darkModeActiveIcon as string : darkModeIcon as string} alt='darkMode'/>
         </IconButton>
       </ToolTip>
-      <ToolTip tooltipContent="설정">
-        <IconButton onClick={() => {
-        }} style={{marginLeft: 5, marginRight: 5}}>
-          <img src={settingsIcon as string} alt='settings'/>
+      <ToolTip tooltipContent="마이페이지">
+        <IconButton onClick={onClickMyPage} style={{marginLeft: 5, marginRight: 3}}>
+          <img
+            src={accountIcon as string}
+            alt='account'
+            style={{width: 23, height: 23}}
+          />
         </IconButton>
       </ToolTip>
+
       {isAuthenticated ? (
         <ToolTip tooltipContent="로그아웃">
           <IconButton onClick={onClickLogout}>

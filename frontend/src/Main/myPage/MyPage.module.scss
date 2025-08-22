@@ -1,0 +1,88 @@
+.root {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+
+  .container {
+    width: 20%;
+    min-width: 350px;
+    max-width: 500px;
+    gap: 10px;
+    display: flex;
+    border: 1px solid var(--card-border-color);
+    border-radius: 10px;
+    background-color: var(--fill-color-1);
+  }
+
+  .profile-area {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 25px;
+
+    .text {
+      font-weight: bold;
+    }
+  }
+
+  .password-area {
+    display: flex;
+    flex: 1;
+    padding: 25px;
+    flex-direction: column;
+
+    input {
+      width: 100%;
+      background-color: var(--fill-color-2);
+      border: 1px solid var(--card-border-color);
+      border-radius: 5px;
+      padding: 5px;
+      box-sizing: border-box;
+      color: var(--font-color);
+    }
+
+    .button-area {
+      margin-top: -20px;
+
+      button {
+        background-color: var(--button-color);
+        border: 1px solid var(--card-border-color);
+        border-radius: 5px;
+        padding: 5px 15px;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
+  }
+
+  .withdrawal {
+    display: flex;
+    flex: 1;
+    padding: 25px;
+    flex-direction: column;
+
+    button {
+      background-color: var(--red);
+      border: 1px solid var(--card-border-color);
+      border-radius: 5px;
+      padding: 5px 15px;
+      box-sizing: border-box;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}

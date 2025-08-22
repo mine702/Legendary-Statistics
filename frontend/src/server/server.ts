@@ -11,6 +11,7 @@ import {GetBoardCategoryRes, GetBoardCommentRes, GetBoardListRes, GetBoardRes} f
 import {PagedContent} from "./pager.ts";
 import {GetRankingRes} from "./dto/ranking.ts";
 import {GetNewLegendCommentRes, GetNewLegendListRes, GetNewLegendRes} from "./dto/newLegend.ts";
+import {GetMyInfoRes} from "./dto/user.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -121,4 +122,8 @@ export const useSWRGetNewLegendLast = () => {
 
 export const useSWRGetLegendLast = () => {
   return useSWR<GetLegendListRes[]>(`/legend/last`, defaultFetchAxios);
+}
+
+export const useSWRMyInfo = () => {
+  return useSWR<GetMyInfoRes>("/user/my-info", defaultFetchAxios)
 }

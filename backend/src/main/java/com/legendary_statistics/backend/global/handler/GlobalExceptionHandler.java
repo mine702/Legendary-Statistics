@@ -12,6 +12,7 @@ import com.legendary_statistics.backend.global.exception.standard.DuplicationExc
 import com.legendary_statistics.backend.global.exception.standard.ForbiddenException;
 import com.legendary_statistics.backend.global.exception.treasure.TreasureNotFoundException;
 import com.legendary_statistics.backend.global.exception.user.PassWordIncorrectException;
+import com.legendary_statistics.backend.global.exception.user.UserNotFoundException;
 import com.legendary_statistics.backend.global.format.code.ApiResponse;
 import com.legendary_statistics.backend.global.format.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -116,6 +117,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     protected ResponseEntity<?> handle(ForbiddenException e) {
         log.error("ForbiddenException = {}", e.getMessage());
+        return response.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<?> handle(UserNotFoundException e) {
+        log.error("UserNotFoundException = {}", e.getMessage());
         return response.error(e.getErrorCode(), e.getMessage());
     }
 
