@@ -83,7 +83,6 @@ export const WriteBoard = () => {
         await axios.post("board/write", formToReq(form));
       } catch (e: any) {
         if (e.response?.status === 400) {
-          console.log(e.response?.data?.body.errors);
           e.response?.data?.body.errors.forEach((error: any) => {
             toast.error(error.message);
           })

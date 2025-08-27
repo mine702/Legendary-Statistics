@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 
 function App() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isDarkMode, _] = useLocalStorage("isDarkMode", false);
+  const [isDarkMode, _] = useLocalStorage("isDarkMode", true);
   const navigate = useNavigate();
   useMobileViewport();
   //다크모드 설정
