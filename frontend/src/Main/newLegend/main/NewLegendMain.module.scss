@@ -70,7 +70,7 @@
           flex-direction: column;
           overflow-y: auto;
           gap: 1vh;
-          padding: 0 1vw;
+          padding: 2px 1.2vw;
         }
       }
 
@@ -173,7 +173,7 @@
               }
 
               &:hover {
-                transform: scale(1.05);
+                transform: scale(1.02);
                 box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
               }
             }
