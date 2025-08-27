@@ -18,7 +18,7 @@ import {ToolTip} from "../component/tooltip/ToolTip.tsx";
 
 export const TopBar = () => {
   const navigate = useNavigate();
-  const [isDarkMode, setDarkMode] = useLocalStorage("isDarkMode", false);
+  const [isDarkMode, setDarkMode] = useLocalStorage("isDarkMode", true);
 
   const onClickLogout = () => {
     //로그아웃 요청
