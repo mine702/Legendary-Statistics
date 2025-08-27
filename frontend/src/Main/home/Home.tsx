@@ -8,7 +8,7 @@ import {
 } from "../../server/server.ts";
 import {RankingCard} from "../ranking/card/RankingCard.tsx";
 import {useNavigate} from "react-router";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {showToastOnError} from "../../util/errorParser.ts";
 import axios from "axios";
 import {ApiResponse} from "../../server/dto/format.ts";
@@ -27,10 +27,6 @@ export const Home = () => {
   const {data: legend} = useSWRGetNewLegendLast();
   const {data: treasure} = useSWRGetTreasureLastList();
   const {data: lastLegend} = useSWRGetLegendLast();
-
-  useEffect(() => {
-    console.log(lastLegend);
-  }, [lastLegend]);
 
   const handleSearch = showToastOnError(async () => {
     if (!searchTerm.trim()) {
