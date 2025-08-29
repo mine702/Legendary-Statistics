@@ -16,7 +16,7 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
-import {AdInline} from "../adsense/AdInline.tsx";
+import {Adsense} from "@ctrl/react-adsense";
 
 export const Home = () => {
 
@@ -77,7 +77,12 @@ export const Home = () => {
           </button>
         </div>
         <div className={style.adContainer}>
-          <AdInline reloadKey={pathname}/>
+          <Adsense
+            client="ca-pub-3438793648335991"
+            slot="4654118695"
+            style={{display: 'block'}}
+            format="auto"
+          />
         </div>
         <div className={style.simulatorContainer}>
           <div className={style.description}>
