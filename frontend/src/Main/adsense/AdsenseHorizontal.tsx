@@ -47,7 +47,7 @@ export const AdsenseHorizontal = () => {
         className={style.horizontal}
         client="ca-pub-3438793648335991"
         slot="4654118695"
-        format="horizontal"
+        format="auto"
         responsive="true"
         style={{display: 'block', width: '100%'}}
       />
