@@ -7,7 +7,7 @@ import {
   useSWRRankingList
 } from "../../server/server.ts";
 import {RankingCard} from "../ranking/card/RankingCard.tsx";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useState} from "react";
 import {showToastOnError} from "../../util/errorParser.ts";
 import axios from "axios";
@@ -21,6 +21,7 @@ import {AdInline} from "../adsense/AdInline.tsx";
 export const Home = () => {
 
   const navigate = useNavigate();
+  const {pathname} = useLocation();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -76,12 +77,7 @@ export const Home = () => {
           </button>
         </div>
         <div className={style.adContainer}>
-          <AdInline
-            client="ca-pub-3438793648335991"
-            slot="4654118695"
-            format="auto"
-            fullWidth
-          />
+          <AdInline reloadKey={pathname}/>
         </div>
         <div className={style.simulatorContainer}>
           <div className={style.description}>

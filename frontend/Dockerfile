@@ -4,6 +4,7 @@ RUN npm install -g pnpm
 
 ENV VITE_REQUEST_URL=https://tftmeta.co.kr/api
 ENV VITE_RECAPT_KEY=6LesCp0rAAAAAO-XgBQWOagDO7uJaQwQdINcEwxp
+ENV VITE_AD_CLIENT=ca-pub-3438793648335991
 
 WORKDIR /app
 
