@@ -7,7 +7,7 @@ import {
   useSWRRankingList
 } from "../../server/server.ts";
 import {RankingCard} from "../ranking/card/RankingCard.tsx";
-import {useLocation, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 import {useState} from "react";
 import {showToastOnError} from "../../util/errorParser.ts";
 import axios from "axios";
@@ -16,12 +16,11 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
-import {Adsense} from "@ctrl/react-adsense";
+import AdsenseExample from "../adsense/AdsenseExample.tsx";
 
 export const Home = () => {
 
   const navigate = useNavigate();
-  const {pathname} = useLocation();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -77,12 +76,7 @@ export const Home = () => {
           </button>
         </div>
         <div className={style.adContainer}>
-          <Adsense
-            client="ca-pub-3438793648335991"
-            slot="4654118695"
-            style={{display: 'block'}}
-            format="auto"
-          />
+          <AdsenseExample/>
         </div>
         <div className={style.simulatorContainer}>
           <div className={style.description}>
