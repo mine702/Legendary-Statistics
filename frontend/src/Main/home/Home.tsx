@@ -16,7 +16,7 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
-import AdsenseExample from "../adsense/AdsenseExample.tsx";
+import {AdsenseHorizontal} from "../adsense/AdsenseHorizontal.tsx";
 
 export const Home = () => {
 
@@ -76,7 +76,7 @@ export const Home = () => {
           </button>
         </div>
         <div className={style.adContainer}>
-          <AdsenseExample/>
+          <AdsenseHorizontal/>
         </div>
         <div className={style.simulatorContainer}>
           <div className={style.description}>

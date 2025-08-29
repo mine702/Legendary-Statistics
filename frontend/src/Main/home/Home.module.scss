@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto;
 
   .container {
     width: 60%;
@@ -41,7 +40,6 @@
       width: 100%;
       justify-content: center;
       align-items: center;
-      margin: 0 0 30px 0;
 
       .searchBar {
         width: 60%;
@@ -78,9 +76,10 @@
 
     .adContainer {
       display: flex;
-      justify-content: center;
       width: 100%;
-      margin-bottom: 10px;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0;
     }
 
     .simulator-container,
