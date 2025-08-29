@@ -11,6 +11,7 @@ export const AdsenseHorizontal = () => {
         slot="4654118695"
         format="auto"
         responsive="true"
+        style={{display: 'block', width: '100%'}}
       />
     </div>
   )
