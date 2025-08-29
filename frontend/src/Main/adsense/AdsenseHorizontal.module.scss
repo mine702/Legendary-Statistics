@@ -1,9 +1,26 @@
 .adWrap {
   width: 100%;
-  overflow: hidden;
-
-  .horizontal {
-    box-sizing: border-box;
-  }
+  max-width: 100%;
+  overflow: hidden; /* 가로 침범 방지 */
 }
 
+.horizontal {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box; /* border/padding 포함해도 100% 유지 */
+  min-height: 90px; /* 기본 최소 높이(중간 구간 대비) */
+}
+
+/* 너무 좁을 때(320 미만) 자리만 확보해서 CLS 방지 */
+.placeholder {
+  width: 100%;
+  min-height: 90px;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(45deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
+}
+
+/* 수평 스크롤 튀는 브라우저에서 흔들림 완화 */
+:global(html), :global(body) {
+  scrollbar-gutter: stable;
+}
