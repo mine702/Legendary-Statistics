@@ -78,7 +78,9 @@
 
     .adContainer {
       display: flex;
+      justify-content: center;
       width: 100%;
+      padding: 8px 0;
     }
 
     .simulator-container,

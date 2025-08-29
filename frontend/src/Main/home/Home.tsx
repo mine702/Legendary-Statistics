@@ -16,6 +16,7 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
+import {AdInline} from "../adsense/AdInline.tsx";
 
 export const Home = () => {
 
@@ -75,12 +76,12 @@ export const Home = () => {
           </button>
         </div>
         <div className={style.adContainer}>
-          <ins className="adsbygoogle"
-               style={{display: "block"}}
-               data-ad-client="ca-pub-3438793648335991"
-               data-ad-slot="4654118695"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
+          <AdInline
+            client="ca-pub-3438793648335991"
+            slot="4654118695"
+            format="auto"
+            fullWidth
+          />
         </div>
         <div className={style.simulatorContainer}>
           <div className={style.description}>
