@@ -75,9 +75,11 @@ export const Home = () => {
             검색
           </button>
         </div>
+        /*
         <div className={style.adContainer}>
           <AdsenseHorizontal/>
         </div>
+        */
         <div className={style.simulatorContainer}>
           <div className={style.description}>
             원하는 꼬마 전설이를 뽑을 확률을 직접 확인하고 당신의 운을 확인해 보세요!
