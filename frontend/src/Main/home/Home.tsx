@@ -16,7 +16,6 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
-import {AdsenseHorizontal} from "../adsense/AdsenseHorizontal.tsx";
 
 export const Home = () => {
 
