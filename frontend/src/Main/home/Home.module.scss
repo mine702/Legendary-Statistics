@@ -5,10 +5,32 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  
+
+  .layout {
+    display: flex;
+    width: 100%;
+    max-width: 1550px;
+    box-sizing: border-box;
+    gap: 10px;
+    margin: 0 auto;
+  }
+
+  .left, .right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+  }
+
+  .mid {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+  }
+
   .container {
-    width: 60%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,13 +64,13 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 10px;
-      
+
       .searchBar {
         width: 60%;
         max-width: 450px;
         padding: 10px;
         border: 2px solid var(--intense-color-2, #2f2f2f);
-        border-radius: 5px 0 0 5px; /* 🔥 좌측 둥근 모서리 */
+        border-radius: 5px 0 0 5px;
         box-sizing: border-box;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transition: border-color 0.3s ease-in-out;
@@ -66,7 +88,7 @@
         border: none;
         color: #fff;
         cursor: pointer;
-        border-radius: 0 5px 5px 0; /* 🔥 우측 둥근 모서리 */
+        border-radius: 0 5px 5px 0;
         transition: background-color 0.3s ease-in-out;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
@@ -84,10 +106,10 @@
       margin: 10px 0;
     }
 
-    .simulator-container,
-    .ranking-container,
-    .legend-container,
-    .video-container {
+    .simulatorContainer,
+    .rankingContainer,
+    .legendContainer,
+    .videoContainer {
       width: 100%;
       margin-bottom: 5px;
       background-color: var(--fill-color-1);
@@ -96,21 +118,20 @@
       transition: transform 0.2s ease-in-out;
     }
 
-    .video-container {
+    .videoContainer {
       margin-bottom: 20px;
 
       .videoWrapper {
         position: relative;
         width: 100%;
-        padding-bottom: 56.25%; // 16:9 비율
+        padding-bottom: 56.25%; // 16:9
         height: 0;
         border-radius: 8px;
         overflow: hidden;
 
         iframe {
           position: absolute;
-          top: 0;
-          left: 0;
+          inset: 0;
           width: 100%;
           height: 100%;
           border: none;
@@ -118,7 +139,7 @@
       }
     }
 
-    .ranking-container {
+    .rankingContainer {
       .description {
         margin-top: 10px;
         font-weight: bold;
@@ -127,7 +148,7 @@
         font-size: clamp(10px, 1.2vw, 14px);
       }
 
-      .ranking-content {
+      .rankingContent {
         display: grid;
         padding: 10px;
         grid-template-columns: repeat(3, 1fr);
@@ -139,7 +160,7 @@
       }
     }
 
-    .simulator-container {
+    .simulatorContainer {
       .description {
         margin-top: 10px;
         font-weight: bold;
@@ -148,7 +169,7 @@
         font-size: clamp(10px, 1.2vw, 14px);
       }
 
-      .simulator-content {
+      .simulatorContent {
         display: grid;
         padding: 10px;
         grid-template-columns: repeat(3, 1fr);
@@ -160,7 +181,7 @@
       }
     }
 
-    .legend-container {
+    .legendContainer {
       .description {
         margin-top: 10px;
         font-weight: bold;
@@ -169,7 +190,7 @@
         font-size: clamp(10px, 1.2vw, 14px);
       }
 
-      .legend-content {
+      .legendContent {
         display: grid;
         padding: 10px;
         grid-template-columns: repeat(2, 1fr);
@@ -190,10 +211,26 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
+  /* === 반응형: 768px 이하에서는 mid만 노출 === */
+  @media screen and (max-width: 780px) {
+    .layout {
+      flex-direction: column;
+      padding: 0;
+      gap: 0;
+    }
+
+    .left,
+    .right {
+      display: none;
+    }
+
+    .mid {
+      flex: 1;
+    }
+
     .container {
-      margin: 0 0 10px 0;
       width: 90%;
+      max-width: 100%;
     }
   }
 
@@ -206,5 +243,3 @@
     }
   }
 }
-
-
