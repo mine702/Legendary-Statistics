@@ -21,7 +21,7 @@ export const AdsenseSide = ({
                               slotSmall,
                               clientId = DEFAULT_CLIENT,
                               breakpoint = 1600,
-                              topOffset = 50,
+                              topOffset = 100,
                               className,
                             }: AdsenseSideProps) => {
   const initialSize: AdSize =
@@ -65,7 +65,7 @@ export const AdsenseSide = ({
         pushAd()
         clearInterval(t)
       }
-    }, 200)
+    }, 100)
     return () => clearInterval(t)
   }, [slot, clientId])
 
