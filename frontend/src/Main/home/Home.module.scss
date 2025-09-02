@@ -16,10 +16,12 @@
   }
 
   .left, .right {
-    flex: 1;
+    flex: 0 0 300px;
+    max-width: 300px;
+    width: 300px;
     display: flex;
     justify-content: center;
-    max-width: 300px;
+    position: relative;
   }
 
   .mid {
@@ -208,6 +210,15 @@
       padding: 15px;
       border-radius: 5px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @media screen and (max-width: 1599px) {
+    .left, .right {
+      flex: 0 0 160px;
+      max-width: 160px;
+      width: 160px;
+      margin: 10px;
     }
   }
 

@@ -16,6 +16,7 @@ import {GetLegendListRes} from "../../server/dto/legend.ts";
 import {toast} from "react-toastify";
 import {SimulatorLegendCard} from "../simulator/card/SimulatorLegendCard.tsx";
 import {LegendCard} from "../list/card/LegendCard.tsx";
+import {AdsenseSide} from "../adsense/AdsenseSide.tsx";
 
 export const Home = () => {
 
@@ -47,6 +48,11 @@ export const Home = () => {
     <div className={style.root}>
       <div className={style.layout}>
         <aside className={style.left}>
+          <AdsenseSide
+            placement="left"
+            slotLarge="6054446808"
+            slotSmall="2131611729"
+          />
         </aside>
 
         <main className={style.mid}>
@@ -136,6 +142,11 @@ export const Home = () => {
         </main>
 
         <aside className={style.right}>
+          <AdsenseSide
+            placement="right"
+            slotLarge="4738289264"
+            slotSmall="4933444977"
+          />
         </aside>
       </div>
     </div>
