@@ -4,6 +4,7 @@ import {SimulatorLegendCard} from "../card/SimulatorLegendCard.tsx";
 
 import simulatorLogo from "../../../assets/img/simulator_logo.png";
 import {useNavigate} from "react-router";
+import {AdsenseSide} from "../../adsense/AdsenseSide.tsx";
 
 export const SimulatorMain = () => {
   const {data: list, isLoading} = useSWRGetTreasureList();
@@ -15,35 +16,53 @@ export const SimulatorMain = () => {
 
   return (
     <div className={style.root}>
+      <div className={style.layout}>
+        <aside className={style.left}>
+          <AdsenseSide
+            placement="left"
+            slotLarge="6054446808"
+            slotSmall="2131611729"
+          />
+        </aside>
 
-      <div className={style.container}>
-        {/* 헤더 이미지 */}
-        <div className={style.headerWrapper}>
-          <img src={simulatorLogo} alt="로고"/>
-        </div>
-        <div className={style.headerText}>
-          <div className={style.descriptionBox}>
-            <div className={style.textBox}>
-              <p className={style.mainText}>
-                이 시뮬레이터는 실제 게임과 동일한 확률로 작동하는 뽑기 시뮬레이터입니다!
-              </p>
-              <p className={style.subText}>
-                원하는 꼬마 전설이를 뽑을 확률을 직접 확인하고 당신의 운을 확인해 보세요!
-              </p>
+        <main className={style.mid}>
+          <div className={style.container}>
+            {/* 헤더 이미지 */}
+            <div className={style.headerWrapper}>
+              <img src={simulatorLogo} alt="로고"/>
             </div>
+            <div className={style.headerText}>
+              <div className={style.descriptionBox}>
+                <div className={style.textBox}>
+                  <p className={style.mainText}>
+                    이 시뮬레이터는 실제 게임과 동일한 확률로 작동하는 뽑기 시뮬레이터입니다!
+                  </p>
+                  <p className={style.subText}>
+                    원하는 꼬마 전설이를 뽑을 확률을 직접 확인하고 당신의 운을 확인해 보세요!
+                  </p>
+                </div>
+              </div>
+            </div>
+            {isLoading ? (
+              <div className={style.loading}>로딩중...</div>
+            ) : (
+              <div className={style.listContainer}>
+                {
+                  list?.map((item) => (
+                    <SimulatorLegendCard key={item.name} item={item} onClick={() => handleCardClick(item.id)}/>
+                  ))
+                }
+              </div>
+            )}
           </div>
-        </div>
-        {isLoading ? (
-          <div className={style.loading}>로딩중...</div>
-        ) : (
-          <div className={style.listContainer}>
-            {
-              list?.map((item) => (
-                <SimulatorLegendCard key={item.name} item={item} onClick={() => handleCardClick(item.id)}/>
-              ))
-            }
-          </div>
-        )}
+        </main>
+        <aside className={style.right}>
+          <AdsenseSide
+            placement="right"
+            slotLarge="4738289264"
+            slotSmall="4933444977"
+          />
+        </aside>
       </div>
     </div>
   )
