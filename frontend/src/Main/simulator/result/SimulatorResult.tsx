@@ -16,17 +16,11 @@ export const SimulatorResult = (props: Props) => {
   const [results, setResults] = useState<GetSimulatorRes[]>([]);
   const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
 
-  const [shouldAutoScroll, setShouldAutoScroll] = useState(false);
-  const prevLenRef = useRef(0);
-
   useEffect(() => {
-    if (!shouldAutoScroll) return;
-    const prev = prevLenRef.current;
-    if (results.length > prev) {
-      scrollAnchorRef.current?.scrollIntoView({behavior: "smooth"});
+    if (scrollAnchorRef.current) {
+      scrollAnchorRef.current.scrollIntoView({behavior: "smooth"});
     }
-    prevLenRef.current = results.length;
-  }, [results, shouldAutoScroll]);
+  }, [results]);
 
   const addResultsSequentially = (items: GetSimulatorRes[]) => {
     let i = 0;
@@ -36,13 +30,13 @@ export const SimulatorResult = (props: Props) => {
         return;
       }
       const item = items[i];
-      if (item) setResults((prev) => [...prev, item]);
+      if (item)
+        setResults((prev) => [...prev, item]);
       i++;
     }, 100);
   };
 
   const onDrawClick = showToastOnError(async () => {
-    setShouldAutoScroll(true);
     const res = await axios.get(`/treasure/simulator/${props.id}`);
     const newResults: GetSimulatorRes[] = res.data.data || [];
     setResults([]);
@@ -51,8 +45,7 @@ export const SimulatorResult = (props: Props) => {
 
   const onGuaranteeClick = showToastOnError(async () => {
     if (!props.name) return;
-    setShouldAutoScroll(true);
-    setResults([]);
+    setResults([]); // 결과 초기화
     let found = false;
     const tryDraw = async () => {
       const res = await axios.get(`/treasure/simulator/${props.id}`);
@@ -64,7 +57,7 @@ export const SimulatorResult = (props: Props) => {
           if (!found) {
             setTimeout(() => {
               tryDraw();
-            }, 100);
+            }, 200);
           }
           return;
         }
