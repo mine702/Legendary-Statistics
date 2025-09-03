@@ -5,12 +5,11 @@ type Placement = 'left' | 'right'
 
 interface AdsenseSideProps {
   placement: Placement
-  slotLarge: string   // 300x600용 슬롯 ID
-  slotSmall: string   // 160x600용 슬롯 ID
-  clientId?: string   // 기본값: ca-pub-3438793648335991
-  breakpoint?: number // 기본값: 1600
-  topOffset?: number  // sticky 상단 여백 기본값: 10
-  className?: string  // 래퍼 클래스(선택)
+  slotLarge: string
+  slotSmall: string
+  clientId?: string
+  breakpoint?: number
+  className?: string
 }
 
 const DEFAULT_CLIENT = 'ca-pub-3438793648335991'
@@ -21,7 +20,6 @@ export const AdsenseSide = ({
                               slotSmall,
                               clientId = DEFAULT_CLIENT,
                               breakpoint = 1600,
-                              topOffset = 100,
                               className,
                             }: AdsenseSideProps) => {
   const initialSize: AdSize =
@@ -74,12 +72,10 @@ export const AdsenseSide = ({
       className={className ?? 'adSticky'}
       // sticky를 인라인으로도 보장 (SCSS에 .adSticky 있으면 그대로 써도 됨)
       style={{
-        position: 'sticky',
-        top: topOffset,
+        position: 'fixed',
+        bottom: 10,
         height: h,
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        border: '1px solid #ccc',
       }}
       data-placement={placement}
     >
