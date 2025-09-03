@@ -7,6 +7,7 @@ import {useSearchParams} from "react-router";
 import {useState} from "react";
 import {KindList} from "../../component/kind/KindList.tsx";
 import {ListPager} from "../../component/ListPager.tsx";
+import {AdsenseSide} from "../adsense/AdsenseSide.tsx";
 
 export const Ranking = () => {
   const searchParamsList = useSearchParams();
@@ -86,53 +87,72 @@ export const Ranking = () => {
 
   return (
     <div className={style.root}>
-      <div className={style.container}>
-        {/* 헤더 이미지 */}
-        <div className={style.headerWrapper}>
-          <img src={rankingLogo} alt="로고"/>
-        </div>
-        <div className={style.content}>
-          <div className={style.selectContainer}>
-            <button onClick={onClickAll}>전체</button>
-            <button onClick={onClickKind}>종류</button>
-            <button onClick={onClickLimit}>미니 전설이</button>
-            <select value={rate ?? ""} onChange={handleRateChange}>
-              <option value="">등급</option>
-              {rateList
-                ?.filter((rate) => rate.name !== "화폐")
-                .map((rate) => (
-                  <option key={rate.id} value={rate.id}>
-                    {rate.name}
-                  </option>
-                ))}
-            </select>
-            <select value={year ?? ""} onChange={handleYearChange}>
-              <option value="">연도</option>
-              {getYearOptions().map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              placeholder="꼬마 전설이 입력..."
-              value={keyword ?? ""}
-              onChange={handleKeywordChange}
-            />
-          </div>
+      <div className={style.layout}>
+        <aside className={style.left}>
+          <AdsenseSide
+            placement="left"
+            slotLarge="6054446808"
+            slotSmall="2131611729"
+          />
+        </aside>
 
-          {showKindList && (
-            <div className={style.filterContainer}>
-              <KindList selectedId={kind} setSelectedId={setKind}/>
+        <main className={style.mid}>
+          <div className={style.container}>
+            {/* 헤더 이미지 */}
+            <div className={style.headerWrapper}>
+              <img src={rankingLogo} alt="로고"/>
             </div>
-          )}
+            <div className={style.content}>
+              <div className={style.selectContainer}>
+                <button onClick={onClickAll}>전체</button>
+                <button onClick={onClickKind}>종류</button>
+                <button onClick={onClickLimit}>미니 전설이</button>
+                <select value={rate ?? ""} onChange={handleRateChange}>
+                  <option value="">등급</option>
+                  {rateList
+                    ?.filter((rate) => rate.name !== "화폐")
+                    .map((rate) => (
+                      <option key={rate.id} value={rate.id}>
+                        {rate.name}
+                      </option>
+                    ))}
+                </select>
+                <select value={year ?? ""} onChange={handleYearChange}>
+                  <option value="">연도</option>
+                  {getYearOptions().map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="꼬마 전설이 입력..."
+                  value={keyword ?? ""}
+                  onChange={handleKeywordChange}
+                />
+              </div>
 
-          <div className={style.listContainer}>
-            <RankingResult value={data?.items} start={data?.page} size={data?.size}/>
+              {showKindList && (
+                <div className={style.filterContainer}>
+                  <KindList selectedId={kind} setSelectedId={setKind}/>
+                </div>
+              )}
+
+              <div className={style.listContainer}>
+                <RankingResult value={data?.items} start={data?.page} size={data?.size}/>
+              </div>
+              <ListPager page={page} pageItem={data} onChangePage={setPage}/>
+            </div>
           </div>
-          <ListPager page={page} pageItem={data} onChangePage={setPage}/>
-        </div>
+        </main>
+        <aside className={style.right}>
+          <AdsenseSide
+            placement="right"
+            slotLarge="4738289264"
+            slotSmall="4933444977"
+          />
+        </aside>
       </div>
     </div>
   )
