@@ -14,12 +14,15 @@ interface Props {
 export const SimulatorResult = (props: Props) => {
   const {data: rateData} = useSWRGetRateList();
   const [results, setResults] = useState<GetSimulatorRes[]>([]);
-  const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
 
+  // ✅ 결과 박스 컨테이너에 ref
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  // ✅ 결과가 추가될 때, 결과 박스만 부드럽게 스크롤
   useEffect(() => {
-    if (scrollAnchorRef.current) {
-      scrollAnchorRef.current.scrollIntoView({behavior: "smooth"});
-    }
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTo({top: el.scrollHeight, behavior: "smooth"});
   }, [results]);
 
   const addResultsSequentially = (items: GetSimulatorRes[]) => {
@@ -30,8 +33,7 @@ export const SimulatorResult = (props: Props) => {
         return;
       }
       const item = items[i];
-      if (item)
-        setResults((prev) => [...prev, item]);
+      if (item) setResults((prev) => [...prev, item]);
       i++;
     }, 100);
   };
@@ -41,11 +43,13 @@ export const SimulatorResult = (props: Props) => {
     const newResults: GetSimulatorRes[] = res.data.data || [];
     setResults([]);
     addResultsSequentially(newResults);
+    // (선택) 초기화 시 맨 위로 되돌리고 싶다면:
+    // listRef.current?.scrollTo({ top: 0, behavior: "auto" });
   });
 
   const onGuaranteeClick = showToastOnError(async () => {
     if (!props.name) return;
-    setResults([]); // 결과 초기화
+    setResults([]);
     let found = false;
     const tryDraw = async () => {
       const res = await axios.get(`/treasure/simulator/${props.id}`);
@@ -74,10 +78,8 @@ export const SimulatorResult = (props: Props) => {
   });
 
   const countByRate: Record<number, number> = {};
-
   // @ts-ignore
   for (let i = 0; i <= rateData?.length; i++) countByRate[i] = 0;
-
   results.forEach((item) => {
     const rate = item.rate ?? 0;
     countByRate[rate]++;
@@ -92,7 +94,9 @@ export const SimulatorResult = (props: Props) => {
           <button onClick={onGuaranteeClick}>확정 뽑기</button>
         </div>
       </div>
-      <div className={style.resultBox}>
+
+      {/* ✅ resultBox에 ref 연결 */}
+      <div className={style.resultBox} ref={listRef}>
         {results.map((item, index) => (
           <div
             key={`${item.id}-${index}`}
@@ -104,11 +108,11 @@ export const SimulatorResult = (props: Props) => {
             <div className={style.name}>{item.name ?? "이름 없음"}</div>
           </div>
         ))}
-        <div ref={scrollAnchorRef}></div>
+        {/* ⛔️ scrollAnchorRef와 scrollIntoView는 삭제 */}
       </div>
+
       <div className={style.expectedBox}>
         <p>총 뽑기 횟수: {results.length}회</p>
-
         <div className={style.rateStats}>
           {rateData?.map((rate) => {
             const count = countByRate[rate.id] ?? 0;

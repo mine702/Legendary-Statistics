@@ -38,6 +38,7 @@
   }
 
   .resultBox {
+    /* 기존 그대로 유지 */
     gap: 10px;
     height: 25vh;
     padding: 20px;
@@ -47,6 +48,9 @@
     background-color: var(--background-color-2);
     border: 2px solid var(--intense-color-2, #2f2f2f);
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+    /* ⬇️ 추가하면 부모(.root)로 스크롤 전파 방지 */
+    overscroll-behavior: contain;
 
     .card {
       height: 115px;
