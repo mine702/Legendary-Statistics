@@ -116,7 +116,8 @@ html, body, input, button, pre, select, textarea {
 
 html, body, #root {
   margin: 0;
-  height: 100%;
+  height: 100% !important;
+  min-height: 100% !important;
   max-width: 100%;
   overflow: hidden;
 }
