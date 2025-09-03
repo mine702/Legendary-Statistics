@@ -100,7 +100,34 @@
     }
   }
 
+  @media screen and (max-width: 1599px) {
+    .layout {
+      gap: 10px;
+    }
+    .left, .right {
+      flex: 0 0 160px;
+      max-width: 160px;
+      width: 160px;
+      margin: 10px;
+    }
+  }
+
   @media screen and (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+      padding: 0;
+      gap: 0;
+    }
+
+    .left,
+    .right {
+      display: none;
+    }
+
+    .mid {
+      flex: 1;
+    }
+    
     .container {
       width: auto;
       margin: 0 0 10px 0;
