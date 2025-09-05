@@ -3,7 +3,7 @@ import cv2
 import subprocess
 
 # 유튜브 링크
-yt_link = "https://www.youtube.com/watch?v=Cy1W5xinlHM&t=951s"
+yt_link = "https://www.youtube.com/live/w4pjwjHRU4I?si=ZDi8V0dWNtxgq_ck"
 
 # 저장 경로
 video_dir = "downloaded_video"
@@ -15,10 +15,15 @@ os.makedirs(frames_dir, exist_ok=True)
 video_path = os.path.join(video_dir, "video.mp4")
 
 # yt-dlp로 영상 다운로드
+
 print("📥 영상 다운로드 중...")
 subprocess.run([
     "yt-dlp",
     "-f", "bestvideo[ext=mp4][height<=1080]",
+    "--concurrent-fragments", "32",
+    "--http-chunk-size", "32M",
+    "--retries", "20",
+    "--fragment-retries", "20",
     "-o", video_path,
     yt_link
 ], check=True)
@@ -41,7 +46,7 @@ while frame_id < total_frames:
     if not ret:
         break
 
-    frame_filename = f"frame_{saved:04d}.jpg"
+    frame_filename = f"frame_2_{saved:04d}.jpg"
     frame_path = os.path.join(frames_dir, frame_filename)
     cv2.imwrite(frame_path, frame)
 

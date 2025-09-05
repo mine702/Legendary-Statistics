@@ -94,7 +94,6 @@ export const AdsenseSide = ({
         position: 'fixed',
         bottom: 10,
         height: h,
-        border: '1px solid #ccc',
       }}
       data-placement={placement}
       data-vh={vh}
