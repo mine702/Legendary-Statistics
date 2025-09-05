@@ -48,11 +48,7 @@ export const Home = () => {
     <div className={style.root}>
       <div className={style.layout}>
         <aside className={style.left}>
-          <AdsenseSide
-            placement="left"
-            slotLarge="6054446808"
-            slotSmall="2131611729"
-          />
+          <AdsenseSide placement="left" slot="2131611729"/>
         </aside>
 
         <main className={style.mid}>
@@ -142,11 +138,7 @@ export const Home = () => {
         </main>
 
         <aside className={style.right}>
-          <AdsenseSide
-            placement="right"
-            slotLarge="4738289264"
-            slotSmall="4933444977"
-          />
+          <AdsenseSide placement="right" slot="4933444977"/>
         </aside>
       </div>
     </div>

@@ -9,19 +9,20 @@
   .layout {
     display: flex;
     width: 100%;
-    max-width: 1800px;
+    max-width: 1400px;
     box-sizing: border-box;
-    gap: 20px;
+    gap: 15px;
     margin: 0 auto;
   }
 
   .left, .right {
-    flex: 0 0 300px;
-    max-width: 300px;
-    width: 300px;
+    flex: 0 0 160px;
+    max-width: 160px;
+    width: 160px;
     display: flex;
     justify-content: center;
     position: relative;
+    margin: 0 5px;
   }
 
   .mid {
@@ -38,7 +39,7 @@
 
   .container {
     width: 100%;
-    max-width: 1500px;
+    max-width: 1400px;
     gap: 10px;
     margin: 20px 0;
     display: flex;
@@ -287,18 +288,6 @@
           }
         }
       }
-    }
-  }
-
-  @media screen and (max-width: 1599px) {
-    .layout {
-      gap: 10px;
-    }
-    .left, .right {
-      flex: 0 0 160px;
-      max-width: 160px;
-      width: 160px;
-      margin: 10px;
     }
   }
 
