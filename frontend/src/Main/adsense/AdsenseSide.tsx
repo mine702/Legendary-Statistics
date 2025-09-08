@@ -4,11 +4,11 @@ type Placement = 'left' | 'right'
 
 interface AdsenseSideProps {
   placement: Placement
-  slot: string                 // 단일 슬롯만 사용
+  slot: string
   clientId?: string
   className?: string
-  minViewportHeight?: number   // 세로 높이 조건(기존 유지)
-  minWidthToShow?: number      // 가로폭 조건: 기본 780px 이상에서만 노출
+  minViewportHeight?: number
+  minWidthToShow?: number
 }
 
 const DEFAULT_CLIENT = 'ca-pub-3438793648335991'
@@ -37,11 +37,10 @@ export const AdsenseSide = ({
     }
   }, [])
 
-  // 160x600 고정
   const {w, h} = useMemo(() => ({w: 160, h: 600}), [])
 
-  // 가로폭(vw) ≥ 780 && 세로(vh) > 700 에서만 노출
-  const canShow = vw >= minWidthToShow && vh > minViewportHeight
+  const canShow = vw >= minWidthToShow
+  const isTall = vh > minViewportHeight
 
   useEffect(() => {
     if (!canShow) return
@@ -69,8 +68,8 @@ export const AdsenseSide = ({
     <div
       className={className ?? 'adSticky'}
       style={{
-        position: 'fixed',
-        bottom: 5,
+        position: isTall ? 'fixed' : 'absolute',
+        ...(isTall ? {bottom: 5} : {top: 10}),
         height: h,
       }}
       data-placement={placement}
