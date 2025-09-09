@@ -69,7 +69,7 @@ export const AdsenseSide = ({
       className={className ?? 'adSticky'}
       style={{
         position: isTall ? 'fixed' : 'absolute',
-        ...(isTall ? {bottom: 5} : {top: 10}),
+        ...(isTall ? {bottom: 5} : {top: 20}),
         height: h,
       }}
       data-placement={placement}
