@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RerollController {
 
-    private final RerollServie reRollServie;
+    private final RerollServie rerollServie;
     private final ApiResponse response;
 
     @GetMapping("seasons")
-    public ResponseEntity<ApiResponse> getSeasons() {
-        return response.success(re)
+    public ResponseEntity<?> getSeasons() {
+        return response.success(rerollServie.getSeasons());
     }
 
     @GetMapping("probability/{seasonId}/{userLevel}")
     public ResponseEntity<?> getProbability(@PathVariable Long seasonId, @PathVariable Integer userLevel) {
-        return response.success(reRollServie.getProbability(seasonId, userLevel));
+        return response.success(rerollServie.getProbability(seasonId, userLevel));
     }
 }

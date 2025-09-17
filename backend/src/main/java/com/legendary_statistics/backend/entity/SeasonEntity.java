@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,7 +22,7 @@ public class SeasonEntity {
     @Column(name = "season_no", nullable = false)
     private Integer seasonNo;
     @Column(name = "start_at")
-    private Date startAt;
+    private LocalDate startAt;
     @Column(name = "end_at")
-    private Date endAt;
+    private LocalDate endAt;
 }

@@ -5,3 +5,10 @@ export interface GetRerollProbabilityRes {
   level4: number;
   level5: number;
 }
+
+export interface GetSeasonRes {
+  id: number;
+  seasonNo: number;
+  startAt: string;
+  endAt: string;
+}

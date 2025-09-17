@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class GetSeasonsRes {
+public class GetSeasonRes {
     private Long id;
     private Integer seasonNo;
     private LocalDate startAt;

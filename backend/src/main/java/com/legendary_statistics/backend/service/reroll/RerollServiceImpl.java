@@ -1,6 +1,7 @@
 package com.legendary_statistics.backend.service.reroll;
 
 import com.legendary_statistics.backend.dto.reroll.GetRerollProbabilityRes;
+import com.legendary_statistics.backend.dto.reroll.GetSeasonRes;
 import com.legendary_statistics.backend.entity.RerollProbabilityEntity;
 import com.legendary_statistics.backend.entity.SeasonEntity;
 import com.legendary_statistics.backend.global.exception.reroll.SeasonNotFoundException;
@@ -8,6 +9,8 @@ import com.legendary_statistics.backend.repository.rerollProbability.RerollProba
 import com.legendary_statistics.backend.repository.season.SeasonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +31,16 @@ public class RerollServiceImpl implements RerollServie {
                 .level4(rerollProbabilityEntity.getLevel4())
                 .level5(rerollProbabilityEntity.getLevel5())
                 .build();
+    }
+
+    @Override
+    public List<GetSeasonRes> getSeasons() {
+        return seasonRepository.findAllByOrderByStartAtDesc().stream().map(
+                seasonEntity -> GetSeasonRes.builder()
+                        .id(seasonEntity.getId())
+                        .seasonNo(seasonEntity.getSeasonNo())
+                        .startAt(seasonEntity.getStartAt())
+                        .endAt(seasonEntity.getEndAt())
+                        .build()).toList();
     }
 }
