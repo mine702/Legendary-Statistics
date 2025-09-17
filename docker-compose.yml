@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   app:
     image: "jc21/nginx-proxy-manager:latest"
@@ -21,6 +20,8 @@ services:
       - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - db
+    networks:
+      - edge
 
   db:
     image: "jc21/mariadb-aria:latest"
@@ -33,6 +34,8 @@ services:
       MARIADB_AUTO_UPGRADE: "1"
     volumes:
       - ./data/mysql:/var/lib/mysql
+    networks:
+      - edge
 
   frontend:
     image: mine0702/legendary-frontend
@@ -43,6 +46,8 @@ services:
     stdin_open: true
     volumes:
       - /home/mine/service/image:/uploads
+    networks:
+      - edge
   
   backend:
     image: mine0702/legendary-backend
@@ -53,3 +58,9 @@ services:
       - "8080"
     volumes:
       - /home/mine/service/image:/uploads
+    networks:
+      - edge
+
+networks:
+  edge:
+    external: true

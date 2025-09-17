@@ -12,6 +12,7 @@ import {PagedContent} from "./pager.ts";
 import {GetRankingRes} from "./dto/ranking.ts";
 import {GetNewLegendCommentRes, GetNewLegendListRes, GetNewLegendRes} from "./dto/newLegend.ts";
 import {GetMyInfoRes} from "./dto/user.ts";
+import {GetRerollProbabilityRes} from "./dto/reroll.ts";
 
 export const defaultFetchAxios = async <T>(url: string): Promise<T> => {
   const response = await axios.get<ApiResponse<T>>(requestURL + url);
@@ -126,4 +127,8 @@ export const useSWRGetLegendLast = () => {
 
 export const useSWRMyInfo = () => {
   return useSWR<GetMyInfoRes>("/user/my-info", defaultFetchAxios)
+}
+
+export const useSWRGetRerollProbability = (seasonId: number, userLevel: number) => {
+  return useSWR<GetRerollProbabilityRes>(`/reroll/probability/${seasonId}/${userLevel}`, defaultFetchAxios);
 }

@@ -12,6 +12,7 @@ import {ToolTipContext, useToolTip} from "../component/tooltip/tooltipContext.ts
 import {ToolTipRenderer} from "../component/tooltip/ToolTipRenderer.tsx";
 import {NewLegend} from "./newLegend/NewLegend.tsx";
 import {MyPage} from "./myPage/MyPage.tsx";
+import {Reroll} from "./reroll/Reroll.tsx";
 
 export const Main = () => {
 
@@ -28,6 +29,7 @@ export const Main = () => {
           <Route path="list/*" element={<List/>}/>
           <Route path="ranking/*" element={<Ranking/>}/>
           <Route path="new-legend/*" element={<NewLegend/>}/>
+          <Route path="reroll/*" element={<Reroll/>}/>
           <Route path="community/*" element={<Community/>}/>
           <Route path="login/*" element={<Login/>}/>
           <Route path="my-page" element={<MyPage/>}/>

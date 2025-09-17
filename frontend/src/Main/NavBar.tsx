@@ -7,6 +7,7 @@ const menuItems = [
   {label: "꼬마 전설이 리스트", path: "/list"},
   {label: "꼬마 전설이 랭킹", path: "/ranking"},
   {label: "신규 미니 전설이", path: "/new-legend"},
+  {label: "리롤 시뮬레이터", path: "/reroll"},
   {label: "커뮤니티", path: "/community"},
 ];
 
