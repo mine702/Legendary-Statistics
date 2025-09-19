@@ -43,7 +43,7 @@
       .xpWrap {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 5px;
         min-width: clamp(100px, 22vw, 320px);
         line-height: 1;
       }
@@ -260,6 +260,8 @@
   @media screen and (max-width: 768px) {
     .topbar {
       .left, .right, .mid {
+        gap: 5px;
+
         .label {
           font-size: 0.8rem;
         }
