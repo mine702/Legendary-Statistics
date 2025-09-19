@@ -3,7 +3,7 @@ import style from "./RerollSimulator.module.scss";
 import {useSWRGetRerollProbability, useSWRGetSeasons} from "../../../server/server";
 import goldIcon from "../../../assets/img/gold.png";
 
-const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284]; // lv1~lv10 누적 EXP
+const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284];
 
 export const RerollSimulator = () => {
   const [seasonId, setSeasonId] = useState<number>(0);
@@ -17,10 +17,6 @@ export const RerollSimulator = () => {
   useEffect(() => {
     if (seasonId === 0 && seasons?.length) setSeasonId(seasons[0].id);
   }, [seasons, seasonId]);
-
-  useEffect(() => {
-    if (probability) console.log(probability);
-  }, [probability]);
 
   const p1 = probability?.level1 ?? 0;
   const p2 = probability?.level2 ?? 0;
@@ -119,7 +115,6 @@ export const RerollSimulator = () => {
 
       <div className={style.refresh}>
         <div className={style.probability}>
-          <span className={style.label}>확률 :</span>
           <div className={style.tiers}>
             <span className={`${style.chip} ${style.gray}`}><img src={goldIcon} alt="골드"/>1Lv {p1}%</span>
             <span className={`${style.chip} ${style.green}`}><img src={goldIcon} alt="골드"/>2Lv {p2}%</span>
