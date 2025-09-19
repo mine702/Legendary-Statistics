@@ -281,6 +281,10 @@
     .refresh {
       .tiers {
         gap: 3px;
+
+        .chip {
+          font-size: 0.6rem;
+        }
       }
     }
   }
