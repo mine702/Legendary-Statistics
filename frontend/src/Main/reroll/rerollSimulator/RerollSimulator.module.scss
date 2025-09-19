@@ -180,55 +180,42 @@
     flex-direction: column;
     gap: 10px;
 
-    .probability {
+    .tiers {
       display: flex;
-      align-items: center;
       gap: 5px;
       flex-wrap: wrap;
-      line-height: 1;
 
-      .label {
-        color: var(--font-color-light);
+      .chip {
+        font-size: 0.7rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 6px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 2px solid currentColor;
+        background: transparent; /* 배경 비워서 테마와 자연스럽게 */
+        line-height: 1;
+        white-space: nowrap;
       }
 
-      .tiers {
-        display: flex;
-        gap: 5px;
-        flex-wrap: wrap;
+      .gray {
+        color: #9aa4ad;
+      }
 
-        .chip {
-          font-size: 0.7rem;
-          display: inline-flex;
-          align-items: center;
-          padding: 6px;
-          border-radius: 999px;
-          font-weight: 700;
-          border: 2px solid currentColor;
-          background: transparent; /* 배경 비워서 테마와 자연스럽게 */
-          line-height: 1;
-          white-space: nowrap;
-        }
+      .green {
+        color: #2ecc71;
+      }
 
-        .gray {
-          color: #9aa4ad;
-        }
+      .blue {
+        color: #3498db;
+      }
 
-        .green {
-          color: #2ecc71;
-        }
+      .navy {
+        color: #8e00ff;
+      }
 
-        .blue {
-          color: #3498db;
-        }
-
-        .navy {
-          color: #8e00ff;
-        }
-
-        .gold {
-          color: #f1c40f;
-        }
-
+      .gold {
+        color: #f1c40f;
       }
     }
   }
@@ -288,6 +275,12 @@
     .stage {
       .board {
         --hex-size: 9vw;
+      }
+    }
+
+    .refresh {
+      .tiers {
+        gap: 3px;
       }
     }
   }
