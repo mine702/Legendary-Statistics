@@ -133,6 +133,11 @@ export const useSWRGetSeasons = () => {
   return useSWR<GetSeasonRes[]>(`/reroll/seasons`, defaultFetchAxios);
 }
 
-export const useSWRGetRerollProbability = (seasonId: number, userLevel: number) => {
-  return useSWR<GetRerollProbabilityRes>(`/reroll/probability/${seasonId}/${userLevel}`, defaultFetchAxios);
-}
+// server.ts (또는 해당 파일)
+export const useSWRGetRerollProbability = (seasonId?: number, userLevel?: number) => {
+  const key = seasonId && userLevel
+    ? `/reroll/probability/${seasonId}/${userLevel}`
+    : null;
+
+  return useSWR<GetRerollProbabilityRes>(key, defaultFetchAxios);
+};

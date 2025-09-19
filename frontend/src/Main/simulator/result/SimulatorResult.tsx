@@ -95,7 +95,6 @@ export const SimulatorResult = (props: Props) => {
         </div>
       </div>
 
-      {/* ✅ resultBox에 ref 연결 */}
       <div className={style.resultBox} ref={listRef}>
         {results.map((item, index) => (
           <div
@@ -108,7 +107,6 @@ export const SimulatorResult = (props: Props) => {
             <div className={style.name}>{item.name ?? "이름 없음"}</div>
           </div>
         ))}
-        {/* ⛔️ scrollAnchorRef와 scrollIntoView는 삭제 */}
       </div>
 
       <div className={style.expectedBox}>
