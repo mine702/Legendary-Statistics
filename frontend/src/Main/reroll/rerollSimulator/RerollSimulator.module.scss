@@ -258,9 +258,10 @@
 
   @media screen and (max-width: 768px) {
     .topbar {
-      .left, .right, .mid {
-        gap: 5px;
+      display: flex;
+      gap: 10px;
 
+      .left, .right, .mid {
         .label {
           font-size: 0.8rem;
         }
@@ -284,8 +285,6 @@
 
     .refresh {
       .tiers {
-        gap: 3px;
-
         .chip {
           font-size: 0.6rem;
         }
