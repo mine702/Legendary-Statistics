@@ -258,8 +258,6 @@
 
   @media screen and (max-width: 768px) {
     .topbar {
-      display: flex;
-      gap: 10px;
 
       .left, .right, .mid {
         .label {
@@ -272,6 +270,36 @@
 
         .select {
           font-size: 0.8rem;
+          width: 70px;
+        }
+      }
+    }
+
+    .stage {
+      .board {
+        --hex-size: 9vw;
+      }
+    }
+  }
+
+  @media screen and (max-width: 499px) {
+    .topbar {
+      display: flex;
+      gap: 5px;
+
+      .left, .right, .mid {
+        gap: 5px;
+
+        .label {
+          font-size: 0.7rem;
+        }
+      }
+
+      .left {
+        white-space: normal;
+
+        .select {
+          font-size: 0.7rem;
           width: 70px;
         }
       }
