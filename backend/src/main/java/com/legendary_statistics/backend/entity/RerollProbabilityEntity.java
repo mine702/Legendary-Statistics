@@ -33,4 +33,6 @@ public class RerollProbabilityEntity {
     private Integer level4;
     @Column(name = "level_5", nullable = false)
     private Integer level5;
+    @Column(name = "level_6", nullable = false)
+    private Integer level6;
 }

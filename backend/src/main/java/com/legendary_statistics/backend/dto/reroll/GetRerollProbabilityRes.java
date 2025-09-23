@@ -13,4 +13,5 @@ public class GetRerollProbabilityRes {
     private Integer level3;
     private Integer level4;
     private Integer level5;
+    private Integer level6;
 }

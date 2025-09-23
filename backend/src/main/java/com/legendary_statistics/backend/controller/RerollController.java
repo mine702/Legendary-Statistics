@@ -26,4 +26,14 @@ public class RerollController {
     public ResponseEntity<?> getProbability(@PathVariable Long seasonId, @PathVariable Integer userLevel) {
         return response.success(rerollServie.getProbability(seasonId, userLevel));
     }
+
+    @GetMapping("champion-list/{seasonId}")
+    public ResponseEntity<?> getChampionList(@PathVariable Long seasonId) {
+        return response.success(rerollServie.getChampionList(seasonId));
+    }
+
+    @GetMapping("synergy-list/{seasonId}")
+    public ResponseEntity<?> getSynergyList(@PathVariable Long seasonId) {
+        return response.success(rerollServie.getSynergyList(seasonId));
+    }
 }
