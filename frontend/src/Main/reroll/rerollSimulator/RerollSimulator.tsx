@@ -1,11 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import style from "./RerollSimulator.module.scss";
-import {
-    useSWRGetChampionList,
-    useSWRGetRerollProbability,
-    useSWRGetSeasons,
-    useSWRGetSynergyList
-} from "../../../server/server";
+import {useSWRGetChampionList, useSWRGetRerollProbability, useSWRGetSeasons} from "../../../server/server";
 import goldIcon from "../../../assets/img/gold.png";
 
 const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284];
@@ -27,20 +22,15 @@ export const RerollSimulator = () => {
     const {data: seasons} = useSWRGetSeasons();
     const {data: probability} = useSWRGetRerollProbability(seasonId || undefined, level);
     const {data: champions} = useSWRGetChampionList(seasonId || undefined);
-    const {data: synergy} = useSWRGetSynergyList(seasonId || undefined);
-    const [shop, setShop] = useState<{ id: number; cost: number }[]>([]);
+    //const {data: synergy} = useSWRGetSynergyList(seasonId || undefined);
+    //const [shop, setShop] = useState<{ id: number; cost: number }[]>([]);
 
-    const [units, setUnits] = useState<Unit[]>([]);
+    const [units] = useState<Unit[]>([]);
 
-    useEffect(() => {
-        console.log(shop)
-    }, [shop]);
+    units.push({id: 1, star: 1, loc: 0, slot: 1});
+    units.push({id: 1, star: 1, loc: 1, slot: 0});
+    units.push({id: 2, star: 1, loc: 0, slot: 0});
 
-    useEffect(() => {
-        units.push({id: 1, star: 1, loc: 0, slot: 1});
-        units.push({id: 1, star: 1, loc: 1, slot: 0});
-        units.push({id: 2, star: 1, loc: 0, slot: 0});
-    }, []);
     useEffect(() => {
         if (seasonId === 0 && seasons?.length) setSeasonId(seasons[0].id);
     }, [seasons, seasonId]);
