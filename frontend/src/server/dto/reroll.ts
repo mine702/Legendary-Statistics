@@ -19,6 +19,7 @@ export interface GetChampionRes {
     cost: number;
     name: string;
     path: string;
+    squarePath: string;
     mobilePath: string;
     synergyList: number[];
 }

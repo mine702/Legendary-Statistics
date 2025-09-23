@@ -66,6 +66,7 @@ public class RerollServiceImpl implements RerollServie {
                         .cost(championEntity.getCost())
                         .name(championEntity.getName())
                         .path(championEntity.getPath())
+                        .squarePath(championEntity.getSquarePath())
                         .mobilePath(championEntity.getMobilePath())
                         .synergyList(Stream.of(championEntity.getSynergyEntity1(), championEntity.getSynergyEntity2(), championEntity.getSynergyEntity3())
                                 .filter(Objects::nonNull)

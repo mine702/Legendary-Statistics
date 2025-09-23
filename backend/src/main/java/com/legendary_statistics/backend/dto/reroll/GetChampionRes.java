@@ -14,6 +14,7 @@ public class GetChampionRes {
     private Integer cost;
     private String name;
     private String path;
+    private String squarePath;
     private String mobilePath;
     private List<Long> synergyList;
 }

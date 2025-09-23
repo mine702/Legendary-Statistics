@@ -28,8 +28,9 @@ export const RerollSimulator = () => {
     const [units] = useState<Unit[]>([]);
 
     units.push({id: 1, star: 1, loc: 0, slot: 1});
-    units.push({id: 1, star: 1, loc: 1, slot: 0});
-    units.push({id: 2, star: 1, loc: 0, slot: 0});
+    units.push({id: 1, star: 1, loc: 1, slot: 10});
+    units.push({id: 2, star: 1, loc: 0, slot: 2});
+    units.push({id: 40, star: 2, loc: 0, slot: 5});
 
     useEffect(() => {
         if (seasonId === 0 && seasons?.length) setSeasonId(seasons[0].id);
@@ -144,7 +145,7 @@ export const RerollSimulator = () => {
                     {[0, 1, 2, 3].map((row) => (
                         <div key={row} className={style.boardRow} role="row">
                             {Array.from({length: 7}).map((_, col) => {
-                                const idx = row * 7 + col; // 0..27
+                                const idx = row * 7 + col;
                                 const cell = boardCells[idx];
                                 const meta = cell ? champById.get(cell.id) : null;
 
@@ -154,7 +155,7 @@ export const RerollSimulator = () => {
                                             {meta && (
                                                 <img
                                                     className={style.unitImgBoard}
-                                                    src={meta.path}          // 보드는 큰 이미지
+                                                    src={meta.squarePath}
                                                     alt=""
                                                     draggable={false}
                                                 />
@@ -176,7 +177,7 @@ export const RerollSimulator = () => {
                                 {meta && (
                                     <img
                                         className={style.unitImgBench}
-                                        src={meta.mobilePath || meta.path}  // 우선 모바일, 없으면 path
+                                        src={meta.mobilePath}
                                         alt=""
                                         draggable={false}
                                     />

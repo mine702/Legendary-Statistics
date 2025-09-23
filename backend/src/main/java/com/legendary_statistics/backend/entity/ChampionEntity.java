@@ -42,6 +42,9 @@ public class ChampionEntity {
     @Column(name = "path", nullable = false)
     private String path;
 
+    @Column(name = "square_path", nullable = false)
+    private String squarePath;
+
     @Column(name = "mobile_path", nullable = false)
     private String mobilePath;
 
