@@ -13,6 +13,25 @@ type Unit = {
     slot: number;
 };
 
+const costClass = (cost?: number) => {
+    switch (cost) {
+        case 1:
+            return style.costGray;
+        case 2:
+            return style.costGreen;
+        case 3:
+            return style.costBlue;
+        case 4:
+            return style.costNavy;
+        case 5:
+            return style.costGold;
+        case 6:
+            return style.costOrange;
+        default:
+            return "";
+    }
+};
+
 export const RerollSimulator = () => {
     const [seasonId, setSeasonId] = useState<number>(0);
     const [goldSpent, setGoldSpent] = useState(0);
@@ -172,8 +191,9 @@ export const RerollSimulator = () => {
                 <div className={style.bench} aria-label="벤치">
                     {benchCells.map((cell, i) => {
                         const meta = cell ? champById.get(cell.id) : null;
+                        const costCls = meta ? costClass(meta.cost) : "";
                         return (
-                            <div key={i} className={style.benchSlot}>
+                            <div key={i} className={`${style.benchSlot} ${costCls}`}>
                                 {meta && (
                                     <img
                                         className={style.unitImgBench}

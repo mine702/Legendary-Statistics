@@ -1,4 +1,29 @@
 .simulator {
+
+  .costGray {
+    border-color: #9aa4ad !important;
+  }
+
+  .costGreen {
+    border-color: #2ecc71 !important;
+  }
+
+  .costBlue {
+    border-color: #3498db !important;
+  }
+
+  .costNavy {
+    border-color: #8e00ff !important;
+  }
+
+  .costGold {
+    border-color: #f1c40f !important;
+  }
+
+  .costOrange {
+    border-color: #e67e22 !important;
+  }
+
   .topbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -168,6 +193,7 @@
       padding: clamp(6px, 1vw, 10px);
 
       .benchSlot {
+        position: relative;
         width: 100%;
         aspect-ratio: 1 / 1;
         border-radius: 10px;
@@ -181,6 +207,7 @@
           display: block;
           object-fit: cover;
           pointer-events: none;
+          background: transparent;
         }
       }
     }
