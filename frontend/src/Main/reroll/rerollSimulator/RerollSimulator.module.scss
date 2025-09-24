@@ -29,9 +29,9 @@
   }
 
   .selected {
-    outline: 2px solid var(--button-color);
+    outline: 1px solid var(--button-color);
     border-radius: 10px;
-    outline-offset: 2px;
+    outline-offset: 1px;
   }
 
   .topbar {
