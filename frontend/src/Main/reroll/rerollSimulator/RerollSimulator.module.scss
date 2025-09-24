@@ -296,6 +296,18 @@
     }
   }
 
+  .bench .benchSlot[draggable="true"],
+  .board .hexCell[draggable="true"] {
+    cursor: grab;
+  }
+
+  .bench .benchSlot,
+  .board .hexCell {
+    &.dragover {
+      outline: 1px dashed var(--button-color);
+    }
+  }
+
   @media screen and (max-width: 1220px) {
     .stage {
       .board {
