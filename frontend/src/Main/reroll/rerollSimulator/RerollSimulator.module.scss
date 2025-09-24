@@ -232,15 +232,15 @@
       background: var(--fill-color-1);
       border: 1px solid var(--card-border-color);
       border-radius: 10px;
-      padding: clamp(6px, 1vw, 10px);
+      padding: clamp(2px, 1vw, 5px);
 
       .benchSlot {
         position: relative;
         width: 100%;
         aspect-ratio: 1 / 1;
-        border-radius: 5px;
+        border-radius: 2px;
         background: var(--fill-color-4);
-        border: 2px solid var(--card-border-color);
+        border: 1px solid var(--card-border-color);
 
         .unitImgBench {
           width: 100%;
