@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState,} from "react";
 import style from "./RerollSimulator.module.scss";
 import {
     useSWRGetChampionList,
@@ -12,6 +12,7 @@ import star2 from "../../../assets/img/tier/2.png";
 import star3 from "../../../assets/img/tier/3.png";
 import frame from "../../../assets/icons/synergy/gold.svg";
 import {ToolTip} from "../../../component/tooltip/ToolTip";
+import {toast} from "react-toastify";
 
 // loc: 0 = bench, 1 = board
 type Unit = {
@@ -20,8 +21,8 @@ type Unit = {
     loc: 0 | 1;
     slot: number;
 };
-
 type CellPos = { loc: 0 | 1; slot: number };
+type ShopItem = { id: number; cost: number };
 
 const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284];
 const starIconBy = (n: 1 | 2 | 3) => (n === 1 ? star1 : n === 2 ? star2 : star3);
@@ -49,24 +50,37 @@ const costClass = (cost?: number) => {
     }
 };
 
+const getSellPrice = (cost: number, star: 1 | 2 | 3): number => {
+    const table: Record<number, { 1: number; 2: number; 3: number }> = {
+        1: {1: 1, 2: 3, 3: 9},
+        2: {1: 2, 2: 5, 3: 17},
+        3: {1: 3, 2: 8, 3: 26},
+        4: {1: 4, 2: 11, 3: 35},
+        5: {1: 5, 2: 14, 3: 44},
+    };
+    const row = table[cost as 1 | 2 | 3 | 4 | 5];
+    if (!row) return 0; // (선택) 6코 등은 0으로
+    return row[star];
+};
+
 export const RerollSimulator = () => {
+    // ── state
     const [seasonId, setSeasonId] = useState<number>(0);
     const [goldSpent, setGoldSpent] = useState(0);
     const [level, setLevel] = useState(1);
     const [experience, setExperience] = useState(0);
     const [selected, setSelected] = useState<CellPos | null>(null);
+    const [isSelling, setIsSelling] = useState(false);
+
+    const SHOP_SIZE = 5;
+    const [shop, setShop] = useState<ShopItem[]>([]);
 
     const {data: seasons} = useSWRGetSeasons();
     const {data: probability} = useSWRGetRerollProbability(seasonId || undefined, level);
     const {data: champions} = useSWRGetChampionList(seasonId || undefined);
     const {data: synergy} = useSWRGetSynergyList(seasonId || undefined);
 
-    const [units, setUnits] = useState<Unit[]>([
-        {id: 1, star: 1, loc: 0, slot: 1},
-        {id: 1, star: 1, loc: 1, slot: 10},
-        {id: 2, star: 1, loc: 0, slot: 2},
-        {id: 40, star: 3, loc: 0, slot: 5},
-    ]);
+    const [units, setUnits] = useState<Unit[]>([]);
 
     const boardCount = useBoardCount(units);
     const boardCap = boardCapByLevel(level);
@@ -76,7 +90,6 @@ export const RerollSimulator = () => {
         if (seasonId === 0 && seasons?.length) setSeasonId(seasons[0].id);
     }, [seasons, seasonId]);
 
-    // 레벨/경험치
     const xp = useMemo(() => {
         let lvl = 1;
         for (let i = THRESHOLDS.length - 1; i >= 0; i--) {
@@ -98,23 +111,283 @@ export const RerollSimulator = () => {
     }, [xp.lvl]);
     const isMaxLevel = xp.next === null;
 
-    const handleBuyXp = () => {
-        if (isMaxLevel) return;
-        setExperience(v => Math.min(v + 4, THRESHOLDS[THRESHOLDS.length - 1]));
-        setGoldSpent(g => g + 4);
-    };
-    const handleRefreshShop = () => {
-        setGoldSpent(g => g + 2);
-    };
-
-    // 유틸
     const getIndexAt = (arr: Unit[], loc: 0 | 1, slot: number) =>
         arr.findIndex(u => u.loc === loc && u.slot === slot);
     const getUnitAt = (arr: Unit[], loc: 0 | 1, slot: number) =>
         arr.find(u => u.loc === loc && u.slot === slot) ?? null;
 
+    const benchCells = useMemo<(Unit | null)[]>(() => {
+        const cells = Array(10).fill(null) as (Unit | null)[];
+        for (const u of units) if (u.loc === 0 && u.slot >= 0 && u.slot < 10) cells[u.slot] = u;
+        return cells;
+    }, [units]);
+
+    const boardCells = useMemo<(Unit | null)[]>(() => {
+        const cells = Array(28).fill(null) as (Unit | null)[];
+        for (const u of units) if (u.loc === 1 && u.slot >= 0 && u.slot < 28) cells[u.slot] = u;
+        return cells;
+    }, [units]);
+
+    const champById = useMemo(() => {
+        const m = new Map<number, any>();
+        champions?.forEach((c: any) => m.set(c.id, c));
+        return m;
+    }, [champions]);
+
+    // ── 확률
+    const p1 = probability?.level1 ?? 0;
+    const p2 = probability?.level2 ?? 0;
+    const p3 = probability?.level3 ?? 0;
+    const p4 = probability?.level4 ?? 0;
+    const p5 = probability?.level5 ?? 0;
+    const p6: number | null = probability?.level6 ?? null;
+
+    const synergyById = useMemo(() => {
+        const m = new Map<number, { id: number; name: string; desc: string; path: string }>();
+        synergy?.forEach((s: any) => m.set(s.id, s));
+        return m;
+    }, [synergy]);
+
+    const activeSynergies = useMemo(() => {
+        if (!champions) return [];
+        const ids = new Set<number>();
+        for (const u of units) {
+            if (u.loc !== 1) continue;
+            const ch = champions.find((c: any) => c.id === u.id);
+            ch?.synergyList?.forEach((sid: number) => ids.add(sid));
+        }
+        return Array.from(ids)
+            .map((id) => synergyById.get(id))
+            .filter(Boolean) as { id: number; name: string; desc: string; path: string }[];
+    }, [units, champions, synergyById]);
+
+    // 비용별 챔피언 목록 캐시
+    const champsByCost = useMemo(() => {
+        const map = new Map<number, any[]>();
+        if (champions) {
+            for (const c of champions) {
+                if (!map.has(c.cost)) map.set(c.cost, []);
+                map.get(c.cost)!.push(c);
+            }
+        }
+        return map;
+    }, [champions]);
+
+    // 확률로 코스트 1개 뽑기
+    const rollOneCost = () => {
+        const pool: { cost: number; p: number }[] = [
+            {cost: 1, p: p1},
+            {cost: 2, p: p2},
+            {cost: 3, p: p3},
+            {cost: 4, p: p4},
+            {cost: 5, p: p5},
+        ];
+        if (p6 != null) pool.push({cost: 6, p: p6});
+        // 해당 코스트에 챔피언이 없으면 확률 0으로
+        const filtered = pool.map(x => ({
+            ...x,
+            p: (champsByCost.get(x.cost)?.length ?? 0) > 0 ? x.p : 0
+        }));
+        const sum = filtered.reduce((a, b) => a + b.p, 0);
+        if (sum <= 0) return 1; // fallback
+        let r = Math.random() * sum;
+        for (const it of filtered) {
+            if ((r -= it.p) <= 0) return it.cost;
+        }
+        return filtered[filtered.length - 1].cost;
+    };
+
+    const getOwnedInfo = (id: number) => {
+        let copies = 0;
+        let maxStar: 0 | 1 | 2 | 3 = 0;
+
+        for (const u of units) {
+            if (u.id !== id) continue;
+            copies++;
+            if (u.star > maxStar) {
+                maxStar = u.star;
+            }
+        }
+        return {copies, maxStar};
+    };
+
+    const pickWeighted = <T, >(items: T[], weightOf: (it: T) => number): T | null => {
+        const weights = items.map(weightOf);
+        const sum = weights.reduce((a, b) => a + b, 0);
+        if (sum <= 0) return null;
+        let r = Math.random() * sum;
+        for (let i = 0; i < items.length; i++) {
+            r -= weights[i];
+            if (r <= 0) return items[i];
+        }
+        return items[items.length - 1];
+    };
+
+    const rollOneItem = (): ShopItem | null => {
+        const cost = rollOneCost();
+        const list = champsByCost.get(cost);
+        if (!list || list.length === 0) return null;
+
+        const chosen = pickWeighted(list, (ch) => {
+            const {copies, maxStar} = getOwnedInfo(ch.id);
+            if (maxStar >= 3) return 0;      // 3성 있으면 절대 안 뜸
+            if (maxStar === 2) return 0.15;  // 2성 보유 디버프
+            if (copies >= 2) return 0.4;
+            if (copies >= 1) return 0.7;
+            return 1.0;
+        });
+
+        if (!chosen) return null;
+        return {id: chosen.id, cost: chosen.cost};
+    };
+
+    const rollShop = () => {
+        const items: ShopItem[] = [];
+        for (let i = 0; i < SHOP_SIZE; i++) {
+            const it = rollOneItem();
+            if (it) items.push(it);
+        }
+        setShop(items);
+    };
+
+    // 첫 빈 벤치칸
+    const findFirstEmptyBench = (arr: Unit[]) => {
+        for (let i = 0; i < 10; i++) {
+            if (!arr.some(u => u.loc === 0 && u.slot === i)) return i;
+        }
+        return -1;
+    };
+
+    // 합성(3장 업그레이드, 체인 처리)
+    const tryMergeChain = (arr: Unit[], id: number, startStar: 1 | 2): Unit[] => {
+        // 같은 id & 같은 star가 3개 이상이면 → 하나를 star+1로, 나머지 2개 제거
+        // 이게 또 3개가 되면 체인으로 계속
+        let star: 1 | 2 = startStar;
+        while (true) {
+            const idxs = arr
+                .map((u, i) => ({u, i}))
+                .filter(({u}) => u.id === id && u.star === star)
+                .map(({i}) => i);
+
+            if (idxs.length < 3) break;
+
+            // 승격시 기준으로 사용할 유닛(첫번째)
+            const keepIdx = idxs[0];
+            // 제거할 두 개(뒤의 2개)
+            const removeIdxA = idxs[1];
+            const removeIdxB = idxs[2];
+
+            // 제거 인덱스가 keep보다 뒤에서 먼저 지워지도록 정렬
+            const del = [removeIdxA, removeIdxB].sort((a, b) => b - a);
+            const base = arr[keepIdx];
+
+            // 2개 제거
+            for (const d of del) arr.splice(d, 1);
+
+            // keep을 승격
+            const upgraded: 2 | 3 = (base.star + 1) as 2 | 3;
+            arr[keepIdx] = {...base, star: upgraded};
+
+            // 다음 루프에서 더 높은 별 체인 검사
+            if (upgraded === 3) break; // 최고성
+            star = 2; // 1→2로 올렸으면 이제 2성을 기준으로 또 검사
+        }
+        return arr;
+    };
+
+    // 유닛 구매(벤치 우선) + 합성
+    const buyFromShop = (slotIdx: number) => {
+        const item = shop[slotIdx];
+        if (!item) return;
+
+        setUnits(prev => {
+            const next = [...prev];
+
+            const oneStarIdx = next
+                .map((u, i) => ({u, i}))
+                .filter(({u}) => u.id === item.id && u.star === 1)
+                .map(({i}) => i);
+
+            const empty = findFirstEmptyBench(next);
+
+            if (empty === -1 && oneStarIdx.length >= 2) {
+                const keepIdx = oneStarIdx[0];
+                const removeIdx = oneStarIdx[1];
+
+                const del = [removeIdx].sort((a, b) => b - a);
+                for (const d of del) next.splice(d, 1);
+
+                next[keepIdx] = {...next[keepIdx], star: 2};
+
+                tryMergeChain(next, item.id, 2);
+
+                setGoldSpent(g => g + item.cost);
+                setShop(s => s.map((it, i) => (i === slotIdx ? (null as any) : it)));
+
+                return next;
+            }
+
+            if (empty !== -1) {
+                next.push({id: item.id, star: 1, loc: 0, slot: empty});
+                tryMergeChain(next, item.id, 1);
+
+                setGoldSpent(g => g + item.cost);
+                setShop(s => s.map((it, i) => (i === slotIdx ? (null as any) : it)));
+                return next;
+            }
+
+            toast.error("배치 가능한 슬롯이 없습니다!", {autoClose: 2});
+            return prev;
+        });
+    };
+
+    // 경험치/리롤 버튼
+    const handleBuyXp = useCallback(() => {
+        if (isMaxLevel) return;
+        setExperience(v => Math.min(v + 4, THRESHOLDS[THRESHOLDS.length - 1]));
+        setGoldSpent(g => g + 4);
+    }, [isMaxLevel]);
+
+    const handleRefreshShop = useCallback(() => {
+        setGoldSpent(g => g + 2);
+        rollShop();
+    }, [rollShop]);
+
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.repeat) return;
+
+            const target = e.target as HTMLElement | null;
+            const tag = target?.tagName;
+            const editable = target?.isContentEditable;
+            // 인풋류 포커스 시 단축키 비활성
+            if (editable || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'f') {
+                e.preventDefault();
+                handleBuyXp();
+            } else if (key === 'd') {
+                e.preventDefault();
+                handleRefreshShop();
+            }
+        };
+
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [handleBuyXp, handleRefreshShop]);
+
+    useEffect(() => {
+        if (seasonId) rollShop();
+    }, [seasonId, champions]);
+
     // 클릭 이동/스왑 (보드 수 제한 포함)
     const handleCellClick = (destLoc: 0 | 1, destSlot: number) => {
+        if (isSelling) {
+            sellAt(destLoc, destSlot);
+            return;
+        }
+
         setUnits(prev => {
             if (!selected) {
                 const hasUnit = !!getUnitAt(prev, destLoc, destSlot);
@@ -159,56 +432,29 @@ export const RerollSimulator = () => {
         });
     };
 
-    // 보드/벤치 셀 배열
-    const benchCells = useMemo<(Unit | null)[]>(() => {
-        const cells = Array(10).fill(null) as (Unit | null)[];
-        for (const u of units) if (u.loc === 0 && u.slot >= 0 && u.slot < 10) cells[u.slot] = u;
-        return cells;
-    }, [units]);
+    const sellAt = (loc: 0 | 1, slot: number) => {
+        setUnits(prev => {
+            const idx = prev.findIndex(u => u.loc === loc && u.slot === slot);
+            if (idx < 0) return prev;
 
-    const boardCells = useMemo<(Unit | null)[]>(() => {
-        const cells = Array(28).fill(null) as (Unit | null)[];
-        for (const u of units) if (u.loc === 1 && u.slot >= 0 && u.slot < 28) cells[u.slot] = u;
-        return cells;
-    }, [units]);
+            const target = prev[idx];
+            const meta = champById.get(target.id);
+            if (!meta) return prev;
 
-    // id -> 챔피언 메타
-    const champById = useMemo(() => {
-        const m = new Map<number, any>();
-        champions?.forEach((c: any) => m.set(c.id, c));
-        return m;
-    }, [champions]);
+            const refund = getSellPrice(meta.cost, target.star);
+            if (refund <= 0) return prev;
 
-    // 가챠 확률
-    const p1 = probability?.level1 ?? 0;
-    const p2 = probability?.level2 ?? 0;
-    const p3 = probability?.level3 ?? 0;
-    const p4 = probability?.level4 ?? 0;
-    const p5 = probability?.level5 ?? 0;
-    const p6: number | null = probability?.level6 ?? null;
+            const next = [...prev];
+            next.splice(idx, 1);
 
-    // 시너지 맵 + 활성 시너지
-    const synergyById = useMemo(() => {
-        const m = new Map<number, { id: number; name: string; desc: string; path: string }>();
-        synergy?.forEach((s: any) => m.set(s.id, s));
-        return m;
-    }, [synergy]);
-
-    const activeSynergies = useMemo(() => {
-        if (!champions) return [];
-        const ids = new Set<number>();
-        for (const u of units) {
-            if (u.loc !== 1) continue; // 보드만 카운트
-            const ch = champions.find((c: any) => c.id === u.id);
-            ch?.synergyList?.forEach((sid: number) => ids.add(sid));
-        }
-        return Array.from(ids)
-            .map((id) => synergyById.get(id))
-            .filter(Boolean) as { id: number; name: string; desc: string; path: string }[];
-    }, [units, champions, synergyById]);
+            // 환급은 goldSpent에서 마이너스(사용 골드 감소)
+            setGoldSpent(g => Math.max(0, g - refund));
+            return next;
+        });
+    };
 
     return (
-        <div className={style.simulator}>
+        <div className={`${style.simulator} ${isSelling ? style.selling : ""}`}>
             {/* Topbar */}
             <div className={style.topbar}>
                 <div className={style.left}>
@@ -320,7 +566,6 @@ export const RerollSimulator = () => {
                         </div>
                     ))}
                 </div>
-
                 {/* 벤치 */}
                 <div className={style.bench} aria-label="벤치">
                     {benchCells.map((cell, i) => {
@@ -350,9 +595,17 @@ export const RerollSimulator = () => {
                         );
                     })}
                 </div>
+                <button
+                    type="button"
+                    className={`${style.saleBtn} ${isSelling ? style.cancel : style.sell}`}
+                    onClick={() => setIsSelling(v => !v)}
+                    aria-pressed={isSelling}
+                >
+                    {isSelling ? "취소" : "판매"}
+                </button>
             </div>
 
-            {/* 하단: 확률/상점 자리 */}
+            {/* 하단: 확률 + 상점 */}
             <div className={style.refresh}>
                 <div className={style.tiers}>
                     <span className={`${style.chip} ${style.gray}`}><img src={goldIcon} alt="골드"/>1Lv {p1}%</span>
@@ -364,12 +617,36 @@ export const RerollSimulator = () => {
                         <span className={`${style.chip} ${style.orange}`}><img src={goldIcon} alt="골드"/>6Lv {p6}%</span>
                     )}
                 </div>
-                <div className={style.shop}/>
+
+                {/* 상점 목록 */}
+                <div className={style.shop} aria-label="상점">
+                    {shop.map((it, i) => {
+                        const meta = it ? champById.get(it.id) : null;
+                        if (!meta) return (
+                            <div key={i} className={`${style.shopCard} ${style.empty}`}/>
+                        );
+                        return (
+                            <button
+                                key={i}
+                                type="button"
+                                className={`${style.shopCard} ${costClass(meta.cost)}`}
+                                onClick={() => buyFromShop(i)}
+                                title={`${meta.name} 구매 (${meta.cost})`}
+                            >
+                                <img className={style.shopImg} src={meta.path} alt=""/>
+                                <div className={style.shopInfo}>
+                                    <span className={style.shopName}>{meta.name}</span>
+                                    <span className={style.shopCost}><img src={goldIcon} alt="골드"/>{meta.cost}</span>
+                                </div>
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className={style.action}>
-                <button onClick={handleBuyXp} disabled={isMaxLevel}>경험치 구매</button>
-                <button onClick={handleRefreshShop}>상점 새로고침</button>
+                <button onClick={handleBuyXp} disabled={isMaxLevel}>경험치 구매 (F)</button>
+                <button onClick={handleRefreshShop}>상점 새로고침 (D)</button>
             </div>
         </div>
     );
