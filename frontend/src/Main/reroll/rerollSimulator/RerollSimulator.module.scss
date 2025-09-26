@@ -193,7 +193,12 @@
                 display: block;
               }
 
+              .synIcon {
+                z-index: 2;
+              }
+
               .synFrame {
+                z-index: 1;
                 pointer-events: none;
               }
             }
@@ -326,7 +331,7 @@
             display: block;
           }
         }
-        
+
         .benchName {
           position: absolute;
           left: 0;
