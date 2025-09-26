@@ -11,4 +11,5 @@ public class GetSynergyRes {
     private Long id;
     private String name;
     private String desc;
+    private String path;
 }

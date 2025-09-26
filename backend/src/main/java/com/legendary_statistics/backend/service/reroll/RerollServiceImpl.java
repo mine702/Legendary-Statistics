@@ -85,6 +85,7 @@ public class RerollServiceImpl implements RerollServie {
                         .id(synergyEntity.getId())
                         .name(synergyEntity.getName())
                         .desc(synergyEntity.getDesc())
+                        .path(synergyEntity.getPath())
                         .build()).toList();
     }
 }

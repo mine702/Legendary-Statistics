@@ -130,7 +130,7 @@ public class LegendRepositoryCustomImpl implements LegendRepositoryCustom {
                         legendEntity.star,
                         legendEntity.createdAt,
                         legendEntity.deleted
-                )
+                ).orderBy(legendEntity.rateEntity.id.asc(), legendEntity.name.asc(), legendEntity.star.asc())
                 .fetch();
 
         Map<String, GetLegendListRes> groupedMap = getGetLegendListResMap(fetch);

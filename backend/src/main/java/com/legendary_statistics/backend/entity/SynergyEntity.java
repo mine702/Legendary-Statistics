@@ -26,4 +26,7 @@ public class SynergyEntity {
 
     @Column(name = "desc", nullable = false)
     private String desc;
+
+    @Column(name = "path", nullable = false)
+    private String path;
 }

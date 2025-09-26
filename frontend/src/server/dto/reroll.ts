@@ -28,4 +28,5 @@ export interface GetSynergyRes {
     id: number;
     name: string;
     desc: string;
+    path: string;
 }

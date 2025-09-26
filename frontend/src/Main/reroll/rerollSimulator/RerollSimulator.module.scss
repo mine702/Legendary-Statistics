@@ -24,6 +24,11 @@
     border-color: #e67e22 !important;
   }
 
+  .disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.3) opacity(0.2);
+  }
+
   .clickable {
     cursor: pointer;
   }
@@ -139,7 +144,62 @@
       background: var(--fill-color-1);
       border: 1px solid var(--card-border-color);
       border-radius: 10px;
-      padding: 15px 0;
+      padding: 10px 0;
+
+      .boardTop {
+        margin: 0 12px 6px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .boardTopLeft {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 6px;
+
+          .label {
+            font-size: clamp(10px, 1.2vw, 14px);
+          }
+        }
+
+        .synergyBar {
+          display: flex;
+          align-items: center;
+          gap: 1px;
+          flex-wrap: wrap;
+
+          .synItem {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+
+            .synIconWrap {
+              position: relative;
+              width: 22px;
+              height: 22px;
+              flex: 0 0 auto;
+
+              .synIcon, .synFrame {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                display: block;
+              }
+
+              .synFrame {
+                pointer-events: none;
+              }
+            }
+          }
+        }
+      }
 
       .boardRow {
         display: grid;
@@ -266,8 +326,7 @@
             display: block;
           }
         }
-
-
+        
         .benchName {
           position: absolute;
           left: 0;
@@ -387,7 +446,7 @@
 
       .mid {
         .xpWrap {
-          min-width: 100px;
+          min-width: clamp(100px, 16vw, 320px);
         }
       }
 

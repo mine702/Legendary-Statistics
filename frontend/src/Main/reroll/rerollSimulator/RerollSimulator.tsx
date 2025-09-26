@@ -1,16 +1,17 @@
 import {useEffect, useMemo, useState} from "react";
 import style from "./RerollSimulator.module.scss";
-import {useSWRGetChampionList, useSWRGetRerollProbability, useSWRGetSeasons} from "../../../server/server";
+import {
+    useSWRGetChampionList,
+    useSWRGetRerollProbability,
+    useSWRGetSeasons,
+    useSWRGetSynergyList
+} from "../../../server/server";
 import goldIcon from "../../../assets/img/gold.png";
-
-// 별 아이콘 (1,2,3성)
 import star1 from "../../../assets/img/tier/1.png";
 import star2 from "../../../assets/img/tier/2.png";
 import star3 from "../../../assets/img/tier/3.png";
-
-const starIconBy = (n: 1 | 2 | 3) => (n === 1 ? star1 : n === 2 ? star2 : star3);
-
-const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284];
+import frame from "../../../assets/icons/synergy/gold.svg";
+import {ToolTip} from "../../../component/tooltip/ToolTip";
 
 // loc: 0 = bench, 1 = board
 type Unit = {
@@ -21,6 +22,13 @@ type Unit = {
 };
 
 type CellPos = { loc: 0 | 1; slot: number };
+
+const THRESHOLDS = [0, 2, 4, 10, 20, 40, 76, 124, 200, 284];
+const starIconBy = (n: 1 | 2 | 3) => (n === 1 ? star1 : n === 2 ? star2 : star3);
+const boardCapByLevel = (lvl: number) => Math.max(1, Math.min(10, lvl));
+const useBoardCount = (units: Unit[]) => useMemo(
+    () => units.filter(u => u.loc === 1).length, [units]
+);
 
 const costClass = (cost?: number) => {
     switch (cost) {
@@ -46,12 +54,13 @@ export const RerollSimulator = () => {
     const [goldSpent, setGoldSpent] = useState(0);
     const [level, setLevel] = useState(1);
     const [experience, setExperience] = useState(0);
+    const [selected, setSelected] = useState<CellPos | null>(null);
 
     const {data: seasons} = useSWRGetSeasons();
     const {data: probability} = useSWRGetRerollProbability(seasonId || undefined, level);
     const {data: champions} = useSWRGetChampionList(seasonId || undefined);
+    const {data: synergy} = useSWRGetSynergyList(seasonId || undefined);
 
-    // 초기 유닛 (push 하지 말고 setUnits 사용)
     const [units, setUnits] = useState<Unit[]>([
         {id: 1, star: 1, loc: 0, slot: 1},
         {id: 1, star: 1, loc: 1, slot: 10},
@@ -59,8 +68,9 @@ export const RerollSimulator = () => {
         {id: 40, star: 3, loc: 0, slot: 5},
     ]);
 
-    // 클릭 선택 상태
-    const [selected, setSelected] = useState<CellPos | null>(null);
+    const boardCount = useBoardCount(units);
+    const boardCap = boardCapByLevel(level);
+    const isBoardFull = boardCount >= boardCap;
 
     useEffect(() => {
         if (seasonId === 0 && seasons?.length) setSeasonId(seasons[0].id);
@@ -103,10 +113,9 @@ export const RerollSimulator = () => {
     const getUnitAt = (arr: Unit[], loc: 0 | 1, slot: number) =>
         arr.find(u => u.loc === loc && u.slot === slot) ?? null;
 
-    // 클릭 이동/스왑
+    // 클릭 이동/스왑 (보드 수 제한 포함)
     const handleCellClick = (destLoc: 0 | 1, destSlot: number) => {
         setUnits(prev => {
-            // 선택이 없으면: 유닛이 있는 칸 클릭 시 그 칸을 선택
             if (!selected) {
                 const hasUnit = !!getUnitAt(prev, destLoc, destSlot);
                 if (hasUnit) setSelected({loc: destLoc, slot: destSlot});
@@ -114,7 +123,6 @@ export const RerollSimulator = () => {
             }
 
             const {loc: srcLoc, slot: srcSlot} = selected;
-            // 같은 칸 다시 클릭 -> 선택 해제
             if (srcLoc === destLoc && srcSlot === destSlot) {
                 setSelected(null);
                 return prev;
@@ -129,14 +137,21 @@ export const RerollSimulator = () => {
 
             const di = getIndexAt(next, destLoc, destSlot);
 
+            // 보드 제한: 벤치→보드 빈칸 이동 시 막기
+            if (destLoc === 1 && di < 0 && srcLoc === 0) {
+                const currentBoardCount = prev.filter(u => u.loc === 1).length;
+                if (currentBoardCount >= boardCap) {
+                    setSelected(null);
+                    return prev;
+                }
+            }
+
             if (di >= 0) {
-                // 스왑
                 const s = next[si];
                 const d = next[di];
                 next[si] = {...s, loc: destLoc, slot: destSlot};
                 next[di] = {...d, loc: srcLoc, slot: srcSlot};
             } else {
-                // 빈칸으로 이동
                 next[si] = {...next[si], loc: destLoc, slot: destSlot};
             }
             setSelected(null);
@@ -164,13 +179,33 @@ export const RerollSimulator = () => {
         return m;
     }, [champions]);
 
-    // 확률 표시
+    // 가챠 확률
     const p1 = probability?.level1 ?? 0;
     const p2 = probability?.level2 ?? 0;
     const p3 = probability?.level3 ?? 0;
     const p4 = probability?.level4 ?? 0;
     const p5 = probability?.level5 ?? 0;
     const p6: number | null = probability?.level6 ?? null;
+
+    // 시너지 맵 + 활성 시너지
+    const synergyById = useMemo(() => {
+        const m = new Map<number, { id: number; name: string; desc: string; path: string }>();
+        synergy?.forEach((s: any) => m.set(s.id, s));
+        return m;
+    }, [synergy]);
+
+    const activeSynergies = useMemo(() => {
+        if (!champions) return [];
+        const ids = new Set<number>();
+        for (const u of units) {
+            if (u.loc !== 1) continue; // 보드만 카운트
+            const ch = champions.find((c: any) => c.id === u.id);
+            ch?.synergyList?.forEach((sid: number) => ids.add(sid));
+        }
+        return Array.from(ids)
+            .map((id) => synergyById.get(id))
+            .filter(Boolean) as { id: number; name: string; desc: string; path: string }[];
+    }, [units, champions, synergyById]);
 
     return (
         <div className={style.simulator}>
@@ -218,6 +253,35 @@ export const RerollSimulator = () => {
             <div className={style.stage}>
                 {/* 보드 */}
                 <div className={style.board} role="grid" aria-label="배치 보드">
+                    <div className={style.boardTop}>
+                        <div className={style.boardTopLeft}>
+                            <span className={style.label}>배치 수 : </span>
+                            <strong className={style.label}>{boardCount} / {boardCap}</strong>
+                        </div>
+
+                        {/* 활성 시너지: 아이콘만 / ToolTip로 설명 */}
+                        <div className={style.synergyBar} aria-label="활성 시너지">
+                            {activeSynergies.map((s) => (
+                                <ToolTip
+                                    key={s.id}
+                                    tooltipContent={
+                                        <div style={{whiteSpace: "pre-line"}}>
+                                            <strong style={{display: "block", marginBottom: 6}}>{s.name}</strong>
+                                            {s.desc}
+                                        </div>
+                                    }
+                                >
+                                    <button type="button" className={style.synItem} aria-label={`${s.name} 시너지 설명`}>
+                                        <span className={style.synIconWrap}>
+                                          <img className={style.synIcon} src={s.path} alt=""/>
+                                          <img className={style.synFrame} src={frame} alt="" aria-hidden/>
+                                        </span>
+                                    </button>
+                                </ToolTip>
+                            ))}
+                        </div>
+                    </div>
+
                     {[0, 1, 2, 3].map((row) => (
                         <div key={row} className={style.boardRow} role="row">
                             {Array.from({length: 7}).map((_, col) => {
@@ -229,7 +293,9 @@ export const RerollSimulator = () => {
                                 return (
                                     <div
                                         key={idx}
-                                        className={`${style.hexCell} ${style.clickable} ${isSelected ? style.selected : ""}`}
+                                        className={`${style.hexCell} ${style.clickable} ${isSelected ? style.selected : ""} ${
+                                            !cell && isBoardFull && selected?.loc === 0 ? style.disabled : ""
+                                        }`}
                                         onClick={() => handleCellClick(1, idx)}
                                     >
                                         <div className={style.hexInner}>
@@ -245,8 +311,7 @@ export const RerollSimulator = () => {
                                         </div>
                                         {cell && (
                                             <div className={style.boardStarWrap}>
-                                                <img className={style.boardStar}
-                                                     src={starIconBy(cell!.star)} alt=""/>
+                                                <img className={style.boardStar} src={starIconBy(cell!.star)} alt=""/>
                                             </div>
                                         )}
                                     </div>
@@ -271,16 +336,10 @@ export const RerollSimulator = () => {
                             >
                                 {meta && (
                                     <>
-                                        <img
-                                            className={style.unitImgBench}
-                                            src={meta.mobilePath}
-                                            alt=""
-                                            draggable={false}
-                                        />
-                                        {/* 벤치: 별/이름 오버레이 */}
+                                        <img className={style.unitImgBench} src={meta.mobilePath} alt=""
+                                             draggable={false}/>
                                         <div className={style.benchStarWrap}>
-                                            <img className={style.benchStar} src={starIconBy(cell!.star)}
-                                                 alt=""/>
+                                            <img className={style.benchStar} src={starIconBy(cell!.star)} alt=""/>
                                         </div>
                                         <div className={style.benchName}>
                                             <span className={style.benchNameText}>{meta.name}</span>
