@@ -1,5 +1,5 @@
 import style from "./ToolTip.module.scss"
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ToolTipContext} from "./tooltipContext.ts";
 import {getAgentTypeByWidth} from "../../util/agent.ts"
 
@@ -10,8 +10,19 @@ interface Props {
 
 export const ToolTip = (props: Props) => {
     const tooltipContext = useContext(ToolTipContext);
+    const [agent, setAgent] = useState<"mobile" | "pc">(getAgentTypeByWidth());
 
-    const isMobile = getAgentTypeByWidth() === "mobile";
+    useEffect(() => {
+        const onResize = () => {
+            const next = getAgentTypeByWidth();
+            setAgent(next);
+            if (next === "mobile") tooltipContext.closeTooltip();
+        };
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, [tooltipContext]);
+
+    const isMobile = agent === "mobile";
 
     const onMouseOver = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (isMobile) return;
