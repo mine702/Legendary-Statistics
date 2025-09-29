@@ -812,6 +812,10 @@
               font-size: 0.5rem;
             }
           }
+
+          &.empty {
+            min-height: 32px;
+          }
         }
       }
     }
