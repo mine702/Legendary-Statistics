@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ChampionRepository extends JpaRepository<ChampionEntity, Long> {
-    List<ChampionEntity> findBySeasonEntity(SeasonEntity seasonEntity);
+    List<ChampionEntity> findBySeasonEntityAndNotSaleFalse(SeasonEntity seasonEntity);
 }

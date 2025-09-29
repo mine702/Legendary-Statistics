@@ -60,7 +60,7 @@ public class RerollServiceImpl implements RerollServie {
     public List<GetChampionRes> getChampionList(Long seasonId) {
         SeasonEntity seasonEntity = seasonRepository.findById(seasonId).orElseThrow(SeasonNotFoundException::new);
 
-        return championRepository.findBySeasonEntity(seasonEntity).stream().map(
+        return championRepository.findBySeasonEntityAndNotSaleFalse(seasonEntity).stream().map(
                 championEntity -> GetChampionRes.builder()
                         .id(championEntity.getId())
                         .cost(championEntity.getCost())
